@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools" package="com.demoss.idp">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.demoss.idp">
 
     <application
             android:name=".App"
@@ -11,11 +12,11 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".presentation.example.MainActivity">
+        <activity android:name=".presentation.local.LocalDataActivity">
             <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
     </application>

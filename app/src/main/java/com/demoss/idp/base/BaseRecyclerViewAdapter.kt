@@ -10,10 +10,10 @@ abstract class BaseRecyclerViewAdapter<T,
         VH : BaseRecyclerViewAdapter.BaseViewHolder<T>,
         DiffUtilCallback : BaseRecyclerViewAdapter.BaseDiffUtilCallback<T>> : RecyclerView.Adapter<VH>() {
 
+    val data: MutableList<T> = mutableListOf()
     abstract val viewHolderFactory: (view: View) -> VH
     abstract val layoutResId: Int
-    abstract val data: MutableList<T>
-    abstract val diffUtilCallbackClazz: Class<DiffUtilCallback>?
+    abstract val diffUtilCallbackFactory: (oldList: List<T>, newList: List<T>) -> DiffUtilCallback
 
     // RV Adapter functions ============================================================================================
     final override fun getItemCount(): Int = data.size
@@ -40,19 +40,10 @@ abstract class BaseRecyclerViewAdapter<T,
 
     // DiffUtil applying ===============================================================================================
     private fun dispatchData(list: List<T>) {
-        diffUtilCallbackClazz?.let {
-            // if clazz is not null
-            with(it.newInstance()) {
-                // callback instance
-                newList = list
-                oldList = data
-                with(DiffUtil.calculateDiff(this)) {
-                    // diff result
-                    data.clear()
-                    data.addAll(list)
-                    dispatchUpdatesTo(this@BaseRecyclerViewAdapter)
-                }
-            }
+        with(DiffUtil.calculateDiff(diffUtilCallbackFactory(data, list))) {
+            data.clear()
+            data.addAll(list)
+            dispatchUpdatesTo(this@BaseRecyclerViewAdapter)
         }
     }
 

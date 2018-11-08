@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/base_2dp"
+    android:background="@color/colorBackgroundWhite"
+    android:orientation="vertical"
+    android:padding="@dimen/base_12dp">
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/base_16dp"
+        android:singleLine="true"
+        android:textAppearance="@style/TitleText"
+        app:layout_constraintBottom_toBottomOf="@+id/ivEdit"
+        app:layout_constraintEnd_toStartOf="@+id/ivEdit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ivEdit"
+        tools:text="Test name" />
+
+    <ImageView
+        android:id="@+id/ivEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/base_16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivShare"
+        app:layout_constraintEnd_toStartOf="@+id/ivShare"
+        app:layout_constraintTop_toTopOf="@+id/ivShare"
+        app:srcCompat="@drawable/ic_edit" />
+
+    <ImageView
+        android:id="@+id/ivShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_share" />
+</androidx.constraintlayout.widget.ConstraintLayout>
