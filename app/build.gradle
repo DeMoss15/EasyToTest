@@ -34,6 +34,10 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
 
+    // Room
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
     // RxBinding
     implementation 'com.jakewharton.rxbinding3:rxbinding:3.0.0-alpha1'
 

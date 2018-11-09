@@ -1,8 +1,9 @@
 package com.demoss.idp.domain.model
 
 class TestModel(
+    val id: Int,
     var name: String,
-    var listOfQuestions: List<QuestionModel>
+    var questions: List<QuestionModel>
 ) {
 
     override fun equals(other: Any?): Boolean {
@@ -11,13 +12,13 @@ class TestModel(
         } else {
             other as TestModel
             this.name == other.name &&
-            this.listOfQuestions == other.listOfQuestions
+            this.questions == other.questions
         }
     }
 
     override fun hashCode(): Int {
         var result = name.hashCode()
-        result = 31 * result + listOfQuestions.hashCode()
+        result = 31 * result + questions.hashCode()
         return result
     }
 }
