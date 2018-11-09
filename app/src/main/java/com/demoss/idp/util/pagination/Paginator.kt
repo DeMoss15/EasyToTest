@@ -1,11 +1,12 @@
 package com.demoss.idp.util.pagination
 
-import io.reactivex.Single
+import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 
 class Paginator<T>(
-    private val requestFactory: (Int) -> Single<List<T>>,
-    private val viewController: ViewController<T>
+    responseObservable: Observable<List<T>>,
+    private val viewController: ViewController<T>,
+    private val requestFactory: (Int) -> Unit
 ) {
 
     interface ViewController<T> {
@@ -25,6 +26,13 @@ class Paginator<T>(
     private val currentData = mutableListOf<T>()
     private var disposable: Disposable? = null
 
+    init {
+        disposable = responseObservable.subscribe(
+            { currentState.newData(it) },
+            { currentState.fail(it) }
+        )
+    }
+
     fun restart() {
         currentState.restart()
     }
@@ -42,12 +50,7 @@ class Paginator<T>(
     }
 
     private fun loadPage(page: Int) {
-        disposable?.dispose()
-        disposable = requestFactory.invoke(page)
-            .subscribe(
-                { currentState.newData(it) },
-                { currentState.fail(it) }
-            )
+        requestFactory(page)
     }
 
     private interface State<T> {

@@ -1,6 +1,6 @@
 package com.demoss.idp.domain.model
 
-class QuestionModel (
+class QuestionModel(
     var text: String,
     val listOfAnswers: List<AnswerModel>
 )

@@ -1,8 +1,6 @@
 package com.demoss.idp.data.remote
 
-import com.demoss.idp.BuildConfig
 import com.demoss.idp.Constants
-import com.itkacher.okhttpprofiler.OkHttpProfilerInterceptor
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import okhttp3.OkHttpClient
 import org.koin.dsl.module.module
@@ -27,7 +25,6 @@ val networkModule = module {
             connectTimeout(60, TimeUnit.SECONDS)
             readTimeout(60, TimeUnit.SECONDS)
             writeTimeout(60, TimeUnit.SECONDS)
-            if (BuildConfig.DEBUG) addInterceptor(OkHttpProfilerInterceptor())
         }.build()
     }
 }

@@ -1,6 +1,6 @@
 package com.demoss.idp.domain.model
 
-class AnswerModel (
+class AnswerModel(
     var text: String,
     var isRightAnswer: Boolean
 )

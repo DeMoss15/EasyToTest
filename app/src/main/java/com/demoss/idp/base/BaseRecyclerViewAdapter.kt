@@ -27,19 +27,8 @@ abstract class BaseRecyclerViewAdapter<T,
         holder.bindData(data[position])
     }
 
-    // Basic DiffUtil usage functions ==================================================================================
-    open fun addData(list: List<T>) {
-        dispatchData(data.toMutableList() + list.toMutableList())
-    }
-
-    open fun refresh(list: List<T>) {
-        data.clear()
-        notifyDataSetChanged()
-        dispatchData(list.toMutableList())
-    }
-
     // DiffUtil applying ===============================================================================================
-    private fun dispatchData(list: List<T>) {
+    fun dispatchData(list: List<T>) {
         with(DiffUtil.calculateDiff(diffUtilCallbackFactory(data, list))) {
             data.clear()
             data.addAll(list)
@@ -51,6 +40,11 @@ abstract class BaseRecyclerViewAdapter<T,
     abstract class BaseDiffUtilCallback<T>(var oldList: List<T>, var newList: List<T>) : DiffUtil.Callback() {
         override fun getOldListSize(): Int = oldList.size
         override fun getNewListSize(): Int = newList.size
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+            oldList[oldItemPosition]?.hashCode() == newList[newItemPosition]?.hashCode()
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+            oldList[oldItemPosition] == newList[newItemPosition]
     }
 
     abstract class BaseViewHolder<T>(val view: View) : RecyclerView.ViewHolder(view) {
