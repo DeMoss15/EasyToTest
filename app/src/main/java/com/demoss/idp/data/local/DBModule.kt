@@ -6,11 +6,8 @@ import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module.module
 
 val dbModule = module {
-    factory {
-        Room.databaseBuilder(
-            androidApplication().applicationContext,
-            AppDatabase::class.java,
-            "easy_to_test_db"
-        ).build()
+    single {
+        Room.databaseBuilder(androidApplication(), AppDatabase::class.java, "db")
+            .build()
     }
 }
