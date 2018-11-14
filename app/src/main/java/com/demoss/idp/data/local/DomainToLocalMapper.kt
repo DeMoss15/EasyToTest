@@ -17,22 +17,24 @@ object DomainToLocalMapper {
     fun toLocal(test: TestModel): TestRoomEntity {
         return TestRoomEntity(
             test.id,
-            test.name,
-            test.questions.map { toLocal(it) }
-        )
+            test.name
+        ).apply { questions = test.questions.map { toLocal(test.id, it) } }
     }
 
     // Question ==============================================================================
-    private fun toLocal(question: QuestionModel): QuestionRoomEntity {
+    private fun toLocal(testId: Int, question: QuestionModel): QuestionRoomEntity {
         return QuestionRoomEntity(
-            question.text,
-            question.answers.map { toLocal(it) }
-        )
+            question.id,
+            testId,
+            question.text
+        ).apply { answers = question.answers.map { toLocal(question.id, it) } }
     }
 
     // Answers ================================================================================
-    private fun toLocal(answer: AnswerModel): AnswerRoomEntity {
+    private fun toLocal(questionId: Int, answer: AnswerModel): AnswerRoomEntity {
         return AnswerRoomEntity(
+            answer.id,
+            questionId,
             answer.text,
             answer.isRightAnswer
         )

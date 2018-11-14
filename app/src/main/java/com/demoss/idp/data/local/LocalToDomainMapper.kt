@@ -25,6 +25,7 @@ object LocalToDomainMapper {
     // Question ==============================================================================
     private fun toDomain(question: QuestionRoomEntity): QuestionModel {
         return QuestionModel(
+            question.id,
             question.content,
             question.answers.map { toDomain(it) }
         )
@@ -33,6 +34,7 @@ object LocalToDomainMapper {
     // Answers ================================================================================
     private fun toDomain(answer: AnswerRoomEntity): AnswerModel {
         return AnswerModel(
+            answer.id,
             answer.content,
             answer.isRight
         )

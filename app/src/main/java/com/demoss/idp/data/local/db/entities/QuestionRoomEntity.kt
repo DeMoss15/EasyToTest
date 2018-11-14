@@ -4,10 +4,18 @@ import androidx.room.*
 
 @Entity(tableName = "questions")
 data class QuestionRoomEntity(
-    @ColumnInfo(name = "content") val content: String,
-    @Relation(
-        entity = QuestionRoomEntity::class,
-        parentColumn = "id",
-        entityColumn = "answer_id"
-    ) val answers: List<AnswerRoomEntity>
-)
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id") var id: Int,
+    @ForeignKey(
+        entity = TestRoomEntity::class,
+        parentColumns = ["id"],
+        childColumns = ["test_id"],
+        onUpdate = ForeignKey.CASCADE,
+        onDelete = ForeignKey.CASCADE
+    )
+    @ColumnInfo(name = "test_id") var testId: Int,
+    @ColumnInfo(name = "content") var content: String
+) {
+    @Ignore
+    lateinit var answers: List<AnswerRoomEntity>
+}
