@@ -30,4 +30,9 @@ class LocalDataPresenter(private val getTestsUserCase: GetTestsUserCase) :
     override fun loadMore() {
         paginator.loadNewPage()
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        paginator.release()
+    }
 }

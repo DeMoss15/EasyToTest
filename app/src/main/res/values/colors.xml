@@ -10,6 +10,6 @@
     <!--Text colors-->
     <color name="colorLightText">#9e9e9e</color>
     <color name="colorCommonText">#212121</color>
-    <color name="colorDarkText">#000</color>
+    <color name="colorDarkText">#212121</color>
 
 </resources>

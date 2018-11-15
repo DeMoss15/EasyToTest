@@ -53,6 +53,7 @@ class LocalDataActivity : BaseActivity<LocalDataContract.Presenter>(), Paginator
     }
 
     override fun showRefreshProgress(show: Boolean) {
+        emptyProgressBar.visibility = if (show) View.VISIBLE else View.GONE
     }
 
     override fun showPageProgress(show: Boolean) {

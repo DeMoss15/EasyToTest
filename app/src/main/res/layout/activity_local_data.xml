@@ -17,7 +17,7 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_gravity="center"
         android:visibility="gone" />
 
     <ProgressBar
@@ -25,7 +25,7 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="bottom|center_horizontal"
         android:visibility="gone" />
 
     <TextView
@@ -38,9 +38,21 @@
         tools:text="Empty State" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:backgroundTint="@color/colorPrimary" />
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:fabAlignmentMode="center"
+        app:fabCradleRoundedCornerRadius="@dimen/base_8dp"
+        app:fabAnimationMode="slide"
+        app:fabCradleMargin="@dimen/base_8dp"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add"
+        app:backgroundTint="@color/colorAccent"
+        app:layout_anchor="@id/bottomAppBar" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
