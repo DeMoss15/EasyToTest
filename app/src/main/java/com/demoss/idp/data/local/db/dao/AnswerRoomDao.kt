@@ -5,26 +5,24 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Update
 import com.demoss.idp.data.local.db.entities.AnswerRoomEntity
-import io.reactivex.Completable
 
 @Dao
 interface AnswerRoomDao {
 
     @Insert
-    fun addAnswer(answer: AnswerRoomEntity): Completable
+    fun addAnswer(answer: AnswerRoomEntity)
 
     @Insert
-    fun addAnswer(answers: List<AnswerRoomEntity>): Completable
+    fun addAnswer(answers: List<AnswerRoomEntity>)
 
     @Update
-    fun updateAnswer(answer: AnswerRoomEntity): Completable
+    fun updateAnswer(answer: AnswerRoomEntity)
 
     @Update
-    fun updateAnswer(answers: List<AnswerRoomEntity>): Completable
+    fun updateAnswer(answers: List<AnswerRoomEntity>)
 
     @Delete
-    fun deleteAnswer(answer: AnswerRoomEntity): Completable
+    fun deleteAnswer(answer: AnswerRoomEntity)
 
     @Delete
-    fun deleteAnswer(answers: List<AnswerRoomEntity>): Completable
-}
+    fun deleteAnswer(answers: List<AnswerRoomEntity>)}

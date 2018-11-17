@@ -2,7 +2,6 @@ package com.demoss.idp.data.local.db.dao
 
 import androidx.room.*
 import com.demoss.idp.data.local.db.entities.*
-import io.reactivex.Completable
 
 @Dao
 interface TestRoomDao {
@@ -12,10 +11,10 @@ interface TestRoomDao {
     }
 
     @Insert
-    fun addTest(test: TestRoomEntity): Completable
+    fun addTest(test: TestRoomEntity)
 
     @Update
-    fun updateTest(test: TestRoomEntity): Completable
+    fun updateTest(test: TestRoomEntity)
 
     @Query("SELECT count(*) FROM tests")
     fun getTestsTotalCount(): Int
@@ -30,5 +29,5 @@ interface TestRoomDao {
     fun getTestsPaged(pageNumber: Int): List<TestRoomEntity>
 
     @Delete
-    fun deleteTest(test: TestRoomEntity): Completable
+    fun deleteTest(test: TestRoomEntity)
 }

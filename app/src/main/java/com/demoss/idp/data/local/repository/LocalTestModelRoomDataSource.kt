@@ -13,10 +13,10 @@ import io.reactivex.schedulers.Schedulers
 class LocalTestModelRoomDataSource(val db: AppDatabase) : LocalTestModelRepository {
 
     override fun createTest(test: TestModel): Completable =
-        with(DomainToLocalMapper.toLocal(test)) {
-            db.testDao().addTest(this).andThen {
+        Completable.fromCallable {
+            with(DomainToLocalMapper.toLocal(test)) {
+                db.testDao().addTest(this)
                 db.questionDao().addQuestion(questions)
-            }.andThen {
                 questions.map { question -> db.answerDao().addAnswer(question.answers) }
             }
         }
@@ -30,14 +30,16 @@ class LocalTestModelRoomDataSource(val db: AppDatabase) : LocalTestModelReposito
         Single.just(LocalToDomainMapper.toDomain(db.testDao().getTest(testId)))
 
     override fun updateTest(test: TestModel): Completable =
-        with(DomainToLocalMapper.toLocal(test)) {
-            db.testDao().updateTest(this).andThen {
+        Completable.fromCallable {
+            with(DomainToLocalMapper.toLocal(test)) {
+                db.testDao().updateTest(this)
                 db.questionDao().updateQuestion(questions)
-            }.andThen {
-                questions.map { question -> db.answerDao().updateAnswer(question.answers) }
+                questions.map { question ->
+                    db.answerDao().updateAnswer(question.answers)
+                }
             }
         }
 
     override fun removeTest(test: TestModel): Completable =
-        db.testDao().deleteTest(DomainToLocalMapper.toLocal(test))
+        Completable.fromCallable { db.testDao().deleteTest(DomainToLocalMapper.toLocal(test)) }
 }
