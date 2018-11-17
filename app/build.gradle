@@ -41,6 +41,8 @@ dependencies {
     // Room
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
+    // Room + Rx
+    implementation "android.arch.persistence.room:rxjava2:1.1.1"
 
     // RxBinding
     implementation 'com.jakewharton.rxbinding3:rxbinding:3.0.0-alpha1'
