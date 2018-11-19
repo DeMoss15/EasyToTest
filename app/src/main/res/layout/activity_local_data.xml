@@ -42,11 +42,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        app:hideOnScroll="true"
         app:backgroundTint="@color/colorPrimaryDark"
         app:fabAlignmentMode="center"
-        app:fabCradleRoundedCornerRadius="@dimen/base_8dp"
         app:fabAnimationMode="slide"
-        app:fabCradleMargin="@dimen/base_8dp"/>
+        app:fabCradleMargin="@dimen/base_8dp"
+        app:fabCradleRoundedCornerRadius="@dimen/base_16dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"

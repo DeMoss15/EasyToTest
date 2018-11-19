@@ -1,6 +1,6 @@
 package com.demoss.idp.data.remote
 
-import com.demoss.idp.Constants
+import com.demoss.idp.util.Constants
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import okhttp3.OkHttpClient
 import org.koin.dsl.module.module

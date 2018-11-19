@@ -13,33 +13,38 @@ import io.reactivex.schedulers.Schedulers
 class LocalTestModelRoomDataSource(val db: AppDatabase) : LocalTestModelRepository {
 
     override fun createTest(test: TestModel): Completable =
-        Completable.fromCallable {
-            with(DomainToLocalMapper.toLocal(test)) {
-                db.testDao().addTest(this)
-                db.questionDao().addQuestion(questions)
-                questions.map { question -> db.answerDao().addAnswer(question.answers) }
-            }
-        }
-
-    override fun getTests(pageObservable: Observable<Int>): Observable<List<TestModel>> =
-        pageObservable.observeOn(Schedulers.io())
-            .map { LocalToDomainMapper.toDomain(db.testDao().getTestsPaged(it - 1)) }
-            .setDefaultSchedulers()
-
-    override fun getTest(testId: Int): Single<TestModel> =
-        Single.just(LocalToDomainMapper.toDomain(db.testDao().getTest(testId)))
-
-    override fun updateTest(test: TestModel): Completable =
-        Completable.fromCallable {
-            with(DomainToLocalMapper.toLocal(test)) {
-                db.testDao().updateTest(this)
-                db.questionDao().updateQuestion(questions)
-                questions.map { question ->
-                    db.answerDao().updateAnswer(question.answers)
+            Completable.fromCallable {
+                with(DomainToLocalMapper.toLocal(test)) {
+                    db.testDao().addTest(this)
+                    db.questionDao().addQuestion(questions)
+                    questions.map { question -> db.answerDao().addAnswer(question.answers) }
                 }
             }
-        }
+
+    override fun getTests(pageObservable: Observable<Int>): Observable<List<TestModel>> =
+            pageObservable.observeOn(Schedulers.io())
+                    .map { LocalToDomainMapper.toDomain(db.testDao().getTestsPaged(it - 1)) }
+                    .setDefaultSchedulers()
+                    .map { emptyList ->
+                        (0 until 20).map {
+                            TestModel(it, "Test $it", listOf())
+                        }
+                    }
+
+    override fun getTest(testId: Int): Single<TestModel> =
+            Single.just(LocalToDomainMapper.toDomain(db.testDao().getTest(testId)))
+
+    override fun updateTest(test: TestModel): Completable =
+            Completable.fromCallable {
+                with(DomainToLocalMapper.toLocal(test)) {
+                    db.testDao().updateTest(this)
+                    db.questionDao().updateQuestion(questions)
+                    questions.map { question ->
+                        db.answerDao().updateAnswer(question.answers)
+                    }
+                }
+            }
 
     override fun removeTest(test: TestModel): Completable =
-        Completable.fromCallable { db.testDao().deleteTest(DomainToLocalMapper.toLocal(test)) }
+            Completable.fromCallable { db.testDao().deleteTest(DomainToLocalMapper.toLocal(test)) }
 }
