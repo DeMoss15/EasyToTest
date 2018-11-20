@@ -1,4 +1,4 @@
-package com.demoss.idp.presentation.local
+package com.demoss.idp.presentation.main.tests
 
 import com.demoss.idp.base.mvp.BasePresenterImpl
 import com.demoss.idp.domain.model.TestModel
@@ -6,8 +6,8 @@ import com.demoss.idp.domain.usecase.GetTestsUserCase
 import com.demoss.idp.util.pagination.Paginator
 import io.reactivex.subjects.PublishSubject
 
-class LocalDataPresenter(private val getTestsUserCase: GetTestsUserCase) :
-    LocalDataContract.Presenter, BasePresenterImpl<LocalDataContract.View>() {
+class TestsPresenter(private val getTestsUserCase: GetTestsUserCase) :
+    TestsContract.Presenter, BasePresenterImpl<TestsContract.View>() {
 
     private val pagesPublishSubject = PublishSubject.create<Int>()
     private lateinit var paginator: Paginator<TestModel>
@@ -27,12 +27,12 @@ class LocalDataPresenter(private val getTestsUserCase: GetTestsUserCase) :
         paginator.refresh()
     }
 
-    override fun loadMore() {
-        paginator.loadNewPage()
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         paginator.release()
+    }
+
+    override fun loadMore() {
+        paginator.loadNewPage()
     }
 }

@@ -6,7 +6,7 @@ import com.demoss.idp.base.BaseRecyclerViewAdapter
 import com.demoss.idp.domain.model.TestModel
 import kotlinx.android.synthetic.main.item_test.view.*
 
-class TestsRecyclerViewAdapter :
+class TestsRecyclerViewAdapter(val onItemClick: (TestModel) -> Unit) :
     BaseRecyclerViewAdapter<TestModel, TestsRecyclerViewAdapter.ViewHolder, TestsDiffUtilCallback>() {
 
     override val viewHolderFactory = { v: View -> ViewHolder(v) }
@@ -17,6 +17,7 @@ class TestsRecyclerViewAdapter :
     inner class ViewHolder(view: View) : BaseRecyclerViewAdapter.BaseViewHolder<TestModel>(view) {
         override fun bindData(item: TestModel) {
             view.tvName.text = item.name
+            view.setOnClickListener { onItemClick(item) }
         }
     }
 }

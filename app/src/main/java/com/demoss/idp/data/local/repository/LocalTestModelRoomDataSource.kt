@@ -3,6 +3,7 @@ package com.demoss.idp.data.local.repository
 import com.demoss.idp.data.local.DomainToLocalMapper
 import com.demoss.idp.data.local.LocalToDomainMapper
 import com.demoss.idp.data.local.db.AppDatabase
+import com.demoss.idp.domain.model.QuestionModel
 import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.util.setDefaultSchedulers
 import io.reactivex.Completable
@@ -32,7 +33,8 @@ class LocalTestModelRoomDataSource(val db: AppDatabase) : LocalTestModelReposito
                     }
 
     override fun getTest(testId: Int): Single<TestModel> =
-            Single.just(LocalToDomainMapper.toDomain(db.testDao().getTest(testId)))
+            Single.just(TestModel(testId, "Test $testId", listOf(QuestionModel(testId + 1, "QUESTION", listOf())))
+                    /*LocalToDomainMapper.toDomain(db.testDao().getTest(testId))*/)
 
     override fun updateTest(test: TestModel): Completable =
             Completable.fromCallable {

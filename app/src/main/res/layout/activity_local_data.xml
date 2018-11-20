@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.demoss.idp.presentation.local.LocalDataActivity">
+    tools:context="com.demoss.idp.presentation.main.tests.TestsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvTests"
@@ -36,24 +36,5 @@
         android:textAppearance="@style/TitleText"
         android:visibility="gone"
         tools:text="Empty State" />
-
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottomAppBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:hideOnScroll="true"
-        app:backgroundTint="@color/colorPrimaryDark"
-        app:fabAlignmentMode="center"
-        app:fabAnimationMode="slide"
-        app:fabCradleMargin="@dimen/base_8dp"
-        app:fabCradleRoundedCornerRadius="@dimen/base_16dp" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_add"
-        app:backgroundTint="@color/colorAccent"
-        app:layout_anchor="@id/bottomAppBar" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
