@@ -18,7 +18,7 @@ class EditTestFragment : BaseFragment<EditTestContract.Presenter>(), EditTestCon
     companion object {
         const val TAG = "com.demoss.diploma.question_list_fragment"
         fun newInstance(testId: Int): EditTestFragment = EditTestFragment()
-            .withArguments(ExtraConstants.EXTRA_TEST_ID to testId)
+                .withArguments(ExtraConstants.EXTRA_TEST_ID to testId)
     }
 
     override val presenter by inject<EditTestContract.Presenter>()
@@ -29,7 +29,7 @@ class EditTestFragment : BaseFragment<EditTestContract.Presenter>(), EditTestCon
         super.onCreate(savedInstanceState)
         arguments?.let {
             presenter.init(it.getInt(ExtraConstants.EXTRA_TEST_ID))
-       }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
