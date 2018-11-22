@@ -6,10 +6,8 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 
-class TestModelDataSource(val localRepository: LocalTestModelRepository) : TestModelRepository {
-    override fun createTest(test: TestModel): Completable {
-        return localRepository.createTest(test)
-    }
+class TestModelDataSource(val localRepository: LocalTestModelRepository)
+    : TestModelRepository {
 
     override fun getTests(pageObservable: Observable<Int>): Observable<List<TestModel>> {
         return localRepository.getTests(pageObservable)
@@ -19,7 +17,7 @@ class TestModelDataSource(val localRepository: LocalTestModelRepository) : TestM
         return localRepository.getTest(testId)
     }
 
-    override fun updateTest(test: TestModel): Completable {
+    override fun createOrUpdateTest(test: TestModel): Completable {
         return localRepository.updateTest(test)
     }
 

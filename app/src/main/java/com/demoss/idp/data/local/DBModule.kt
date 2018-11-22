@@ -10,4 +10,8 @@ val dbModule = module {
         Room.databaseBuilder(androidApplication(), AppDatabase::class.java, "db")
             .build()
     }
+
+    single { get<AppDatabase>().answerDao() }
+    single { get<AppDatabase>().questionDao() }
+    single { get<AppDatabase>().testDao() }
 }

@@ -22,7 +22,7 @@ object DomainToLocalMapper {
     }
 
     // Question ==============================================================================
-    private fun toLocal(testId: Int, question: QuestionModel): QuestionRoomEntity {
+    fun toLocal(testId: Int, question: QuestionModel): QuestionRoomEntity {
         return QuestionRoomEntity(
             question.id,
             testId,
@@ -31,7 +31,7 @@ object DomainToLocalMapper {
     }
 
     // Answers ================================================================================
-    private fun toLocal(questionId: Int, answer: AnswerModel): AnswerRoomEntity {
+    fun toLocal(questionId: Int, answer: AnswerModel): AnswerRoomEntity {
         return AnswerRoomEntity(
             answer.id,
             questionId,

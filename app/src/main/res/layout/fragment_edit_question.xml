@@ -4,26 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.main.edit.test.EditTestFragment">
+    tools:context=".presentation.main.edit.question.EditQuestionFragment">
 
     <EditText
         android:id="@+id/tvTestName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorBackgroundWhite"
-        android:hint="@string/test_name"
+        android:hint="@string/question_name"
+        android:inputType="textCapSentences"
         android:paddingTop="@dimen/base_4dp"
         android:paddingBottom="@dimen/base_4dp"
         android:textAlignment="center"
         android:textAppearance="@style/TitleText"
-        android:inputType="textCapSentences"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="Autofill" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvQuestions"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/base_4dp"
@@ -31,29 +30,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTestName"
-        tools:listitem="@layout/item_question" />
-
-    <ProgressBar
-        android:id="@+id/emptyProgressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/emptyState"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/CommonText"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Empty View" />
+        tools:listitem="@layout/item_edit_answer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,4 +3,7 @@
     <string name="back">back</string>
     <string name="drop">drop</string>
     <string name="done">done</string>
+    <string name="test_name">Test name</string>
+    <string name="question_name">Question name</string>
+    <string name="answer_name">Answer name</string>
 </resources>

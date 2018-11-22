@@ -2,24 +2,44 @@ package com.demoss.idp.presentation.main.edit.test
 
 import com.demoss.idp.base.mvp.BasePresenterImpl
 import com.demoss.idp.domain.model.TestModel
-import com.demoss.idp.domain.usecase.GetTestUseCase
+import com.demoss.idp.domain.usecase.EditTestUseCase
+import io.reactivex.observers.DisposableCompletableObserver
 import io.reactivex.observers.DisposableSingleObserver
 
-class EditTestPresenter(private val getTestUseCase: GetTestUseCase)
+class EditTestPresenter(private val editTestUseCase: EditTestUseCase)
     : BasePresenterImpl<EditTestContract.View>(), EditTestContract.Presenter {
 
-    private var testId = 0
+    private lateinit var test: TestModel
 
     override fun init(testId: Int) {
-        this.testId = testId
-        getTestUseCase.execute(object : DisposableSingleObserver<TestModel>() {
+        editTestUseCase.getTest(object : DisposableSingleObserver<TestModel>() {
             override fun onSuccess(t: TestModel) {
                 view?.showTest(t)
+                test = t
             }
 
             override fun onError(e: Throwable) {
                 view?.showToast(e.localizedMessage)
             }
-        }, GetTestUseCase.Params(testId))
+        }, testId)
     }
+
+    override fun updateTest() {
+        editTestUseCase.updateTest(getCompletableObserver())
+    }
+
+    override fun deleteTest() {
+        editTestUseCase.deleteTest(getCompletableObserver())
+    }
+
+    private fun getCompletableObserver(): DisposableCompletableObserver =
+            object : DisposableCompletableObserver() {
+                override fun onComplete() {
+                    // TODO: 21.11.18 navigate back to tests
+                }
+
+                override fun onError(e: Throwable) {
+                    view?.showToast(e.localizedMessage)
+                }
+            }
 }

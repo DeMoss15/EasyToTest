@@ -3,7 +3,8 @@ package com.demoss.idp.domain.model
 class TestModel(
     val id: Int,
     var name: String,
-    var questions: List<QuestionModel>
+    var questions: MutableList<QuestionModel>,
+    var status: EntityStatus = EntityStatus.UNMODIFIED
 ) {
 
     override fun equals(other: Any?): Boolean {

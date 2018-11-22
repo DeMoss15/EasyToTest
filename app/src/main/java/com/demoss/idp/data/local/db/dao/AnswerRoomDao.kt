@@ -1,28 +1,20 @@
 package com.demoss.idp.data.local.db.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Update
+import androidx.room.*
 import com.demoss.idp.data.local.db.entities.AnswerRoomEntity
 
 @Dao
 interface AnswerRoomDao {
 
-    @Insert
-    fun addAnswer(answer: AnswerRoomEntity)
+    @Query("SELECT * FROM answers WHERE question_id LIKE :questionId")
+    fun getAnswers(questionId: Int): List<AnswerRoomEntity>
 
     @Insert
-    fun addAnswer(answers: List<AnswerRoomEntity>)
+    fun addAnswer(vararg answers: AnswerRoomEntity)
 
     @Update
-    fun updateAnswer(answer: AnswerRoomEntity)
-
-    @Update
-    fun updateAnswer(answers: List<AnswerRoomEntity>)
+    fun updateAnswer(vararg answers: AnswerRoomEntity)
 
     @Delete
-    fun deleteAnswer(answer: AnswerRoomEntity)
-
-    @Delete
-    fun deleteAnswer(answers: List<AnswerRoomEntity>)}
+    fun deleteAnswer(vararg answers: AnswerRoomEntity)
+}

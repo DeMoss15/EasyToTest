@@ -10,6 +10,8 @@ interface EditTestContract {
 
     interface Presenter : BasePresenter {
         fun init(testId: Int)
+        fun updateTest()
+        fun deleteTest()
     }
 
     interface View : BaseView {

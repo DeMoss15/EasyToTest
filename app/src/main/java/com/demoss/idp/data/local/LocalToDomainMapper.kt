@@ -18,21 +18,21 @@ object LocalToDomainMapper {
         return TestModel(
             test.id,
             test.name,
-            test.questions.map { toDomain(it) }
+            test.questions.map { toDomain(it) }.toMutableList()
         )
     }
 
     // Question ==============================================================================
-    private fun toDomain(question: QuestionRoomEntity): QuestionModel {
+    fun toDomain(question: QuestionRoomEntity): QuestionModel {
         return QuestionModel(
             question.id,
             question.content,
-            question.answers.map { toDomain(it) }
+            question.answers.map { toDomain(it) }.toMutableList()
         )
     }
 
     // Answers ================================================================================
-    private fun toDomain(answer: AnswerRoomEntity): AnswerModel {
+    fun toDomain(answer: AnswerRoomEntity): AnswerModel {
         return AnswerModel(
             answer.id,
             answer.content,

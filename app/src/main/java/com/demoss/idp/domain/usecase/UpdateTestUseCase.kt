@@ -9,7 +9,7 @@ class UpdateTestUseCase(val repository: TestModelRepository) :
     RxUseCaseCompletable<TestModel, UpdateTestUseCase.Params>() {
 
     override fun buildUseCaseObservable(params: Params): Completable =
-        repository.updateTest(params.test)
+        repository.createOrUpdateTest(params.test)
 
     data class Params(
         val test: TestModel
