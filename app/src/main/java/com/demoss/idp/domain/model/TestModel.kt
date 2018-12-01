@@ -1,7 +1,7 @@
 package com.demoss.idp.domain.model
 
 class TestModel(
-    val id: Int,
+    val id: Int = 0,
     var name: String,
     var questions: MutableList<QuestionModel>,
     var status: EntityStatus = EntityStatus.NEW

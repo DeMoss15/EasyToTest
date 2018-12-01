@@ -49,45 +49,47 @@ class SaveChangesUseCase(
     }.setDefaultSchedulers()
 
     private fun saveQuestions(testId: Int, questions: List<QuestionModel>, status: EntityStatus): Completable =
-        when (status) {
-            EntityStatus.NEW -> questionRepository.createQuestion(testId, *questions.toTypedArray()).andThen {
-                questions.forEach { question -> saveAnswers(question.id, question.answers, status) }
-            }
-            EntityStatus.SAVED -> Completable.complete()
-            EntityStatus.MODIFIED -> {
-                questionRepository.updateQuestion(testId, *questions.toTypedArray()).andThen {
-                    questions.forEach { question ->
-                        // save new answers
-                        saveAnswers(
-                            question.id,
-                            question.answers.filter { answer -> answer.status == EntityStatus.NEW },
-                            EntityStatus.NEW
-                        ).andThen {
-                            // save modified answers
+        if (questions.isEmpty()) Completable.complete() else
+            when (status) {
+                EntityStatus.NEW -> questionRepository.createQuestion(testId, *questions.toTypedArray()).andThen {
+                    questions.forEach { question -> saveAnswers(question.id, question.answers, status) }
+                }
+                EntityStatus.SAVED -> Completable.complete()
+                EntityStatus.MODIFIED -> {
+                    questionRepository.updateQuestion(testId, *questions.toTypedArray()).andThen {
+                        questions.forEach { question ->
+                            // save new answers
                             saveAnswers(
                                 question.id,
-                                question.answers.filter { answer -> answer.status == EntityStatus.MODIFIED },
-                                EntityStatus.MODIFIED
+                                question.answers.filter { answer -> answer.status == EntityStatus.NEW },
+                                EntityStatus.NEW
                             ).andThen {
-                                // remove dropped answers
+                                // save modified answers
                                 saveAnswers(
                                     question.id,
-                                    question.answers.filter { answer -> answer.status == EntityStatus.DROPPED },
-                                    EntityStatus.DROPPED
-                                )
+                                    question.answers.filter { answer -> answer.status == EntityStatus.MODIFIED },
+                                    EntityStatus.MODIFIED
+                                ).andThen {
+                                    // remove dropped answers
+                                    saveAnswers(
+                                        question.id,
+                                        question.answers.filter { answer -> answer.status == EntityStatus.DROPPED },
+                                        EntityStatus.DROPPED
+                                    )
+                                }
                             }
                         }
                     }
                 }
+                EntityStatus.DROPPED -> questionRepository.removeQuestion(testId, *questions.toTypedArray())
             }
-            EntityStatus.DROPPED -> questionRepository.removeQuestion(testId, *questions.toTypedArray())
-        }
 
     private fun saveAnswers(questionId: Int, answers: List<AnswerModel>, status: EntityStatus): Completable =
-        when (status) {
-            EntityStatus.NEW -> answerRepository.createAnswer(questionId, *answers.toTypedArray())
-            EntityStatus.SAVED -> Completable.complete()
-            EntityStatus.MODIFIED -> answerRepository.updateAnswer(questionId, *answers.toTypedArray())
-            EntityStatus.DROPPED -> answerRepository.removeAnswer(questionId, *answers.toTypedArray())
-        }
+        if (answers.isEmpty()) Completable.complete() else
+            when (status) {
+                EntityStatus.NEW -> answerRepository.createAnswer(questionId, *answers.toTypedArray())
+                EntityStatus.SAVED -> Completable.complete()
+                EntityStatus.MODIFIED -> answerRepository.updateAnswer(questionId, *answers.toTypedArray())
+                EntityStatus.DROPPED -> answerRepository.removeAnswer(questionId, *answers.toTypedArray())
+            }
 }

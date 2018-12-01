@@ -53,7 +53,7 @@ class EditTestFragment : BaseFragment<EditTestContract.Presenter>(), EditTestCon
     override fun showTest(test: TestModel) {
         etTestName.setText(test.name)
         if (test.questions.isEmpty()) {
-            tvEmptyState.text = getString(R.string.rv_empty_data, resources.getQuantityString(R.plurals.question_plural, 2))
+            tvEmptyState.text = getString(R.string.rv_empty_data, resources.getQuantityString(R.plurals.question_plural, Int.MAX_VALUE))
         } else {
             rvAdapter.dispatchData(test.questions)
         }
@@ -72,7 +72,7 @@ class EditTestFragment : BaseFragment<EditTestContract.Presenter>(), EditTestCon
         if (activity == null) return
         when (itemId) {
             R.id.item_back -> mainCallback.back(TAG)
-            R.id.item_done -> presenter.saveTest()
+            R.id.item_done -> presenter.saveTest(etTestName.text.toString())
             R.id.item_drop -> presenter.deleteTest()
         }
     }

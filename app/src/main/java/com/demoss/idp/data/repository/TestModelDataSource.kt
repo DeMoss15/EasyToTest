@@ -28,8 +28,4 @@ class TestModelDataSource(val localRepository: LocalTestModelRepository)
     override fun removeTest(test: TestModel): Completable {
         return localRepository.removeTest(test)
     }
-
-    override fun getNextId(): Single<Int> {
-        return localRepository.getNextId()
-    }
 }

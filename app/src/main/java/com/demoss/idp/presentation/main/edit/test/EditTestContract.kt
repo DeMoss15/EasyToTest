@@ -9,7 +9,7 @@ interface EditTestContract {
 
     interface Presenter : BasePresenter {
         fun init(testId: Int)
-        fun saveTest()
+        fun saveTest(testName: String)
         fun deleteTest()
     }
 

@@ -1,6 +1,5 @@
 package com.demoss.idp.domain.usecase
 
-import androidx.room.EmptyResultSetException
 import com.demoss.idp.domain.model.AnswerModel
 import com.demoss.idp.domain.model.EntityStatus
 import com.demoss.idp.domain.model.QuestionModel
@@ -21,11 +20,6 @@ class EditTestUseCase(
     // Test ========================================================================================
     fun getTest(singleObserver: DisposableSingleObserver<TestModel>, testId: Int) {
         getTestUseCase.buildUseCaseObservable(GetTestUseCase.Params(testId))
-            .onErrorReturn {
-                if (it is EmptyResultSetException) // if result is empty, create test
-                    TestModel(15, "New Test", mutableListOf())
-                else throw it
-            }
             .map {
                 it.apply { currentTest = it }
             }.subscribe(singleObserver)

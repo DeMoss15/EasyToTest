@@ -10,6 +10,7 @@ import com.demoss.idp.base.BaseFragment
 import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.presentation.adapter.TestsRecyclerViewAdapter
 import com.demoss.idp.presentation.main.main.MainCallback
+import com.demoss.idp.util.Constants
 import com.demoss.idp.util.EmptyConstants
 import com.demoss.idp.util.pagination.setOnNextPageListener
 import kotlinx.android.synthetic.main.activity_local_data.*
@@ -54,7 +55,7 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
 
     // MainFragment ===================================================================================================
     override fun onFabPressed() {
-        mainCallback.nextFragment(TAG, EmptyConstants.EMPTY_INT)
+        mainCallback.nextFragment(TAG, Constants.NEW_TEST_ID)
     }
 
     override fun onMenuItemPressed(itemId: Int) {
@@ -72,7 +73,7 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
     }
 
     override fun showEmptyView(show: Boolean) {
-        emptyState.text = getString(R.string.rv_empty_data, resources.getQuantityString(R.plurals.test_plural, 2))
+        emptyState.text = getString(R.string.rv_empty_data, resources.getQuantityString(R.plurals.test_plural, Int.MAX_VALUE))
         emptyState.visibility = if (show) View.VISIBLE else View.GONE
     }
 

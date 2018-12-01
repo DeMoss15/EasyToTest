@@ -2,6 +2,7 @@ package com.demoss.idp.data.local.db.dao
 
 import androidx.room.*
 import com.demoss.idp.data.local.db.entities.*
+import io.reactivex.Single
 
 @Dao
 interface TestRoomDao {
@@ -16,11 +17,8 @@ interface TestRoomDao {
     @Update
     fun updateTest(test: TestRoomEntity)
 
-    @Query("SELECT max(id) FROM tests")
-    fun getLastId(): Int
-
     @Query("SELECT * FROM tests WHERE id LIKE :testId")
-    fun getTest(testId: Int): TestRoomEntity
+    fun getTest(testId: Int): Single<TestRoomEntity>
 
     @Query("SELECT * FROM tests")
     fun getTests(): List<TestRoomEntity>
