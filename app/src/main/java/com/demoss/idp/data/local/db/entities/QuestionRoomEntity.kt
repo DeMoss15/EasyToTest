@@ -17,5 +17,5 @@ data class QuestionRoomEntity(
     @ColumnInfo(name = "content") var content: String
 ) {
     @Ignore
-    lateinit var answers: List<AnswerRoomEntity>
+    var answers: List<AnswerRoomEntity> = listOf()
 }

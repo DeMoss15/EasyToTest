@@ -9,7 +9,7 @@ import io.reactivex.Observable
 class GetTestsUserCase(val repository: TestModelRepository) : RxUseCaseObservable<List<TestModel>, GetTestsUserCase.Params>() {
 
     override fun buildUseCaseObservable(params: Params): Observable<List<TestModel>> {
-        return repository.getTests(params.pagesObservable).setDefaultSchedulers()
+        return repository.getTests(params.pagesObservable)
     }
 
     class Params(

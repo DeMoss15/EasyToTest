@@ -2,6 +2,7 @@ package com.demoss.idp.data.local.db.dao
 
 import androidx.room.*
 import com.demoss.idp.data.local.db.entities.*
+import io.reactivex.Observable
 import io.reactivex.Single
 
 @Dao
@@ -24,7 +25,7 @@ interface TestRoomDao {
     fun getTests(): List<TestRoomEntity>
 
     @Query("SELECT * FROM tests LIMIT :pageNumber * $PAGE_SIZE, $PAGE_SIZE")
-    fun getTestsPaged(pageNumber: Int): List<TestRoomEntity>
+    fun getTestsPaged(pageNumber: Int): Observable<List<TestRoomEntity>>
 
     @Delete
     fun deleteTest(test: TestRoomEntity)

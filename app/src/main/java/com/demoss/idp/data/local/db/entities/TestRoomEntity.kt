@@ -9,5 +9,5 @@ data class TestRoomEntity(
     @ColumnInfo(name = "name") var name: String
 ) {
     @Ignore
-    lateinit var questions: List<QuestionRoomEntity>
+    var questions: List<QuestionRoomEntity> = listOf()
 }

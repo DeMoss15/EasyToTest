@@ -20,7 +20,8 @@ class LocalTestModelRoomDataSource(val db: AppDatabase) :
 
     override fun getTests(pageObservable: Observable<Int>): Observable<List<TestModel>> =
         pageObservable.observeOn(Schedulers.io())
-            .map { LocalToDomainMapper.toDomain(db.testDao().getTestsPaged(it - 1)) }
+            .flatMap { db.testDao().getTestsPaged(it - 1) }
+            .map { LocalToDomainMapper.toDomain(it) }
             .setDefaultSchedulers()
             .map { emptyList ->
                 // todo remove it when create test will work
