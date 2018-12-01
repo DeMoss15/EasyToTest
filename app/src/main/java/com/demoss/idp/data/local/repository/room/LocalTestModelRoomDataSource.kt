@@ -5,6 +5,8 @@ import com.demoss.idp.data.local.DomainToLocalMapper
 import com.demoss.idp.data.local.LocalToDomainMapper
 import com.demoss.idp.data.local.db.AppDatabase
 import com.demoss.idp.data.local.repository.LocalTestModelRepository
+import com.demoss.idp.domain.model.AnswerModel
+import com.demoss.idp.domain.model.QuestionModel
 import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.util.setDefaultSchedulers
 import io.reactivex.Completable
@@ -23,26 +25,25 @@ class LocalTestModelRoomDataSource(val db: AppDatabase) :
             .flatMap { db.testDao().getTestsPaged(it - 1) }
             .map { LocalToDomainMapper.toDomain(it) }
             .setDefaultSchedulers()
-            .map { emptyList ->
-                // todo remove it when create test will work
-                (0 until 20).map {
-                    TestModel(0, "Test $it", mutableListOf())
-                }
-            }
 
     override fun getTest(testId: Int): Single<TestModel> =
-        db.testDao().getTest(testId).setDefaultSchedulers().map { test ->
-            test.apply {
-                questions = db.questionDao().getQuestions(id).map { question ->
-                    question.apply { answers = db.answerDao().getAnswers(id) }
+        db.testDao().getTest(testId).observeOn(Schedulers.io())
+            .map { test ->
+                test.apply {
+                    questions = db.questionDao().getQuestions(id).map { question ->
+                        question.apply { answers = db.answerDao().getAnswers(id) }
+                    }
                 }
-            }
-        }.map { LocalToDomainMapper.toDomain(it) }
+            }.map { LocalToDomainMapper.toDomain(it) }
             .onErrorReturn {
                 if (it is EmptyResultSetException) // if result is empty, create test
-                    TestModel(0, "New Test", mutableListOf())
+                    TestModel(0, "New Test", mutableListOf(
+                        QuestionModel(0, "question 1", mutableListOf(
+                            AnswerModel(0, "answer 1", true)
+                        ))
+                    ))
                 else throw it
-            }
+            }.setDefaultSchedulers()
 
     override fun updateTest(test: TestModel): Completable =
         Completable.fromCallable { db.testDao().updateTest(DomainToLocalMapper.toLocal(test)) }

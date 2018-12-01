@@ -25,7 +25,7 @@ class EditTestPresenter(private val editTestUseCase: EditTestUseCase)
     }
 
     override fun saveTest(testName: String) {
-        editTestUseCase.saveTest(getCompletableObserver())
+        editTestUseCase.saveTest(testName, getCompletableObserver())
     }
 
     override fun deleteTest() {

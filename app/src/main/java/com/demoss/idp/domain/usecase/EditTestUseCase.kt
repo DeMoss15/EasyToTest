@@ -25,7 +25,11 @@ class EditTestUseCase(
             }.subscribe(singleObserver)
     }
 
-    fun saveTest(completableObserver: DisposableCompletableObserver) {
+    fun saveTest(testName: String, completableObserver: DisposableCompletableObserver) {
+        currentTest.apply {
+            if (name != testName) name = testName
+            if (name != testName && (status != EntityStatus.MODIFIED || status != EntityStatus.NEW)) status = EntityStatus.MODIFIED
+        }
         saveChangesUseCase.save(currentTest).subscribe(completableObserver)
     }
 

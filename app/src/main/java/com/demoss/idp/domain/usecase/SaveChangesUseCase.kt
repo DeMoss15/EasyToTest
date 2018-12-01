@@ -17,32 +17,33 @@ class SaveChangesUseCase(
 ) {
 
     fun save(test: TestModel): Completable = when (test.status) {
-        EntityStatus.NEW -> testRepository.createTest(test).andThen {
+        EntityStatus.NEW -> testRepository.createTest(test).andThen(
             saveQuestions(test.id, test.questions, EntityStatus.NEW)
-        }
+        )
         EntityStatus.SAVED -> Completable.complete()
         EntityStatus.MODIFIED -> {
-            testRepository.updateTest(test).andThen {
-                // save new questions
-                saveQuestions(
-                    test.id,
-                    test.questions.filter { question -> question.status == EntityStatus.NEW },
-                    EntityStatus.NEW
-                ).andThen {
-                    // save modified questions
+            testRepository.updateTest(test).apply {
+                andThen( // save new questions
+                    saveQuestions(
+                        test.id,
+                        test.questions.filter { question -> question.status == EntityStatus.NEW },
+                        EntityStatus.NEW
+                    )
+                )
+                andThen( // save modified questions
                     saveQuestions(
                         test.id,
                         test.questions.filter { question -> question.status == EntityStatus.MODIFIED },
                         EntityStatus.MODIFIED
-                    ).andThen {
-                        // remove dropped questions
-                        saveQuestions(
-                            test.id,
-                            test.questions.filter { question -> question.status == EntityStatus.DROPPED },
-                            EntityStatus.DROPPED
-                        )
-                    }
-                }
+                    )
+                )
+                andThen( // remove dropped questions
+                    saveQuestions(
+                        test.id,
+                        test.questions.filter { question -> question.status == EntityStatus.DROPPED },
+                        EntityStatus.DROPPED
+                    )
+                )
             }
         }
         EntityStatus.DROPPED -> testRepository.removeTest(test)
@@ -56,28 +57,29 @@ class SaveChangesUseCase(
                 }
                 EntityStatus.SAVED -> Completable.complete()
                 EntityStatus.MODIFIED -> {
-                    questionRepository.updateQuestion(testId, *questions.toTypedArray()).andThen {
+                    questionRepository.updateQuestion(testId, *questions.toTypedArray()).apply {
                         questions.forEach { question ->
-                            // save new answers
-                            saveAnswers(
-                                question.id,
-                                question.answers.filter { answer -> answer.status == EntityStatus.NEW },
-                                EntityStatus.NEW
-                            ).andThen {
-                                // save modified answers
+                            andThen( // save new answers
+                                saveAnswers(
+                                    question.id,
+                                    question.answers.filter { answer -> answer.status == EntityStatus.NEW },
+                                    EntityStatus.NEW
+                                )
+                            )
+                            andThen( // save modified answers
                                 saveAnswers(
                                     question.id,
                                     question.answers.filter { answer -> answer.status == EntityStatus.MODIFIED },
                                     EntityStatus.MODIFIED
-                                ).andThen {
-                                    // remove dropped answers
-                                    saveAnswers(
-                                        question.id,
-                                        question.answers.filter { answer -> answer.status == EntityStatus.DROPPED },
-                                        EntityStatus.DROPPED
-                                    )
-                                }
-                            }
+                                )
+                            )
+                            andThen( // remove dropped answers
+                                saveAnswers(
+                                    question.id,
+                                    question.answers.filter { answer -> answer.status == EntityStatus.DROPPED },
+                                    EntityStatus.DROPPED
+                                )
+                            )
                         }
                     }
                 }

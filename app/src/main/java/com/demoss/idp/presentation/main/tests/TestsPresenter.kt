@@ -14,7 +14,7 @@ class TestsPresenter(private val getTestsUserCase: GetTestsUserCase) :
 
     override fun onCreateView() {
         super.onCreateView()
-        paginator = Paginator<TestModel>(
+        paginator = Paginator(
             getTestsUserCase.buildUseCaseObservable(GetTestsUserCase.Params(pagesPublishSubject)),
             view as Paginator.ViewController<TestModel>
         ) {
