@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">Diploma</string>
+
+    <!-- RV sources -->
+    <string name="rv_error_message">Oops, something went wrong!</string>
+    <string name="rv_empty_data">No %s data available</string>
+
     <string name="back">back</string>
     <string name="drop">drop</string>
     <string name="done">done</string>

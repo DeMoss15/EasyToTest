@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="test_plural">
+        <item quantity="one">test</item>
+        <item quantity="many">tests</item>
+    </plurals>
+
+    <plurals name="question_plural">
+        <item quantity="one">question</item>
+        <item quantity="many">questions</item>
+    </plurals>
+
+    <plurals name="answer_plural">
+        <item quantity="one">answer</item>
+        <item quantity="many">answers</item>
+    </plurals>
+</resources>

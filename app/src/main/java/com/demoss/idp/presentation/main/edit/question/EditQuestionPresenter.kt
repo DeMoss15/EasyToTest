@@ -23,10 +23,8 @@ class EditQuestionPresenter(private val editTestUseCase: EditTestUseCase)
     }
 
     override fun addAnswer(answer: AnswerModel) {
-
     }
 
     override fun deleteAnswer(answer: AnswerModel) {
-
     }
 }

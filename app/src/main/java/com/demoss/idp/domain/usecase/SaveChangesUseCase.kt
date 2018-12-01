@@ -23,7 +23,7 @@ class SaveChangesUseCase(
         EntityStatus.SAVED -> Completable.complete()
         EntityStatus.MODIFIED -> {
             testRepository.updateTest(test).andThen {
-                //save new questions
+                // save new questions
                 saveQuestions(
                     test.id,
                     test.questions.filter { question -> question.status == EntityStatus.NEW },
@@ -57,7 +57,7 @@ class SaveChangesUseCase(
             EntityStatus.MODIFIED -> {
                 questionRepository.updateQuestion(testId, *questions.toTypedArray()).andThen {
                     questions.forEach { question ->
-                        //save new answers
+                        // save new answers
                         saveAnswers(
                             question.id,
                             question.answers.filter { answer -> answer.status == EntityStatus.NEW },

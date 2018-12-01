@@ -5,6 +5,6 @@ import com.demoss.idp.base.mvp.BaseView
 
 interface MainContract {
 
-    interface Presenter : BasePresenter {}
-    interface View : BaseView {}
+    interface Presenter : BasePresenter
+    interface View : BaseView
 }

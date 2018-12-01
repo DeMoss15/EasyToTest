@@ -6,8 +6,9 @@ import com.demoss.idp.base.BaseRecyclerViewAdapter
 import com.demoss.idp.domain.model.TestModel
 import kotlinx.android.synthetic.main.item_test.view.*
 
-class TestsRecyclerViewAdapter(val onItemClick: (TestModel) -> Unit) :
-    BaseRecyclerViewAdapter<TestModel, TestsRecyclerViewAdapter.ViewHolder, TestsDiffUtilCallback>() {
+class TestsRecyclerViewAdapter(
+    val onItemClick: (TestModel, Action) -> Unit
+) : BaseRecyclerViewAdapter<TestModel, TestsRecyclerViewAdapter.ViewHolder, TestsDiffUtilCallback>() {
 
     override val viewHolderFactory = { v: View -> ViewHolder(v) }
     override val layoutResId = R.layout.item_test
@@ -17,7 +18,15 @@ class TestsRecyclerViewAdapter(val onItemClick: (TestModel) -> Unit) :
     inner class ViewHolder(view: View) : BaseRecyclerViewAdapter.BaseViewHolder<TestModel>(view) {
         override fun bindData(item: TestModel) {
             view.tvName.text = item.name
-            view.setOnClickListener { onItemClick(item) }
+            view.setOnClickListener { onItemClick(item, Action.SELECT) }
+            view.ivEdit.setOnClickListener { onItemClick(item, Action.EDIT) }
+            view.ivShare.setOnClickListener { onItemClick(item, Action.SHARE) }
         }
+    }
+
+    enum class Action {
+        SELECT,
+        EDIT,
+        SHARE
     }
 }

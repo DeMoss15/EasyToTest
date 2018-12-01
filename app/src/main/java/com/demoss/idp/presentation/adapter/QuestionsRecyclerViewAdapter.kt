@@ -6,8 +6,9 @@ import com.demoss.idp.base.BaseRecyclerViewAdapter
 import com.demoss.idp.domain.model.QuestionModel
 import kotlinx.android.synthetic.main.item_question.view.*
 
-class QuestionsRecyclerViewAdapter :
-    BaseRecyclerViewAdapter<QuestionModel, QuestionsRecyclerViewAdapter.VH, QuestionsDiffUtilCallback>() {
+class QuestionsRecyclerViewAdapter(
+    private val onItemClick: (QuestionsRecyclerViewAdapter.Action, QuestionModel) -> Unit
+) : BaseRecyclerViewAdapter<QuestionModel, QuestionsRecyclerViewAdapter.VH, QuestionsDiffUtilCallback>() {
 
     override val layoutResId = R.layout.item_question
     override val viewHolderFactory: (view: View) -> VH = { VH(it) }
@@ -17,6 +18,12 @@ class QuestionsRecyclerViewAdapter :
     inner class VH(view: View) : BaseRecyclerViewAdapter.BaseViewHolder<QuestionModel>(view) {
         override fun bindData(item: QuestionModel) {
             view.tvQuestion.text = item.text
+            view.setOnClickListener { onItemClick(Action.SELECT, item) }
         }
+    }
+
+    enum class Action {
+        SELECT,
+        DELETE
     }
 }

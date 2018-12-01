@@ -1,5 +1,6 @@
 package com.demoss.idp.presentation.main.tests
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -8,12 +9,13 @@ import com.demoss.idp.R
 import com.demoss.idp.base.BaseFragment
 import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.presentation.adapter.TestsRecyclerViewAdapter
-import com.demoss.idp.util.pagination.Paginator
+import com.demoss.idp.presentation.main.main.MainCallback
+import com.demoss.idp.util.EmptyConstants
 import com.demoss.idp.util.pagination.setOnNextPageListener
 import kotlinx.android.synthetic.main.activity_local_data.*
 import org.koin.android.ext.android.inject
 
-class TestsFragment : BaseFragment<TestsContract.Presenter>(), Paginator.ViewController<TestModel> {
+class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.View {
 
     companion object {
         const val TAG = "com.demoss.diploma.tests_fragment"
@@ -22,8 +24,21 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), Paginator.ViewCon
 
     override val presenter by inject<TestsContract.Presenter>()
     override val layoutResourceId = R.layout.activity_local_data
-    private val rvAdapter = TestsRecyclerViewAdapter() { test ->
-        // TODO: 20.11.18 redirect to edit test fragment
+    private lateinit var mainCallback: MainCallback
+    private lateinit var callback: Callback
+    private val rvAdapter = TestsRecyclerViewAdapter { test, action ->
+        when (action) {
+            TestsRecyclerViewAdapter.Action.SELECT -> callback.startTest(test)
+            TestsRecyclerViewAdapter.Action.EDIT -> mainCallback.nextFragment(TAG, test.id)
+            TestsRecyclerViewAdapter.Action.SHARE -> TODO("no share action")
+        }
+    }
+
+    // Lifecycle =======================================================================================================
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        mainCallback = activity as MainCallback
+        callback = activity as Callback
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,17 +52,27 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), Paginator.ViewCon
         }
     }
 
+    // MainFragment ===================================================================================================
+    override fun onFabPressed() {
+        mainCallback.nextFragment(TAG, EmptyConstants.EMPTY_INT)
+    }
+
+    override fun onMenuItemPressed(itemId: Int) {
+        // TODO: add menu handling
+    }
+
+    // Paginator =======================================================================================================
     override fun showEmptyProgress(show: Boolean) {
         emptyProgressBar.visibility = if (show) View.VISIBLE else View.GONE
     }
 
     override fun showEmptyError(show: Boolean, error: Throwable?) {
-        emptyState.text = "Empty data"
+        emptyState.text = getText(R.string.rv_error_message)
         emptyState.visibility = if (show) View.VISIBLE else View.GONE
     }
 
     override fun showEmptyView(show: Boolean) {
-        emptyState.text = "Empty state"
+        emptyState.text = getString(R.string.rv_empty_data, resources.getQuantityString(R.plurals.test_plural, 2))
         emptyState.visibility = if (show) View.VISIBLE else View.GONE
     }
 
@@ -66,5 +91,9 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), Paginator.ViewCon
 
     override fun showPageProgress(show: Boolean) {
         pageProgress.visibility = if (show) View.VISIBLE else View.GONE
+    }
+
+    interface Callback {
+        fun startTest(test: TestModel)
     }
 }

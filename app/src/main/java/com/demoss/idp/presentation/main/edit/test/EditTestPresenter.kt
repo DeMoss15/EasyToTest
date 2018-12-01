@@ -35,7 +35,7 @@ class EditTestPresenter(private val editTestUseCase: EditTestUseCase)
     private fun getCompletableObserver(): DisposableCompletableObserver =
             object : DisposableCompletableObserver() {
                 override fun onComplete() {
-                    // TODO: 21.11.18 navigate back to tests
+                    view?.navigateBack()
                 }
 
                 override fun onError(e: Throwable) {
