@@ -2,7 +2,7 @@ package com.demoss.idp.presentation.main.tests
 
 import com.demoss.idp.base.mvp.BasePresenterImpl
 import com.demoss.idp.domain.model.TestModel
-import com.demoss.idp.domain.usecase.GetTestsUserCase
+import com.demoss.idp.domain.usecase.model.GetTestsUserCase
 import com.demoss.idp.util.pagination.Paginator
 import io.reactivex.subjects.PublishSubject
 

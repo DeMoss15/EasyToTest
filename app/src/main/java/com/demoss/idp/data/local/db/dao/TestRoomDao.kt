@@ -16,8 +16,8 @@ interface TestRoomDao {
     @Update
     fun updateTest(test: TestRoomEntity)
 
-    @Query("SELECT count(*) FROM tests")
-    fun getTestsTotalCount(): Int
+    @Query("SELECT 1 FROM tests WHERE max(id)")
+    fun getLastId(): Int
 
     @Query("SELECT * FROM tests WHERE id LIKE :testId")
     fun getTest(testId: Int): TestRoomEntity

@@ -4,5 +4,5 @@ class QuestionModel(
     val id: Int,
     var text: String,
     val answers: MutableList<AnswerModel>,
-    var status: EntityStatus = EntityStatus.UNMODIFIED
+    var status: EntityStatus = EntityStatus.NEW
 )

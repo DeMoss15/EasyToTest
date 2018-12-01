@@ -4,5 +4,5 @@ class AnswerModel(
     val id: Int,
     var text: String,
     var isRightAnswer: Boolean,
-    var status: EntityStatus = EntityStatus.UNMODIFIED
+    var status: EntityStatus = EntityStatus.NEW
 )

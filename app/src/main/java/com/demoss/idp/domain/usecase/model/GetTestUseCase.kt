@@ -1,4 +1,4 @@
-package com.demoss.idp.domain.usecase
+package com.demoss.idp.domain.usecase.model
 
 import com.demoss.idp.data.repository.TestModelRepository
 import com.demoss.idp.domain.model.TestModel

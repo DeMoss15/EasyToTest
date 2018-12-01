@@ -4,7 +4,7 @@ class TestModel(
     val id: Int,
     var name: String,
     var questions: MutableList<QuestionModel>,
-    var status: EntityStatus = EntityStatus.UNMODIFIED
+    var status: EntityStatus = EntityStatus.NEW
 ) {
 
     override fun equals(other: Any?): Boolean {

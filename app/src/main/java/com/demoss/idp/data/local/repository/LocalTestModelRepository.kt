@@ -12,4 +12,5 @@ interface LocalTestModelRepository {
     fun getTest(testId: Int): Single<TestModel>
     fun updateTest(test: TestModel): Completable
     fun removeTest(test: TestModel): Completable
+    fun getNextId(): Single<Int>
 }

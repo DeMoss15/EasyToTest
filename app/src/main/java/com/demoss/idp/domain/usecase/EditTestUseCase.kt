@@ -1,47 +1,98 @@
 package com.demoss.idp.domain.usecase
 
+import androidx.room.EmptyResultSetException
+import com.demoss.idp.domain.model.AnswerModel
+import com.demoss.idp.domain.model.EntityStatus
 import com.demoss.idp.domain.model.QuestionModel
 import com.demoss.idp.domain.model.TestModel
+import com.demoss.idp.domain.usecase.model.GetTestUseCase
 import io.reactivex.Single
 import io.reactivex.observers.DisposableCompletableObserver
 import io.reactivex.observers.DisposableSingleObserver
 import java.lang.RuntimeException
 
 class EditTestUseCase(
-        private val getTestUseCase: GetTestUseCase,
-        private val deleteTestUseCase: DeleteTestUseCase,
-        private val updateTestUseCase: UpdateTestUseCase
+    private val getTestUseCase: GetTestUseCase,
+    private val saveChangesUseCase: SaveChangesUseCase
 ) {
-    private lateinit var test: TestModel
-    private lateinit var question: QuestionModel
+    private lateinit var currentTest: TestModel
+    private lateinit var currentQuestion: QuestionModel
 
     // Test ========================================================================================
     fun getTest(singleObserver: DisposableSingleObserver<TestModel>, testId: Int) {
         getTestUseCase.buildUseCaseObservable(GetTestUseCase.Params(testId))
-                .map {
-                    // TODO: 21.11.18 handle empty test
-                    it.apply { test = it }
-                }.subscribe(singleObserver)
+            .onErrorReturn {
+                if (it is EmptyResultSetException) // if result is empty, create test
+                    TestModel(15, "New Test", mutableListOf())
+                else throw it
+            }
+            .map {
+                it.apply { currentTest = it }
+            }.subscribe(singleObserver)
     }
 
-    fun updateTest(completableObserver: DisposableCompletableObserver) {
-        updateTestUseCase.execute(completableObserver, UpdateTestUseCase.Params(test))
+    fun saveTest(completableObserver: DisposableCompletableObserver) {
+        saveChangesUseCase.save(currentTest).subscribe(completableObserver)
     }
 
     fun deleteTest(completableObserver: DisposableCompletableObserver) {
-        deleteTestUseCase.execute(completableObserver, DeleteTestUseCase.Params(test))
+        currentTest.status = EntityStatus.DROPPED
+        saveChangesUseCase.save(currentTest).subscribe(completableObserver)
     }
 
     // Question ====================================================================================
     fun getQuestion(questionId: Int): Single<QuestionModel> =
-            Single.just(test.questions.find { it.id == questionId }
-                    ?: throw RuntimeException("wrong question id"))
+        Single.just(currentTest.questions.find { it.id == questionId }
+            ?: throw RuntimeException("wrong question id")).map { it.apply { currentQuestion = it } }
 
-    fun addQuestion(question: QuestionModel) {
-        test.questions.add(question)
+    fun saveQuestion(question: QuestionModel) {
+        currentTest.apply {
+            if (status != EntityStatus.MODIFIED || status != EntityStatus.NEW) status = EntityStatus.MODIFIED
+        }
+        when (question.status) {
+            EntityStatus.NEW -> {
+                currentTest.questions.add(question)
+            }
+            EntityStatus.SAVED -> {
+                question.status = EntityStatus.MODIFIED
+            }
+            EntityStatus.MODIFIED -> {
+            }
+            EntityStatus.DROPPED -> {
+            }
+        }
     }
 
     fun deleteQuestion(question: QuestionModel) {
-        test.questions.remove(question)
+        currentTest.apply {
+            if (status != EntityStatus.MODIFIED || status != EntityStatus.NEW) status = EntityStatus.MODIFIED
+        }
+        question.status = EntityStatus.DROPPED
+    }
+
+    // Answer ========================================================================================
+    fun saveAnswer(answer: AnswerModel) {
+        currentQuestion.apply {
+            if (status != EntityStatus.MODIFIED || status != EntityStatus.NEW) status = EntityStatus.MODIFIED
+        }
+        when (answer.status) {
+            EntityStatus.NEW -> {
+                currentQuestion.answers.add(answer)
+            }
+            EntityStatus.SAVED -> {
+                answer.status = EntityStatus.MODIFIED
+            }
+            EntityStatus.MODIFIED -> {
+            }
+            EntityStatus.DROPPED -> {
+            }
+        }
+    }
+
+    fun deleteAnswer(answer: AnswerModel) {
+        currentQuestion.apply {
+            if (status != EntityStatus.MODIFIED || status != EntityStatus.NEW) status = EntityStatus.MODIFIED
+        }
+        answer.status = EntityStatus.DROPPED
     }
 }

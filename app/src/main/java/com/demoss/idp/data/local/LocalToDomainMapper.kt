@@ -4,6 +4,7 @@ import com.demoss.idp.data.local.db.entities.AnswerRoomEntity
 import com.demoss.idp.data.local.db.entities.QuestionRoomEntity
 import com.demoss.idp.data.local.db.entities.TestRoomEntity
 import com.demoss.idp.domain.model.AnswerModel
+import com.demoss.idp.domain.model.EntityStatus
 import com.demoss.idp.domain.model.QuestionModel
 import com.demoss.idp.domain.model.TestModel
 
@@ -18,7 +19,8 @@ object LocalToDomainMapper {
         return TestModel(
             test.id,
             test.name,
-            test.questions.map { toDomain(it) }.toMutableList()
+            test.questions.map { toDomain(it) }.toMutableList(),
+            EntityStatus.SAVED
         )
     }
 
@@ -27,7 +29,8 @@ object LocalToDomainMapper {
         return QuestionModel(
             question.id,
             question.content,
-            question.answers.map { toDomain(it) }.toMutableList()
+            question.answers.map { toDomain(it) }.toMutableList(),
+            EntityStatus.SAVED
         )
     }
 
@@ -36,7 +39,8 @@ object LocalToDomainMapper {
         return AnswerModel(
             answer.id,
             answer.content,
-            answer.isRight
+            answer.isRight,
+            EntityStatus.SAVED
         )
     }
 }

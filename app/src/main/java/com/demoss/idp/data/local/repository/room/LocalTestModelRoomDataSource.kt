@@ -32,8 +32,7 @@ class LocalTestModelRoomDataSource(val db: AppDatabase) :
         Single.just(
             /*LocalToDomainMapper.toDomain(db.testDao().getTest(testId).apply {
                 questions = db.questionDao().getQuestions(id).map {
-                    it.answers = db.answerDao().getAnswers(it.id)
-                    it
+                    it.apply { answers = db.answerDao().getAnswers(it.id) }
                 }
             })*/
             TestModel(testId, "Test $testId", mutableListOf(QuestionModel(testId + 1, "QUESTION", mutableListOf())))
@@ -44,4 +43,6 @@ class LocalTestModelRoomDataSource(val db: AppDatabase) :
 
     override fun removeTest(test: TestModel): Completable =
         Completable.fromCallable { db.testDao().deleteTest(DomainToLocalMapper.toLocal(test)) }
+
+    override fun getNextId(): Single<Int> = Single.just(db.testDao().getLastId() + 1)
 }

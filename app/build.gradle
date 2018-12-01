@@ -41,7 +41,7 @@ dependencies {
     // Room
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
-    //implementation "androidx.room:room-rxjava2:$room_version" // this shit doesn't work try later on never room version
+    implementation "androidx.room:room-rxjava2:$room_version" // this shit doesn't work try later on never room version
     //error: local variable answer is accessed from within inner class; needs to be declared final
 
     // RxBinding
