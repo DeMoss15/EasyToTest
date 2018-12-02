@@ -12,8 +12,7 @@ class TestModel(
             false
         } else {
             other as TestModel
-            this.name == other.name &&
-            this.questions == other.questions
+            this.id == other.id
         }
     }
 
