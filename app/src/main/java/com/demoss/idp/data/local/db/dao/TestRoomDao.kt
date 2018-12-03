@@ -13,7 +13,7 @@ interface TestRoomDao {
     }
 
     @Insert
-    fun addTest(test: TestRoomEntity)
+    fun addTest(test: TestRoomEntity): Long
 
     @Update
     fun updateTest(test: TestRoomEntity)

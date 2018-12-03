@@ -7,7 +7,7 @@ import io.reactivex.Single
 
 interface LocalTestModelRepository {
 
-    fun createTest(test: TestModel): Completable
+    fun createTest(test: TestModel): Single<Int>
     fun getTests(pageObservable: Observable<Int>): Observable<List<TestModel>>
     fun getTest(testId: Int): Single<TestModel>
     fun updateTest(test: TestModel): Completable

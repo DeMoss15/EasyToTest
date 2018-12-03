@@ -17,9 +17,9 @@ class SaveChangesUseCase(
 ) {
 
     fun save(test: TestModel): Completable = when (test.status) {
-        EntityStatus.NEW -> testRepository.createTest(test).andThen(
-            saveQuestions(test.id, test.questions)
-        )
+        EntityStatus.NEW -> testRepository.createTest(test).flatMapCompletable {
+            saveQuestions(it, test.questions)
+        }
         EntityStatus.SAVED -> Completable.complete()
         EntityStatus.MODIFIED -> {
             testRepository.updateTest(test).apply {
@@ -39,8 +39,12 @@ class SaveChangesUseCase(
     private fun saveQuestions(testId: Int, questions: List<QuestionModel>): Completable =
         if (questions.isEmpty()) Completable.complete() else
             when (questions.first().status) {
-                EntityStatus.NEW -> questionRepository.createQuestion(testId, *questions.toTypedArray()).andThen {
-                    questions.forEach { question -> saveAnswers(question.id, question.answers) }
+                EntityStatus.NEW -> questionRepository.createQuestion(testId, *questions.toTypedArray()).flatMapCompletable { ids ->
+                    Completable.complete().apply {
+                        for (i in 0 until questions.size){
+                            andThen(saveAnswers(ids[i], questions[i].answers))
+                        }
+                    }
                 }
                 EntityStatus.SAVED -> Completable.complete()
                 EntityStatus.MODIFIED -> {

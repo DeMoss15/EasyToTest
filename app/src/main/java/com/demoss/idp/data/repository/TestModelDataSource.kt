@@ -9,7 +9,7 @@ import io.reactivex.Single
 class TestModelDataSource(val localRepository: LocalTestModelRepository)
     : TestModelRepository {
 
-    override fun createTest(test: TestModel): Completable {
+    override fun createTest(test: TestModel): Single<Int> {
         return localRepository.createTest(test)
     }
 

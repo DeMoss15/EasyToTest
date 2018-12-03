@@ -17,8 +17,10 @@ import io.reactivex.schedulers.Schedulers
 class LocalTestModelRoomDataSource(val db: AppDatabase) :
     LocalTestModelRepository {
 
-    override fun createTest(test: TestModel): Completable =
-        Completable.fromCallable { db.testDao().addTest(DomainToLocalMapper.toLocal(test)) }
+    override fun createTest(test: TestModel): Single<Int> =
+        Single.just(test).observeOn(Schedulers.io()).map {
+            db.testDao().addTest(DomainToLocalMapper.toLocal(it)).toInt()
+        }.setDefaultSchedulers()
 
     override fun getTests(pageObservable: Observable<Int>): Observable<List<TestModel>> =
         pageObservable.observeOn(Schedulers.io())

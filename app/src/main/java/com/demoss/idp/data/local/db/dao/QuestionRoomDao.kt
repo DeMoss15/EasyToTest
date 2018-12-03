@@ -10,7 +10,7 @@ interface QuestionRoomDao {
     fun getQuestions(testId: Int): List<QuestionRoomEntity>
 
     @Insert
-    fun addQuestion(vararg questions: QuestionRoomEntity)
+    fun addQuestion(vararg questions: QuestionRoomEntity): List<Long>
 
     @Update
     fun updateQuestion(vararg questions: QuestionRoomEntity)

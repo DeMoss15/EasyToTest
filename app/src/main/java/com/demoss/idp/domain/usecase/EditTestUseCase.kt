@@ -29,7 +29,7 @@ class EditTestUseCase(
         currentTest.apply {
             if (name != testName) {
                 name = testName
-                if (status != EntityStatus.MODIFIED || status != EntityStatus.NEW)
+                if (status != EntityStatus.MODIFIED && status != EntityStatus.NEW)
                     status = EntityStatus.MODIFIED
             }
         }
@@ -48,7 +48,7 @@ class EditTestUseCase(
 
     fun saveQuestion(question: QuestionModel) {
         currentTest.apply {
-            if (status != EntityStatus.MODIFIED || status != EntityStatus.NEW) status = EntityStatus.MODIFIED
+            if (status != EntityStatus.MODIFIED && status != EntityStatus.NEW) status = EntityStatus.MODIFIED
         }
         when (question.status) {
             EntityStatus.NEW -> {
@@ -66,7 +66,7 @@ class EditTestUseCase(
 
     fun deleteQuestion(question: QuestionModel) {
         currentTest.apply {
-            if (status != EntityStatus.MODIFIED || status != EntityStatus.NEW) status = EntityStatus.MODIFIED
+            if (status != EntityStatus.MODIFIED && status != EntityStatus.NEW) status = EntityStatus.MODIFIED
         }
         question.status = EntityStatus.DROPPED
     }
@@ -74,7 +74,7 @@ class EditTestUseCase(
     // Answer ========================================================================================
     fun saveAnswer(answer: AnswerModel) {
         currentQuestion.apply {
-            if (status != EntityStatus.MODIFIED || status != EntityStatus.NEW) status = EntityStatus.MODIFIED
+            if (status != EntityStatus.MODIFIED && status != EntityStatus.NEW) status = EntityStatus.MODIFIED
         }
         when (answer.status) {
             EntityStatus.NEW -> {
@@ -92,7 +92,7 @@ class EditTestUseCase(
 
     fun deleteAnswer(answer: AnswerModel) {
         currentQuestion.apply {
-            if (status != EntityStatus.MODIFIED || status != EntityStatus.NEW) status = EntityStatus.MODIFIED
+            if (status != EntityStatus.MODIFIED && status != EntityStatus.NEW) status = EntityStatus.MODIFIED
         }
         answer.status = EntityStatus.DROPPED
     }
