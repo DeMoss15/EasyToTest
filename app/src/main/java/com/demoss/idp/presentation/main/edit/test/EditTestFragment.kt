@@ -17,7 +17,7 @@ import org.koin.android.ext.android.inject
 class EditTestFragment : BaseFragment<EditTestContract.Presenter>(), EditTestContract.View {
 
     companion object {
-        const val TAG = "com.demoss.diploma.question_list_fragment"
+        const val TAG = "com.demoss.diploma.edit_test_fragment"
         fun newInstance(testId: Int): EditTestFragment = EditTestFragment()
             .withArguments(ExtraConstants.EXTRA_TEST_ID to testId)
     }

@@ -7,7 +7,7 @@
     tools:context=".presentation.main.edit.question.EditQuestionFragment">
 
     <EditText
-        android:id="@+id/etTestName"
+        android:id="@+id/etQuestion"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorBackgroundWhite"
@@ -23,13 +23,14 @@
         tools:ignore="Autofill" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAnswers"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/base_4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etTestName"
+        app:layout_constraintTop_toBottomOf="@+id/etQuestion"
         tools:listitem="@layout/item_edit_answer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

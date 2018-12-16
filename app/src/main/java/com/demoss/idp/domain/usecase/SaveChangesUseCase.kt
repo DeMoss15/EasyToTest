@@ -9,6 +9,7 @@ import com.demoss.idp.domain.model.QuestionModel
 import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.util.setDefaultSchedulers
 import io.reactivex.Completable
+import io.reactivex.rxkotlin.toObservable
 
 class SaveChangesUseCase(
     private val testRepository: TestModelRepository,
@@ -39,13 +40,15 @@ class SaveChangesUseCase(
     private fun saveQuestions(testId: Int, questions: List<QuestionModel>): Completable =
         if (questions.isEmpty()) Completable.complete() else
             when (questions.first().status) {
-                EntityStatus.NEW -> questionRepository.createQuestion(testId, *questions.toTypedArray()).flatMapCompletable { ids ->
-                    Completable.complete().apply {
+                EntityStatus.NEW -> questionRepository.createQuestion(testId, *questions.toTypedArray())
+                    .flatMapObservable {
+                        val outList = mutableListOf<Pair<Int, QuestionModel>>()
                         for (i in 0 until questions.size){
-                            andThen(saveAnswers(ids[i], questions[i].answers))
+                            outList.add(it[i] to questions[i])
                         }
+                        outList.toObservable()
                     }
-                }
+                    .flatMapCompletable { idAndQuestion -> saveAnswers(idAndQuestion.first, idAndQuestion.second.answers) }
                 EntityStatus.SAVED -> Completable.complete()
                 EntityStatus.MODIFIED -> {
                     questionRepository.updateQuestion(testId, *questions.toTypedArray()).apply {

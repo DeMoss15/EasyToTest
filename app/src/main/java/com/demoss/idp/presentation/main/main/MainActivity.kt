@@ -5,6 +5,7 @@ import android.view.MenuItem
 import com.demoss.idp.R
 import com.demoss.idp.base.BaseActivity
 import com.demoss.idp.domain.model.TestModel
+import com.demoss.idp.presentation.main.edit.question.EditQuestionFragment
 import com.demoss.idp.presentation.main.edit.test.EditTestFragment
 import com.demoss.idp.presentation.main.tests.TestsFragment
 import com.google.android.material.bottomappbar.BottomAppBar
@@ -40,7 +41,7 @@ class MainActivity : BaseActivity<MainContract.Presenter>(), MainCallback, Tests
     override fun nextFragment(currentFragmentTag: String, entityId: Int) {
         when (currentFragmentTag) {
             TestsFragment.TAG -> { navigateToEditTest(entityId) }
-            EditTestFragment.TAG -> {}
+            EditTestFragment.TAG -> { navigateToEditQuestion(entityId) }
         }
     }
 
@@ -79,6 +80,19 @@ class MainActivity : BaseActivity<MainContract.Presenter>(), MainCallback, Tests
             .replace(
                 container.id, supportFragmentManager.findFragmentByTag(EditTestFragment.TAG)
                     ?: EditTestFragment.newInstance(testId)
+            )
+            .commitNow()
+    }
+
+    private fun navigateToEditQuestion(questionId: Int) {
+        bottomAppBar.apply {
+            fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
+            replaceMenu(R.menu.bottomappbar_menu_edit_test)
+        }
+        supportFragmentManager.beginTransaction()
+            .replace(
+                container.id, supportFragmentManager.findFragmentByTag(EditQuestionFragment.TAG)
+                    ?: EditQuestionFragment.newInstance(questionId)
             )
             .commitNow()
     }
