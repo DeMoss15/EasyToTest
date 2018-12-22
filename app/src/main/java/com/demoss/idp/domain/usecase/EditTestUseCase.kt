@@ -29,8 +29,7 @@ class EditTestUseCase(
         currentTest.apply {
             if (name != testName) {
                 name = testName
-                if (status != EntityStatus.MODIFIED && status != EntityStatus.NEW)
-                    status = EntityStatus.MODIFIED
+                setModified()
             }
         }
         saveChangesUseCase.save(currentTest).subscribe(completableObserver)
@@ -46,36 +45,20 @@ class EditTestUseCase(
         Single.just(currentTest.questions.find { it.id == questionId }
             ?: throw RuntimeException("wrong question id")).map { it.apply { currentQuestion = it } }
 
-    fun saveQuestion(question: QuestionModel) {
-        currentTest.apply {
-            if (status != EntityStatus.MODIFIED && status != EntityStatus.NEW) status = EntityStatus.MODIFIED
-        }
-        when (question.status) {
-            EntityStatus.NEW -> {
-                currentTest.questions.add(question)
-            }
-            EntityStatus.SAVED -> {
-                question.status = EntityStatus.MODIFIED
-            }
-            EntityStatus.MODIFIED -> {
-            }
-            EntityStatus.DROPPED -> {
-            }
-        }
+    fun saveQuestion(question: String) {
+        currentTest.setModified()
+        currentQuestion.setModified()
+        currentQuestion.text = question
     }
 
-    fun deleteQuestion(question: QuestionModel) {
-        currentTest.apply {
-            if (status != EntityStatus.MODIFIED && status != EntityStatus.NEW) status = EntityStatus.MODIFIED
-        }
-        question.status = EntityStatus.DROPPED
+    fun deleteQuestion() {
+        currentTest.setModified()
+        currentQuestion.status = EntityStatus.DROPPED
     }
 
     // Answer ========================================================================================
     fun saveAnswer(answer: AnswerModel) {
-        currentQuestion.apply {
-            if (status != EntityStatus.MODIFIED && status != EntityStatus.NEW) status = EntityStatus.MODIFIED
-        }
+        currentQuestion.setModified()
         when (answer.status) {
             EntityStatus.NEW -> {
                 currentQuestion.answers.add(answer)
@@ -91,9 +74,20 @@ class EditTestUseCase(
     }
 
     fun deleteAnswer(answer: AnswerModel) {
-        currentQuestion.apply {
-            if (status != EntityStatus.MODIFIED && status != EntityStatus.NEW) status = EntityStatus.MODIFIED
-        }
+        currentQuestion.setModified()
         answer.status = EntityStatus.DROPPED
+    }
+
+    // private extension
+    private fun AnswerModel.setModified() {
+        apply { if (status != EntityStatus.MODIFIED && status != EntityStatus.NEW) status = EntityStatus.MODIFIED }
+    }
+
+    private fun QuestionModel.setModified() {
+        apply { if (status != EntityStatus.MODIFIED && status != EntityStatus.NEW) status = EntityStatus.MODIFIED }
+    }
+
+    private fun TestModel.setModified() {
+        apply { if (status != EntityStatus.MODIFIED && status != EntityStatus.NEW) status = EntityStatus.MODIFIED }
     }
 }

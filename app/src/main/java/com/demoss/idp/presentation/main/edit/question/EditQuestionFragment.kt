@@ -1,5 +1,6 @@
 package com.demoss.idp.presentation.main.edit.question
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -7,6 +8,7 @@ import com.demoss.idp.R
 import com.demoss.idp.base.BaseFragment
 import com.demoss.idp.domain.model.QuestionModel
 import com.demoss.idp.presentation.adapter.AnswersRecyclerViewAdapter
+import com.demoss.idp.presentation.main.main.MainCallback
 import com.demoss.idp.util.ExtraConstants
 import com.demoss.idp.util.withArguments
 import kotlinx.android.synthetic.main.fragment_edit_question.*
@@ -22,9 +24,15 @@ class EditQuestionFragment : BaseFragment<EditQuestionContract.Presenter>(), Edi
 
     override val presenter by inject<EditQuestionContract.Presenter>()
     override val layoutResourceId = R.layout.fragment_edit_question
+    private lateinit var mainCallback: MainCallback
     private val rvAdapter = AnswersRecyclerViewAdapter()
 
     // Lifecycle =======================================================================================================
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        mainCallback = activity as MainCallback
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arguments?.let { presenter.getQuestion(it.getInt(ExtraConstants.EXTRA_QUESTION_ID)) }
@@ -38,5 +46,19 @@ class EditQuestionFragment : BaseFragment<EditQuestionContract.Presenter>(), Edi
     override fun showQuestion(question: QuestionModel) {
         etQuestion.setText(question.text)
         rvAdapter.dispatchData(question.answers)
+    }
+
+    // MainFragment ====================================================================================================
+    override fun onFabPressed() {
+        // TODO implement
+    }
+
+    override fun onMenuItemPressed(itemId: Int) {
+        if (activity == null) return
+        when (itemId) {
+            R.id.item_back -> mainCallback.back(TAG)
+            R.id.item_done -> presenter.saveQuestion(etQuestion.text.toString())
+            R.id.item_drop -> presenter.deleteQuestion()
+        }
     }
 }

@@ -29,7 +29,7 @@ allprojects {
         koin_version = '1.0.1'
         retrofit_version = '2.4.0'
         glide_version = '4.8.0'
-        room_version = '2.1.0-alpha02'
+        room_version = '2.1.0-alpha03'
         anko_version = '0.10.4'
     }
 }

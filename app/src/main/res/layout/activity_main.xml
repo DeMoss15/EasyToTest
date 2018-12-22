@@ -18,7 +18,7 @@
         android:layout_gravity="bottom"
         app:backgroundTint="@color/colorPrimaryDark"
         app:fabAlignmentMode="center"
-        app:fabAnimationMode="scale"
+        app:fabAnimationMode="slide"
         app:fabCradleMargin="@dimen/base_8dp"
         app:fabCradleRoundedCornerRadius="@dimen/base_16dp"
         app:hideOnScroll="true" />
