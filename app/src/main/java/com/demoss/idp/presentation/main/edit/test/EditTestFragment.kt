@@ -9,8 +9,11 @@ import com.demoss.idp.base.BaseFragment
 import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.presentation.adapter.QuestionsRecyclerViewAdapter
 import com.demoss.idp.presentation.main.main.MainCallback
+import com.demoss.idp.util.Constants
 import com.demoss.idp.util.ExtraConstants
 import com.demoss.idp.util.withArguments
+import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_edit_test.*
 import org.koin.android.ext.android.inject
 
@@ -40,6 +43,7 @@ class EditTestFragment : BaseFragment<EditTestContract.Presenter>(), EditTestCon
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mainCallback.readyToSetupAppBar()
         arguments?.let {
             presenter.init(it.getInt(ExtraConstants.EXTRA_TEST_ID))
         }
@@ -65,15 +69,24 @@ class EditTestFragment : BaseFragment<EditTestContract.Presenter>(), EditTestCon
 
     // MainFragment ====================================================================================================
     override fun onFabPressed() {
-        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
+        mainCallback.nextFragment(TAG, Constants.NEW_TEST_ID)
     }
 
     override fun onMenuItemPressed(itemId: Int) {
         if (activity == null) return
         when (itemId) {
-            R.id.item_back -> mainCallback.back(TAG)
+            //R.id.item_back -> mainCallback.back(TAG)
             R.id.item_done -> presenter.saveTest(etTestName.text.toString())
             R.id.item_drop -> presenter.deleteTest()
+        }
+        mainCallback.back(TAG)
+    }
+
+    override fun setupAppBar(bottomAppBar: BottomAppBar, fab: FloatingActionButton) {
+        fab.setImageResource(R.drawable.ic_add)
+        bottomAppBar.apply {
+            fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
+            replaceMenu(R.menu.bottomappbar_menu_edit_test)
         }
     }
 }

@@ -11,8 +11,9 @@ import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.presentation.adapter.TestsRecyclerViewAdapter
 import com.demoss.idp.presentation.main.main.MainCallback
 import com.demoss.idp.util.Constants
-import com.demoss.idp.util.EmptyConstants
 import com.demoss.idp.util.pagination.setOnNextPageListener
+import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_local_data.*
 import org.koin.android.ext.android.inject
 
@@ -44,6 +45,7 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mainCallback.readyToSetupAppBar()
         rvTests.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = rvAdapter
@@ -96,5 +98,14 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
 
     interface Callback {
         fun startTest(test: TestModel)
+    }
+
+    // Private =====================================================================================
+    override fun setupAppBar(bottomAppBar: BottomAppBar, fab: FloatingActionButton) {
+        fab.setImageResource(R.drawable.ic_add)
+        bottomAppBar.apply {
+            fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+            replaceMenu(R.menu.bottomappbar_menu_tests)
+        }
     }
 }

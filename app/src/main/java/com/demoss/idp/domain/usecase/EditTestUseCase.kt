@@ -16,10 +16,12 @@ class EditTestUseCase(
 ) {
     private lateinit var currentTest: TestModel
     private lateinit var currentQuestion: QuestionModel
+    private lateinit var currentAnswer: AnswerModel
 
     // Test ========================================================================================
     fun getTest(singleObserver: DisposableSingleObserver<TestModel>, testId: Int) {
-        getTestUseCase.buildUseCaseObservable(GetTestUseCase.Params(testId))
+        if (::currentTest.isInitialized && testId == currentTest.id) Single.just(currentTest).subscribe(singleObserver)
+        else getTestUseCase.buildUseCaseObservable(GetTestUseCase.Params(testId))
             .map {
                 it.apply { currentTest = it }
             }.subscribe(singleObserver)
@@ -41,9 +43,10 @@ class EditTestUseCase(
     }
 
     // Question ====================================================================================
-    fun getQuestion(questionId: Int): Single<QuestionModel> =
+    fun getQuestion(singleObserver: DisposableSingleObserver<QuestionModel>, questionId: Int) =
         Single.just(currentTest.questions.find { it.id == questionId }
             ?: throw RuntimeException("wrong question id")).map { it.apply { currentQuestion = it } }
+            .subscribe(singleObserver)
 
     fun saveQuestion(question: String) {
         currentTest.setModified()
@@ -57,19 +60,17 @@ class EditTestUseCase(
     }
 
     // Answer ========================================================================================
-    fun saveAnswer(answer: AnswerModel) {
+    fun getAnswer(singleObserver: DisposableSingleObserver<AnswerModel>, answerId: Int) =
+        Single.just(currentQuestion.answers.find { it.id == answerId }
+            ?: throw RuntimeException("wrong question id")).map { it.apply { currentAnswer = it } }
+            .subscribe(singleObserver)
+
+    fun saveAnswer(answer: String, isRight: Boolean) {
         currentQuestion.setModified()
-        when (answer.status) {
-            EntityStatus.NEW -> {
-                currentQuestion.answers.add(answer)
-            }
-            EntityStatus.SAVED -> {
-                answer.status = EntityStatus.MODIFIED
-            }
-            EntityStatus.MODIFIED -> {
-            }
-            EntityStatus.DROPPED -> {
-            }
+        currentAnswer.apply {
+            setModified()
+            text = answer
+            isRightAnswer = isRight
         }
     }
 

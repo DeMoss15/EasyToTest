@@ -1,3 +1,3 @@
 package com.demoss.idp.util
 
-object EmptyConstants {}
+object EmptyConstants

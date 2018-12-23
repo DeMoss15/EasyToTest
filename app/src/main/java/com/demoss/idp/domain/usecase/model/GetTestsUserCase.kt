@@ -3,7 +3,6 @@ package com.demoss.idp.domain.usecase.model
 import com.demoss.idp.data.repository.TestModelRepository
 import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.domain.usecase.base.RxUseCaseObservable
-import com.demoss.idp.util.setDefaultSchedulers
 import io.reactivex.Observable
 
 class GetTestsUserCase(val repository: TestModelRepository) : RxUseCaseObservable<List<TestModel>, GetTestsUserCase.Params>() {

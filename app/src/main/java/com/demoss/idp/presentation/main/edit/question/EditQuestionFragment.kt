@@ -9,8 +9,11 @@ import com.demoss.idp.base.BaseFragment
 import com.demoss.idp.domain.model.QuestionModel
 import com.demoss.idp.presentation.adapter.AnswersRecyclerViewAdapter
 import com.demoss.idp.presentation.main.main.MainCallback
+import com.demoss.idp.util.Constants
 import com.demoss.idp.util.ExtraConstants
 import com.demoss.idp.util.withArguments
+import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_edit_question.*
 import org.koin.android.ext.android.inject
 
@@ -25,7 +28,7 @@ class EditQuestionFragment : BaseFragment<EditQuestionContract.Presenter>(), Edi
     override val presenter by inject<EditQuestionContract.Presenter>()
     override val layoutResourceId = R.layout.fragment_edit_question
     private lateinit var mainCallback: MainCallback
-    private val rvAdapter = AnswersRecyclerViewAdapter()
+    private val rvAdapter = AnswersRecyclerViewAdapter { mainCallback.nextFragment(TAG, it.id) }
 
     // Lifecycle =======================================================================================================
     override fun onAttach(context: Context?) {
@@ -35,6 +38,7 @@ class EditQuestionFragment : BaseFragment<EditQuestionContract.Presenter>(), Edi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mainCallback.readyToSetupAppBar()
         arguments?.let { presenter.getQuestion(it.getInt(ExtraConstants.EXTRA_QUESTION_ID)) }
         rvAnswers.apply {
             adapter = rvAdapter
@@ -50,15 +54,24 @@ class EditQuestionFragment : BaseFragment<EditQuestionContract.Presenter>(), Edi
 
     // MainFragment ====================================================================================================
     override fun onFabPressed() {
-        // TODO implement
+        mainCallback.nextFragment(TAG, Constants.NEW_TEST_ID)
     }
 
     override fun onMenuItemPressed(itemId: Int) {
         if (activity == null) return
         when (itemId) {
-            R.id.item_back -> mainCallback.back(TAG)
+            //R.id.item_back -> mainCallback.back(TAG)
             R.id.item_done -> presenter.saveQuestion(etQuestion.text.toString())
             R.id.item_drop -> presenter.deleteQuestion()
+        }
+        mainCallback.back(TAG)
+    }
+
+    override fun setupAppBar(bottomAppBar: BottomAppBar, fab: FloatingActionButton) {
+        fab.setImageResource(R.drawable.ic_add)
+        bottomAppBar.apply {
+            fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
+            replaceMenu(R.menu.bottomappbar_menu_edit_test)
         }
     }
 }

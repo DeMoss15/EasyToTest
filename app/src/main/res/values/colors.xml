@@ -12,4 +12,8 @@
     <color name="colorCommonText">#212121</color>
     <color name="colorDarkText">#212121</color>
 
+    <!--Checking-->
+    <color name="colorRightAnswer">#9ccc65</color>
+    <color name="colorChecked">#7e57c2</color>
+    <color name="colorUnchecked">#607d8b</color>
 </resources>

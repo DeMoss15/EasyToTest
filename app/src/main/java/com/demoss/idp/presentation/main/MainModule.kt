@@ -1,5 +1,7 @@
 package com.demoss.idp.presentation.main
 
+import com.demoss.idp.presentation.main.edit.answer.EditAnswerContract
+import com.demoss.idp.presentation.main.edit.answer.EditAnswerPresenter
 import com.demoss.idp.presentation.main.edit.question.EditQuestionContract
 import com.demoss.idp.presentation.main.edit.question.EditQuestionPresenter
 import com.demoss.idp.presentation.main.edit.test.EditTestContract
@@ -15,4 +17,5 @@ val mainModule = module {
     factory { TestsPresenter(get()) as TestsContract.Presenter }
     factory { EditTestPresenter(get()) as EditTestContract.Presenter }
     factory { EditQuestionPresenter(get()) as EditQuestionContract.Presenter }
+    factory { EditAnswerPresenter(get()) as EditAnswerContract.Presenter }
 }

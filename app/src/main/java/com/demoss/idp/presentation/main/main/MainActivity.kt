@@ -6,10 +6,10 @@ import androidx.fragment.app.Fragment
 import com.demoss.idp.R
 import com.demoss.idp.base.BaseActivity
 import com.demoss.idp.domain.model.TestModel
+import com.demoss.idp.presentation.main.edit.answer.EditAnswerFragment
 import com.demoss.idp.presentation.main.edit.question.EditQuestionFragment
 import com.demoss.idp.presentation.main.edit.test.EditTestFragment
 import com.demoss.idp.presentation.main.tests.TestsFragment
-import com.google.android.material.bottomappbar.BottomAppBar
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 
@@ -23,11 +23,11 @@ class MainActivity : BaseActivity<MainContract.Presenter>(), MainContract.View, 
         super.onCreate(savedInstanceState)
         setSupportActionBar(bottomAppBar)
         navigateToTests()
-        fab.setOnClickListener { applyActionForAllMainFragments { onFabPressed() } }
+        fab.setOnClickListener { applyActionForVisibleFragment { onFabPressed() } }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        item?.let { applyActionForAllMainFragments { onMenuItemPressed(it.itemId) } }
+        item?.let { applyActionForVisibleFragment { onMenuItemPressed(it.itemId) } }
         return item != null
     }
 
@@ -36,19 +36,20 @@ class MainActivity : BaseActivity<MainContract.Presenter>(), MainContract.View, 
         when (currentFragmentTag) {
             TestsFragment.TAG -> navigateToEditTest(entityId)
             EditTestFragment.TAG -> navigateToEditQuestion(entityId)
+            EditQuestionFragment.TAG -> navigateToEditAnswer(entityId)
         }
     }
 
     override fun back(currentFragmentTag: String) {
         when (currentFragmentTag) {
             TestsFragment.TAG -> onBackPressed()
-            EditTestFragment.TAG -> {
-                setUpAppBarCommonMode()
-                supportFragmentManager.popBackStack()
-            }
+            EditTestFragment.TAG -> supportFragmentManager.popBackStack()
             EditQuestionFragment.TAG -> supportFragmentManager.popBackStack()
+            EditAnswerFragment.TAG -> supportFragmentManager.popBackStack()
         }
     }
+
+    override fun readyToSetupAppBar() = applyActionForVisibleFragment { setupAppBar(bottomAppBar, fab) }
 
     // TestsFragment.Callback ==========================================================================================
     override fun startTest(test: TestModel) {
@@ -56,37 +57,20 @@ class MainActivity : BaseActivity<MainContract.Presenter>(), MainContract.View, 
     }
 
     // Private =========================================================================================================
-    private fun navigateToTests() {
-        setUpAppBarCommonMode()
+    private fun navigateToTests() =
         navigateToFragment(TestsFragment.TAG) { TestsFragment.newInstance() }
-    }
 
-    private fun navigateToEditTest(testId: Int) {
-        setUpAppBarEditMode()
+    private fun navigateToEditTest(testId: Int) =
         navigateToFragment(EditQuestionFragment.TAG) { EditTestFragment.newInstance(testId) }
-    }
 
-    private fun navigateToEditQuestion(questionId: Int) {
-        setUpAppBarEditMode()
+    private fun navigateToEditQuestion(questionId: Int) =
         navigateToFragment(EditQuestionFragment.TAG) { EditQuestionFragment.newInstance(questionId) }
-    }
 
-    private fun navigateToFragment(tag: String, fragmentFabric: () -> Fragment): Unit  =
+    private fun navigateToEditAnswer(answerId: Int) =
+        navigateToFragment(EditAnswerFragment.TAG) { EditAnswerFragment.newInstance(answerId)}
+
+    private fun navigateToFragment(tag: String, fragmentFabric: () -> Fragment): Unit =
         executeTransaction(supportFragmentManager.findFragmentByTag(tag) ?: fragmentFabric(), tag)
-
-    private fun setUpAppBarCommonMode() {
-        bottomAppBar.apply {
-            fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
-            replaceMenu(R.menu.bottomappbar_menu_tests)
-        }
-    }
-
-    private fun setUpAppBarEditMode() {
-        bottomAppBar.apply {
-            fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
-            replaceMenu(R.menu.bottomappbar_menu_edit_test)
-        }
-    }
 
     private fun executeTransaction(fragment: Fragment, tag: String) {
         supportFragmentManager.beginTransaction()
@@ -95,7 +79,7 @@ class MainActivity : BaseActivity<MainContract.Presenter>(), MainContract.View, 
             .commit()
     }
 
-    private fun applyActionForAllMainFragments(action: MainFragment.() -> Unit) {
+    private fun applyActionForVisibleFragment(action: MainFragment.() -> Unit) {
         supportFragmentManager.fragments
             .firstOrNull { fragment -> fragment.isVisible }
             ?.let { fragment -> (fragment as MainFragment).action() }

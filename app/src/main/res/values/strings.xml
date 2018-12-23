@@ -11,4 +11,7 @@
     <string name="test_name">Test name</string>
     <string name="question_name">Question name</string>
     <string name="answer_name">Answer name</string>
+
+    <string name="answer_hint">Input answer here</string>
+    <string name="answer_correctness_hint">is this answer right?</string>
 </resources>

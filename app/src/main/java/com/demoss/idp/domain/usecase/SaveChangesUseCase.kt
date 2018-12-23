@@ -43,7 +43,7 @@ class SaveChangesUseCase(
                 EntityStatus.NEW -> questionRepository.createQuestion(testId, *questions.toTypedArray())
                     .flatMapObservable {
                         val outList = mutableListOf<Pair<Int, QuestionModel>>()
-                        for (i in 0 until questions.size){
+                        for (i in 0 until questions.size) {
                             outList.add(it[i] to questions[i])
                         }
                         outList.toObservable()
