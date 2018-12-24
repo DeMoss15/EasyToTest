@@ -28,12 +28,7 @@ class EditTestUseCase(
     }
 
     fun saveTest(testName: String, completableObserver: DisposableCompletableObserver) {
-        currentTest.apply {
-            if (name != testName) {
-                name = testName
-                setModified()
-            }
-        }
+        currentTest.name = testName
         saveChangesUseCase.save(currentTest).subscribe(completableObserver)
     }
 
@@ -49,13 +44,11 @@ class EditTestUseCase(
             .subscribe(singleObserver)
 
     fun saveQuestion(question: String) {
-        currentTest.setModified()
         currentQuestion.setModified()
         currentQuestion.text = question
     }
 
     fun deleteQuestion() {
-        currentTest.setModified()
         currentQuestion.status = EntityStatus.DROPPED
     }
 
@@ -66,7 +59,6 @@ class EditTestUseCase(
             .subscribe(singleObserver)
 
     fun saveAnswer(answer: String, isRight: Boolean) {
-        currentQuestion.setModified()
         currentAnswer.apply {
             setModified()
             text = answer
@@ -75,7 +67,6 @@ class EditTestUseCase(
     }
 
     fun deleteAnswer(answer: AnswerModel) {
-        currentQuestion.setModified()
         answer.status = EntityStatus.DROPPED
     }
 

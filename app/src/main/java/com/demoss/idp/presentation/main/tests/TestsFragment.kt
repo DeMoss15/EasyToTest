@@ -77,6 +77,7 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
     override fun showEmptyView(show: Boolean) {
         emptyState.text = getString(R.string.rv_empty_data, resources.getQuantityString(R.plurals.test_plural, Int.MAX_VALUE))
         emptyState.visibility = if (show) View.VISIBLE else View.GONE
+        rvTests.visibility =if (show) View.GONE else View.VISIBLE
     }
 
     override fun showData(show: Boolean, data: List<TestModel>) {
