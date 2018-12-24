@@ -9,6 +9,7 @@ import com.demoss.idp.domain.model.QuestionModel
 import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.util.setDefaultSchedulers
 import io.reactivex.Completable
+import io.reactivex.functions.BiFunction
 import io.reactivex.rxkotlin.toObservable
 
 class SaveChangesUseCase(
@@ -19,55 +20,64 @@ class SaveChangesUseCase(
 
     fun save(test: TestModel): Completable = when (test.status) {
         EntityStatus.NEW -> testRepository.createTest(test).flatMapCompletable {
-            saveQuestions(it, test.questions)
+            filterAndSaveQuestions(it, test.questions)
         }
-        EntityStatus.SAVED -> Completable.complete()
-        EntityStatus.MODIFIED -> {
-            testRepository.updateTest(test).apply {
-                fun saveWithStatus(status: EntityStatus) {
-                    andThen(saveQuestions(test.id, test.questions.filter { question ->
-                        question.status == status
-                    }))
-                }
-                saveWithStatus(EntityStatus.NEW)
-                saveWithStatus(EntityStatus.MODIFIED)
-                saveWithStatus(EntityStatus.DROPPED)
-            }
-        }
-        EntityStatus.DROPPED -> testRepository.removeTest(test)
+        EntityStatus.SAVED -> Completable.complete().andThen(
+            filterAndSaveQuestions(test.id, test.questions)
+        )
+        EntityStatus.MODIFIED -> testRepository.updateTest(test).andThen(
+            filterAndSaveQuestions(test.id, test.questions)
+        )
+        EntityStatus.DROPPED -> testRepository.removeTest(test).andThen(
+            filterAndSaveQuestions(test.id, test.questions.map { it.apply { status = EntityStatus.DROPPED } })
+        )
     }.setDefaultSchedulers()
 
-    private fun saveQuestions(testId: Int, questions: List<QuestionModel>): Completable =
+    private fun filterAndSaveQuestions(testId: Int, questions: List<QuestionModel>): Completable =
+        if (questions.isEmpty()) Completable.complete() else
+            listOf(
+                questions.filter { it.status == EntityStatus.NEW },
+                questions.filter { it.status == EntityStatus.SAVED },
+                questions.filter { it.status == EntityStatus.MODIFIED },
+                questions.filter { it.status == EntityStatus.DROPPED }
+            ).toObservable().flatMapCompletable {
+                saveFilteredQuestions(testId, it)
+            }
+
+    private fun saveFilteredQuestions(testId: Int, questions: List<QuestionModel>): Completable =
         if (questions.isEmpty()) Completable.complete() else
             when (questions.first().status) {
                 EntityStatus.NEW -> questionRepository.createQuestion(testId, *questions.toTypedArray())
-                    .flatMapObservable {
-                        val outList = mutableListOf<Pair<Int, QuestionModel>>()
-                        for (i in 0 until questions.size) {
-                            outList.add(it[i] to questions[i])
-                        }
-                        outList.toObservable()
+                    .flatMapObservable { it.toObservable() }
+                    .zipWith(
+                        questions.toObservable(),
+                        BiFunction { id: Int, question: QuestionModel -> id to question })
+                    .flatMapCompletable { filterAndSaveAnswers(it.first, it.second.answers) }
+                EntityStatus.SAVED -> Completable.complete().andThen(
+                    questions.toObservable().flatMapCompletable { filterAndSaveAnswers(it.id, it.answers) }
+                )
+                EntityStatus.MODIFIED -> questionRepository.updateQuestion(testId, *questions.toTypedArray()).andThen(
+                    questions.toObservable().flatMapCompletable { filterAndSaveAnswers(it.id, it.answers) }
+                )
+                EntityStatus.DROPPED -> questionRepository.removeQuestion(testId, *questions.toTypedArray()).andThen(
+                    questions.toObservable().flatMapCompletable { question ->
+                        filterAndSaveAnswers(question.id, question.answers.map { it.apply { status = EntityStatus.DROPPED } })
                     }
-                    .flatMapCompletable { idAndQuestion -> saveAnswers(idAndQuestion.first, idAndQuestion.second.answers) }
-                EntityStatus.SAVED -> Completable.complete()
-                EntityStatus.MODIFIED -> {
-                    questionRepository.updateQuestion(testId, *questions.toTypedArray()).apply {
-                        questions.forEach { question ->
-                            fun saveWithStatus(status: EntityStatus) {
-                                andThen(saveAnswers(question.id, question.answers.filter { answer ->
-                                    answer.status == status
-                                }))
-                            }
-                            saveWithStatus(EntityStatus.NEW)
-                            saveWithStatus(EntityStatus.MODIFIED)
-                            saveWithStatus(EntityStatus.DROPPED)
-                        }
-                    }
-                }
-                EntityStatus.DROPPED -> questionRepository.removeQuestion(testId, *questions.toTypedArray())
+                )
             }
 
-    private fun saveAnswers(questionId: Int, answers: List<AnswerModel>): Completable =
+    private fun filterAndSaveAnswers(questionId: Int, answers: List<AnswerModel>): Completable =
+        if (answers.isEmpty()) Completable.complete() else
+            listOf(
+                answers.filter { it.status == EntityStatus.NEW },
+                answers.filter { it.status == EntityStatus.SAVED },
+                answers.filter { it.status == EntityStatus.MODIFIED },
+                answers.filter { it.status == EntityStatus.DROPPED }
+            ).toObservable().flatMapCompletable {
+                saveFilteredAnswers(questionId, it)
+            }
+
+    private fun saveFilteredAnswers(questionId: Int, answers: List<AnswerModel>): Completable =
         if (answers.isEmpty()) Completable.complete() else
             when (answers.first().status) {
                 EntityStatus.NEW -> answerRepository.createAnswer(questionId, *answers.toTypedArray())
