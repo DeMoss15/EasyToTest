@@ -7,6 +7,8 @@ val useCaseModule = module {
     single { EditTestUseCase(get(), get()) }
     single { SaveChangesUseCase(get(), get(), get()) }
 
+    single { TestSessionUseCase(get()) }
+
     factory { CreateTestUseCase(get()) }
     factory { GetTestsUserCase(get()) }
     factory { GetTestUseCase(get()) }

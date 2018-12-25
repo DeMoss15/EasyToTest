@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import com.demoss.idp.R
 import com.demoss.idp.base.BaseActivity
 import com.demoss.idp.domain.model.TestModel
+import com.demoss.idp.presentation.exam.exam.ExamActivity
 import com.demoss.idp.presentation.main.edit.answer.EditAnswerFragment
 import com.demoss.idp.presentation.main.edit.question.EditQuestionFragment
 import com.demoss.idp.presentation.main.edit.test.EditTestFragment
@@ -42,7 +43,7 @@ class MainActivity : BaseActivity<MainContract.Presenter>(), MainContract.View, 
 
     override fun back(currentFragmentTag: String) {
         when (currentFragmentTag) {
-            TestsFragment.TAG -> onBackPressed()
+            TestsFragment.TAG -> finish()
             EditTestFragment.TAG -> supportFragmentManager.popBackStack()
             EditQuestionFragment.TAG -> supportFragmentManager.popBackStack()
             EditAnswerFragment.TAG -> supportFragmentManager.popBackStack()
@@ -53,7 +54,7 @@ class MainActivity : BaseActivity<MainContract.Presenter>(), MainContract.View, 
 
     // TestsFragment.Callback ==========================================================================================
     override fun startTest(test: TestModel) {
-        // TODO : implement
+        startActivity(ExamActivity.getIntent(this, test.id))
     }
 
     // Private =========================================================================================================
@@ -70,9 +71,9 @@ class MainActivity : BaseActivity<MainContract.Presenter>(), MainContract.View, 
         navigateToFragment(EditAnswerFragment.TAG) { EditAnswerFragment.newInstance(answerId)}
 
     private fun navigateToFragment(tag: String, fragmentFabric: () -> Fragment): Unit =
-        executeTransaction(supportFragmentManager.findFragmentByTag(tag) ?: fragmentFabric(), tag)
+        replaceFragment(supportFragmentManager.findFragmentByTag(tag) ?: fragmentFabric(), tag)
 
-    private fun executeTransaction(fragment: Fragment, tag: String) {
+    private fun replaceFragment(fragment: Fragment, tag: String) {
         supportFragmentManager.beginTransaction()
             .replace(container.id, fragment)
             .addToBackStack(tag)

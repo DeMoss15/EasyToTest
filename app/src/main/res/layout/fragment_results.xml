@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/base_12dp"
+    tools:context=".presentation.exam.results.ResultsFragment">
+
+
+    <TextView
+        android:id="@+id/tvResultsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Results"
+        android:textAppearance="@style/CommonText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTestName"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/base_12dp"
+        android:layout_marginBottom="@dimen/base_12dp"
+        android:text="TEXT NAME"
+        android:textAlignment="center"
+        android:textAppearance="@style/TitleText"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvResultsTitle" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <TextView
+        android:id="@+id/tvTimeHint"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Time spent"
+        android:textAppearance="@style/CommonText"
+        app:layout_constraintEnd_toStartOf="@+id/tvTime"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline2" />
+
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:textAlignment="viewEnd"
+        android:textAppearance="@style/CommonText"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTimeHint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tvTimeHint"
+        app:layout_constraintTop_toTopOf="@+id/guideline2"
+        tools:text="0:00" />
+
+    <TextView
+        android:id="@+id/tvAnswersHint"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/base_12dp"
+        android:text="Right/shown"
+        android:textAppearance="@style/CommonText"
+        app:layout_constraintEnd_toStartOf="@+id/tvAnswersStats"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTimeHint" />
+
+    <TextView
+        android:id="@+id/tvAnswersStats"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="1/10"
+        android:textAlignment="viewEnd"
+        android:textAppearance="@style/CommonText"
+        app:layout_constraintBottom_toBottomOf="@+id/tvAnswersHint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tvAnswersHint"
+        app:layout_constraintTop_toTopOf="@+id/tvAnswersHint" />
+
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Back to tests"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

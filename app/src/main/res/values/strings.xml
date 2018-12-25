@@ -14,4 +14,11 @@
 
     <string name="answer_hint">Input answer here</string>
     <string name="answer_correctness_hint">is this answer right?</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="timer">Timer</string>
+    <string name="timer_input_hint">Time in minutes</string>
+    <string name="shuffle">Shuffle</string>
+    <string name="number_of_questions">Number of questions:</string>
 </resources>

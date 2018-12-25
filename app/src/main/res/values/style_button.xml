@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="CommonButton" parent="Widget.MaterialComponents.Button.Icon">
+        <item name="android:background">@drawable/bg_common_button</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/colorBackgroundWhite</item>
+    </style>
+
+</resources>

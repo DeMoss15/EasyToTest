@@ -28,6 +28,7 @@ class EditTestUseCase(
     }
 
     fun saveTest(testName: String, completableObserver: DisposableCompletableObserver) {
+        currentTest.setModified()
         currentTest.name = testName
         saveChangesUseCase.save(currentTest).subscribe(completableObserver)
     }

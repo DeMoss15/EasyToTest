@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/base_12dp"
+    tools:context=".presentation.exam.setup.SetupSessionFragment">
+
+    <TextView
+        android:id="@+id/tvResultsTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/test_name"
+        android:textAlignment="center"
+        android:textAppearance="@style/TitleText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_questions_amount_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/base_32dp"
+        android:text="@string/number_of_questions"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvResultsTitle" />
+
+    <TextView
+        android:id="@+id/tvQuestionsAmount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/base_8dp"
+        android:textAlignment="textEnd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_questions_amount_hint"
+        app:layout_constraintTop_toTopOf="@+id/tv_questions_amount_hint"
+        tools:text="1000" />
+
+    <SeekBar
+        android:id="@+id/sbQuestionsAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/base_12dp"
+        app:layout_constraintTop_toBottomOf="@+id/tvQuestionsAmount" />
+
+    <Switch
+        android:id="@+id/switchShuffle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/base_12dp"
+        android:text="@string/shuffle"
+        app:layout_constraintTop_toBottomOf="@id/sbQuestionsAmount" />
+
+    <Switch
+        android:id="@+id/switchTimer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/base_12dp"
+        android:text="@string/timer"
+        app:layout_constraintTop_toBottomOf="@id/switchShuffle" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tiTimer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/base_12dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/switchTimer"
+        tools:visibility="visible">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etTimer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/timer_input_hint"
+            android:inputType="number"
+            android:textAlignment="center" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+            android:id="@+id/btnBack"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/base_4dp"
+            android:text="@string/back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnNext"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    <Button
+        android:id="@+id/btnNext"
+        style="@style/CommonButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/base_4dp"
+        android:text="@string/done"
+        android:background="@drawable/bg_common_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnBack" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
