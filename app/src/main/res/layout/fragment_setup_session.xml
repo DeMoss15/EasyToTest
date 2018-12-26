@@ -61,34 +61,29 @@
         android:text="@string/timer"
         app:layout_constraintTop_toBottomOf="@id/switchShuffle" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tiTimer"
+    <EditText
+        android:id="@+id/etTimer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/base_12dp"
+        android:hint="@string/timer_input_hint"
+        android:inputType="number"
+        android:textAlignment="center"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/switchTimer"
-        tools:visibility="visible">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etTimer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/timer_input_hint"
-            android:inputType="number"
-            android:textAlignment="center" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switchTimer"
+        android:importantForAutofill="no" />
 
     <Button
-            android:id="@+id/btnBack"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/base_4dp"
-            android:text="@string/back"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnNext"
-            app:layout_constraintStart_toStartOf="parent"/>
+        android:id="@+id/btnBack"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/base_4dp"
+        android:text="@string/back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnNext"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnNext"
@@ -96,8 +91,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/base_4dp"
-        android:text="@string/done"
         android:background="@drawable/bg_common_button"
+        android:text="@string/start_test"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnBack" />

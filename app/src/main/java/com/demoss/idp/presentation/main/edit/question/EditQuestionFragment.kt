@@ -33,13 +33,13 @@ class EditQuestionFragment : BaseFragment<EditQuestionContract.Presenter>(), Edi
     // Lifecycle =======================================================================================================
     override fun onAttach(context: Context?) {
         super.onAttach(context)
+        arguments?.let { presenter.questionId = it.getInt(ExtraConstants.EXTRA_QUESTION_ID) }
         mainCallback = activity as MainCallback
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mainCallback.readyToSetupAppBar()
-        arguments?.let { presenter.getQuestion(it.getInt(ExtraConstants.EXTRA_QUESTION_ID)) }
         rvAnswers.apply {
             adapter = rvAdapter
             layoutManager = LinearLayoutManager(context)

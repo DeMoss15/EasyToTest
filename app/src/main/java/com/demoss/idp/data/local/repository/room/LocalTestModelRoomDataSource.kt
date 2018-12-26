@@ -37,15 +37,7 @@ class LocalTestModelRoomDataSource(val db: AppDatabase) :
                     }
                 }
             }.map { LocalToDomainMapper.toDomain(it) }
-            .onErrorReturn {
-                if (it is EmptyResultSetException) // if result is empty, create test
-                    TestModel(0, "New Test", mutableListOf(
-                        QuestionModel(0, "question 1", mutableListOf(
-                            AnswerModel(0, "answer 1", true)
-                        ))
-                    ))
-                else throw it
-            }.setDefaultSchedulers()
+            .setDefaultSchedulers()
 
     override fun updateTest(test: TestModel): Completable =
         Completable.fromCallable { db.testDao().updateTest(DomainToLocalMapper.toLocal(test)) }

@@ -23,14 +23,14 @@ class TestSessionUseCase(private val getTestUseCase: GetTestUseCase) {
     fun setTestId(testId: Int): Completable {
         resetSession()
         return getTestUseCase.buildUseCaseObservable(GetTestUseCase.Params(testId))
-                .map { test = it }
-                .ignoreElement()
+            .map { test = it }
+            .ignoreElement()
     }
 
     private fun resetSession() {
         timer = 0L
-        userAnswers.clear()
         timeSpent = ""
+        userAnswers.clear()
         isRunning = true
     }
 
@@ -57,24 +57,35 @@ class TestSessionUseCase(private val getTestUseCase: GetTestUseCase) {
             questionsObservable.onComplete()
             return
         }
-        questionsObservable.onNext(test.questions[userAnswers.size + 1])
+        questionsObservable.onNext(test.questions[userAnswers.size])
     }
 
-    fun subscribeToQuestions(onNextQuestion: (QuestionModel) -> Unit) {
-        questionsObservable = BehaviorSubject.create<QuestionModel>()
+    fun runSession(onNextQuestion: (QuestionModel) -> Unit, onTick: (String) -> Unit, onSessionEnd: () -> Unit) {
+        // run timer
+        runTimer(onTick)
+        // run questions
+        subscribeToQuestions(onNextQuestion)
+        // combine
+        compositeDisposable.add(questionsObservable.doOnComplete { isRunning = !isRunning }.subscribe()) // complete timer
+        compositeDisposable.add(timeObservable.doOnComplete { questionsObservable.onComplete() }.subscribe()) // complete questions
         compositeDisposable.add(
-                questionsObservable.doOnComplete { isRunning = !isRunning }.subscribe { onNextQuestion(it) }
+            timeObservable.mergeWith(questionsObservable.map { it.text })
+                .doOnComplete(onSessionEnd)
+                .doOnComplete { compositeDisposable.clear() }
+                .subscribe()
         )
+    }
+
+    private fun subscribeToQuestions(onNextQuestion: (QuestionModel) -> Unit) {
+        questionsObservable = BehaviorSubject.create<QuestionModel>()
+        compositeDisposable.add(questionsObservable.subscribe(onNextQuestion))
         questionsObservable.onNext(test.questions[0])
     }
 
-    fun runTimer(onTimeOut: () -> Unit, onTick: (String) -> Unit) {
+    private fun runTimer(onTick: (String) -> Unit) {
         timeObservable = createTimer()
-        compositeDisposable.add(timeObservable.doOnNext(onTick).doOnComplete(onTimeOut).subscribe())
-        compositeDisposable.add(timeObservable.takeLast(1).subscribe {
-            timeSpent = it
-            finishObservables()
-        })
+        compositeDisposable.add(timeObservable.subscribe(onTick))
+        compositeDisposable.add(timeObservable.takeLast(1).subscribe { timeSpent = it })
     }
 
     // Results =====================================================================================
@@ -85,15 +96,10 @@ class TestSessionUseCase(private val getTestUseCase: GetTestUseCase) {
     fun getTimeSpent(): String = timeSpent
 
     // Private =====================================================================================
-    private fun finishObservables() {
-        questionsObservable.onComplete()
-        compositeDisposable.clear()
-    }
-
     private fun createTimer(): Observable<String> = PublishSubject
-            .interval(1, TimeUnit.SECONDS)
-            // todo fix this observable completing
-            .takeUntil { !(timer == 0L || (isRunning && it != timer)) } // it takes while expression is false
-            .map { time -> "${time / 60}:${time % 60}" }
-            .setDefaultSchedulers()
+        .interval(1, TimeUnit.SECONDS)
+        .startWith(0)
+        .takeWhile { isRunning && (timer == 0L || (timer != 0L && it != timer)) }
+        .map { time -> "${time / 60}:${time % 60}" }
+        .setDefaultSchedulers()
 }

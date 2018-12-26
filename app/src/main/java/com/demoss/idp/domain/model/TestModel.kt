@@ -3,7 +3,7 @@ package com.demoss.idp.domain.model
 import com.demoss.idp.util.Constants
 
 class TestModel(
-    val id: Int = Constants.NEW_ENTITY_ID,
+    var id: Int = Constants.NEW_ENTITY_ID,
     var name: String,
     var questions: MutableList<QuestionModel>,
     var status: EntityStatus = EntityStatus.NEW

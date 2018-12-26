@@ -38,15 +38,13 @@ class EditTestFragment : BaseFragment<EditTestContract.Presenter>(), EditTestCon
     // Lifecycle =======================================================================================================
     override fun onAttach(context: Context?) {
         super.onAttach(context)
+        arguments?.let { presenter.testId = it.getInt(ExtraConstants.EXTRA_TEST_ID) }
         mainCallback = activity as MainCallback
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mainCallback.readyToSetupAppBar()
-        arguments?.let {
-            presenter.init(it.getInt(ExtraConstants.EXTRA_TEST_ID))
-        }
         rvQuestions.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = rvAdapter

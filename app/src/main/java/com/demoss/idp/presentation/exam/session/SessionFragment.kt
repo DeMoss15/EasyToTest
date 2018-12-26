@@ -53,4 +53,8 @@ class SessionFragment : BaseFragment<SessionContract.Presenter>(), SessionContra
     override fun navigateToResults() {
         examCallback.nextFragment(TAG)
     }
+
+    override fun showCounter(counter: String) {
+        tvCounter.text = counter
+    }
 }

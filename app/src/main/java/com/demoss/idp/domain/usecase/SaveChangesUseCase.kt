@@ -19,19 +19,17 @@ class SaveChangesUseCase(
 ) {
 
     fun save(test: TestModel): Completable = when (test.status) {
-        EntityStatus.NEW -> testRepository.createTest(test).flatMapCompletable {
-            filterAndSaveQuestions(it, test.questions)
-        }
-        EntityStatus.SAVED -> Completable.complete().andThen(
-            filterAndSaveQuestions(test.id, test.questions)
-        )
-        EntityStatus.MODIFIED -> testRepository.updateTest(test).andThen(
-            filterAndSaveQuestions(test.id, test.questions)
-        )
-        EntityStatus.DROPPED -> testRepository.removeTest(test).andThen(
-            filterAndSaveQuestions(test.id, test.questions.map { it.apply { status = EntityStatus.DROPPED } })
-        )
-    }.setDefaultSchedulers()
+            EntityStatus.NEW -> testRepository.createTest(test).flatMapCompletable {
+                filterAndSaveQuestions(it, test.questions)
+            }
+            EntityStatus.SAVED -> filterAndSaveQuestions(test.id, test.questions)
+            EntityStatus.MODIFIED -> testRepository.updateTest(test).andThen(
+                filterAndSaveQuestions(test.id, test.questions)
+            )
+            EntityStatus.DROPPED -> testRepository.removeTest(test).andThen(
+                filterAndSaveQuestions(test.id, test.questions.map { it.apply { status = EntityStatus.DROPPED } })
+            )
+        }.setDefaultSchedulers()
 
     private fun filterAndSaveQuestions(testId: Int, questions: List<QuestionModel>): Completable =
         if (questions.isEmpty()) Completable.complete() else
@@ -53,9 +51,7 @@ class SaveChangesUseCase(
                         questions.toObservable(),
                         BiFunction { id: Int, question: QuestionModel -> id to question })
                     .flatMapCompletable { filterAndSaveAnswers(it.first, it.second.answers) }
-                EntityStatus.SAVED -> Completable.complete().andThen(
-                    questions.toObservable().flatMapCompletable { filterAndSaveAnswers(it.id, it.answers) }
-                )
+                EntityStatus.SAVED -> questions.toObservable().flatMapCompletable { filterAndSaveAnswers(it.id, it.answers) }
                 EntityStatus.MODIFIED -> questionRepository.updateQuestion(testId, *questions.toTypedArray()).andThen(
                     questions.toObservable().flatMapCompletable { filterAndSaveAnswers(it.id, it.answers) }
                 )

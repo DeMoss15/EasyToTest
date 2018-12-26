@@ -8,7 +8,7 @@ import com.demoss.idp.presentation.main.main.MainFragment
 interface EditTestContract {
 
     interface Presenter : BasePresenter {
-        fun init(testId: Int)
+        var testId: Int
         fun saveTest(testName: String)
         fun deleteTest()
     }

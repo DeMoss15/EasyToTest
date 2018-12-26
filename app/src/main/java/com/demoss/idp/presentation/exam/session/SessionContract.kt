@@ -14,6 +14,7 @@ interface SessionContract {
     interface View: BaseView {
         fun showTimer(time: String)
         fun showQuestion(question: QuestionModel)
+        fun showCounter(counter: String)
         fun navigateToResults()
     }
 }
