@@ -1,16 +1,15 @@
+@file:Suppress("AndroidUnresolvedRoomSqlReference")
+
 package com.demoss.idp.data.local.db.dao
 
 import androidx.room.*
 import com.demoss.idp.data.local.db.entities.*
+import com.demoss.idp.util.Constants.PAGE_SIZE
 import io.reactivex.Observable
 import io.reactivex.Single
 
 @Dao
 interface TestRoomDao {
-
-    companion object {
-        const val PAGE_SIZE = 20
-    }
 
     @Insert
     fun addTest(test: TestRoomEntity): Long

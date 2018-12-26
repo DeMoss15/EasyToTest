@@ -6,7 +6,7 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 
-class TestModelDataSource(val localRepository: LocalTestModelRepository)
+class TestModelDataSource(private val localRepository: LocalTestModelRepository)
     : TestModelRepository {
 
     override fun createTest(test: TestModel): Single<Int> {

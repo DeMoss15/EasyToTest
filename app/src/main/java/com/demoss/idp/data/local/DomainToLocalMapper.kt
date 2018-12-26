@@ -9,11 +9,7 @@ import com.demoss.idp.domain.model.TestModel
 
 object DomainToLocalMapper {
 
-    // Tests ================================================================================
-    fun toLocal(tests: List<TestModel>): List<TestRoomEntity> {
-        return tests.map { toLocal(it) }
-    }
-
+    // Test =================================================================================
     fun toLocal(test: TestModel): TestRoomEntity {
         return TestRoomEntity(
             test.id,

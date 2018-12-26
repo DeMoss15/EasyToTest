@@ -6,14 +6,14 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/base_2dp"
     android:background="@color/colorBackgroundWhite"
-    android:orientation="vertical"
-    android:padding="@dimen/base_12dp">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tvName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/base_16dp"
+        android:layout_marginStart="@dimen/base_12dp"
+
         android:singleLine="true"
         android:textAppearance="@style/TitleText"
         app:layout_constraintBottom_toBottomOf="@+id/ivEdit"
@@ -26,18 +26,22 @@
         android:id="@+id/ivEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/base_16dp"
+        android:padding="@dimen/base_12dp"
         app:layout_constraintBottom_toBottomOf="@+id/ivShare"
         app:layout_constraintEnd_toStartOf="@+id/ivShare"
         app:layout_constraintTop_toTopOf="@+id/ivShare"
-        app:srcCompat="@drawable/ic_edit" />
+        app:srcCompat="@drawable/ic_edit"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/ivShare"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="@dimen/base_12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_share" />
+        app:srcCompat="@drawable/ic_share"
+        tools:ignore="ContentDescription" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

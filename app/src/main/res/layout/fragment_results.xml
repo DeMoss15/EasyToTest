@@ -12,7 +12,7 @@
         android:id="@+id/tvResultsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Results"
+        android:text="@string/results"
         android:textAppearance="@style/CommonText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,13 +24,13 @@
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/base_12dp"
         android:layout_marginBottom="@dimen/base_12dp"
-        android:text="TEXT NAME"
         android:textAlignment="center"
         android:textAppearance="@style/TitleText"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvResultsTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/tvResultsTitle"
+        tools:text="TEXT NAME" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -43,7 +43,7 @@
         android:id="@+id/tvTimeHint"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Time spent"
+        android:text="@string/time_spent"
         android:textAppearance="@style/CommonText"
         app:layout_constraintEnd_toStartOf="@+id/tvTime"
         app:layout_constraintHorizontal_bias="0.5"
@@ -68,7 +68,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/base_12dp"
-        android:text="Right/shown"
+        android:text="@string/right_shown"
         android:textAppearance="@style/CommonText"
         app:layout_constraintEnd_toStartOf="@+id/tvAnswersStats"
         app:layout_constraintHorizontal_bias="0.5"
@@ -79,21 +79,22 @@
         android:id="@+id/tvAnswersStats"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="1/10"
         android:textAlignment="viewEnd"
         android:textAppearance="@style/CommonText"
         app:layout_constraintBottom_toBottomOf="@+id/tvAnswersHint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tvAnswersHint"
-        app:layout_constraintTop_toTopOf="@+id/tvAnswersHint" />
+        app:layout_constraintTop_toTopOf="@+id/tvAnswersHint"
+        tools:text="1/10" />
 
     <Button
         android:id="@+id/btnBack"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Back to tests"
+        android:text="@string/back_to_tests"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

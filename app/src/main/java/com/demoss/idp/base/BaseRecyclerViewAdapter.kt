@@ -37,7 +37,7 @@ abstract class BaseRecyclerViewAdapter<T,
     }
 
     // Abstract classes ================================================================================================
-    abstract class BaseDiffUtilCallback<T>(var oldList: List<T>, var newList: List<T>) : DiffUtil.Callback() {
+    abstract class BaseDiffUtilCallback<T>(private var oldList: List<T>, private var newList: List<T>) : DiffUtil.Callback() {
         override fun getOldListSize(): Int = oldList.size
         override fun getNewListSize(): Int = newList.size
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
