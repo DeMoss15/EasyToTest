@@ -54,7 +54,7 @@ class EditQuestionFragment : BaseFragment<EditQuestionContract.Presenter>(), Edi
 
     // MainFragment ====================================================================================================
     override fun onFabPressed() {
-        mainCallback.nextFragment(TAG, Constants.NEW_TEST_ID)
+        mainCallback.nextFragment(TAG, Constants.NEW_ENTITY_ID)
     }
 
     override fun onMenuItemPressed(itemId: Int) {

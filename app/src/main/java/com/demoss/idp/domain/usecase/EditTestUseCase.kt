@@ -5,6 +5,8 @@ import com.demoss.idp.domain.model.EntityStatus
 import com.demoss.idp.domain.model.QuestionModel
 import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.domain.usecase.model.GetTestUseCase
+import com.demoss.idp.util.Constants.NEW_ENTITY_ID
+import com.demoss.idp.util.EmptyConstants
 import io.reactivex.Single
 import io.reactivex.observers.DisposableCompletableObserver
 import io.reactivex.observers.DisposableSingleObserver
@@ -40,11 +42,12 @@ class EditTestUseCase(
 
     // Question ====================================================================================
     fun getQuestion(singleObserver: DisposableSingleObserver<QuestionModel>, questionId: Int) =
-        Single.just(currentTest.questions.find { it.id == questionId }
+        Single.just(if (questionId == NEW_ENTITY_ID) createQuestion() else currentTest.questions.find { it.id == questionId }
             ?: throw RuntimeException("wrong question id")).map { it.apply { currentQuestion = it } }
             .subscribe(singleObserver)
 
     fun saveQuestion(question: String) {
+        if (currentQuestion.id == NEW_ENTITY_ID) currentTest.questions.add(currentQuestion)
         currentQuestion.setModified()
         currentQuestion.text = question
     }
@@ -54,12 +57,14 @@ class EditTestUseCase(
     }
 
     // Answer ========================================================================================
-    fun getAnswer(singleObserver: DisposableSingleObserver<AnswerModel>, answerId: Int) =
-        Single.just(currentQuestion.answers.find { it.id == answerId }
+    fun getAnswer(singleObserver: DisposableSingleObserver<AnswerModel>, answerId: Int) {
+        Single.just(if (answerId == NEW_ENTITY_ID) createAnswer() else currentQuestion.answers.find { it.id == answerId }
             ?: throw RuntimeException("wrong question id")).map { it.apply { currentAnswer = it } }
             .subscribe(singleObserver)
+    }
 
     fun saveAnswer(answer: String, isRight: Boolean) {
+        if (currentAnswer.id == NEW_ENTITY_ID) currentQuestion.answers.add(currentAnswer)
         currentAnswer.apply {
             setModified()
             text = answer
@@ -72,6 +77,12 @@ class EditTestUseCase(
     }
 
     // private extension
+    private fun createQuestion(): QuestionModel =
+        QuestionModel(id = NEW_ENTITY_ID, text = EmptyConstants.EMPTY_STRING, answers = mutableListOf())
+
+    private fun createAnswer(): AnswerModel =
+        AnswerModel(id = NEW_ENTITY_ID, text = EmptyConstants.EMPTY_STRING, isRightAnswer = false)
+
     private fun AnswerModel.setModified() {
         apply { if (status != EntityStatus.MODIFIED && status != EntityStatus.NEW) status = EntityStatus.MODIFIED }
     }

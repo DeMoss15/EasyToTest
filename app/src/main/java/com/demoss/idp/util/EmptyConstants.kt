@@ -1,3 +1,5 @@
 package com.demoss.idp.util
 
-object EmptyConstants
+object EmptyConstants {
+    const val EMPTY_STRING = ""
+}
