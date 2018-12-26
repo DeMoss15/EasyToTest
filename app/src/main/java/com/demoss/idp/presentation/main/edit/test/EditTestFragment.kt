@@ -6,6 +6,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.demoss.idp.R
 import com.demoss.idp.base.BaseFragment
+import com.demoss.idp.domain.model.EntityStatus
 import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.presentation.adapter.QuestionsRecyclerViewAdapter
 import com.demoss.idp.presentation.main.main.MainCallback
@@ -57,7 +58,7 @@ class EditTestFragment : BaseFragment<EditTestContract.Presenter>(), EditTestCon
         if (test.questions.isEmpty()) {
             tvEmptyState.text = getString(R.string.rv_empty_data, resources.getQuantityString(R.plurals.question_plural, Int.MAX_VALUE))
         } else {
-            rvAdapter.dispatchData(test.questions)
+            rvAdapter.dispatchData(test.questions.filter { it.status != EntityStatus.DROPPED })
         }
     }
 

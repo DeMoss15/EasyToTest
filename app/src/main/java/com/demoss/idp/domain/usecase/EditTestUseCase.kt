@@ -19,45 +19,51 @@ class EditTestUseCase(
     private lateinit var currentQuestion: QuestionModel
     private lateinit var currentAnswer: AnswerModel
 
+    private fun saveChanges(completableObserver: DisposableCompletableObserver) {
+        TempEntitiesFabric.cleanTempIds(currentTest)
+        saveChangesUseCase.save(currentTest).subscribe(completableObserver)
+    }
+
     // Test ========================================================================================
     fun getTest(singleObserver: DisposableSingleObserver<TestModel>, testId: Int) {
-        if (::currentTest.isInitialized && testId == currentTest.id) Single.just(currentTest).subscribe(singleObserver)
-        else getTestUseCase.buildUseCaseObservable(GetTestUseCase.Params(testId))
-            .onErrorReturn { TempElementsFabric.createTempTest() }
-            .map {
-                it.apply { currentTest = it }
-            }
-            .subscribe(singleObserver)
+        if (::currentTest.isInitialized && currentTest.id == testId) {
+            Single.just(currentTest)
+        } else {
+            getTestUseCase.buildUseCaseObservable(GetTestUseCase.Params(testId))
+                .onErrorReturn { TempEntitiesFabric.createTempTest() }
+                .map { it.apply { currentTest = it } }
+        }.subscribe(singleObserver)
     }
 
     fun saveTest(testName: String, completableObserver: DisposableCompletableObserver) {
         currentTest.setModified()
         currentTest.name = testName
-        TempElementsFabric.cleanTempIds(currentTest)
-        saveChangesUseCase.save(currentTest).subscribe(completableObserver)
+        saveChanges(completableObserver)
     }
 
     fun deleteTest(completableObserver: DisposableCompletableObserver) {
         currentTest.status = EntityStatus.DROPPED
-        saveChangesUseCase.save(currentTest).subscribe(completableObserver)
+        saveChanges(completableObserver)
     }
 
     // Question ====================================================================================
     fun getQuestion(singleObserver: DisposableSingleObserver<QuestionModel>, questionId: Int) =
-        if (::currentQuestion.isInitialized && questionId == currentQuestion.id) Single.just(currentQuestion).subscribe(singleObserver)
-        else Single.just(
-            if (questionId == NEW_ENTITY_ID) TempElementsFabric.createTempQuestion()
-            else currentTest.questions.find { it.id == questionId } ?: throw RuntimeException("wrong question id")
-        )
-            .map { it.apply { currentQuestion = it } }
-            .subscribe(singleObserver)
+        if (::currentQuestion.isInitialized && currentQuestion.id == questionId) {
+            Single.just(currentQuestion)
+        } else {
+            Single.just(currentTest.questions.find { it.id == questionId }
+                ?: throw RuntimeException("wrong question id"))
+                .onErrorReturn { TempEntitiesFabric.createTempQuestion() }
+                .map { it.apply { currentQuestion = it } }
+        }.subscribe(singleObserver)
 
     fun saveQuestion(question: String) {
-        if (currentQuestion.isTemp() && !currentTest.questions.contains(currentQuestion)) currentTest.questions.add(
-            currentQuestion
-        )
-        currentQuestion.setModified()
-        currentQuestion.text = question
+        if (currentQuestion.isTemp() && !currentTest.questions.contains(currentQuestion))
+            currentTest.questions.add(currentQuestion)
+        currentQuestion.apply {
+            setModified()
+            text = question
+        }
     }
 
     fun deleteQuestion() {
@@ -66,19 +72,19 @@ class EditTestUseCase(
 
     // Answer ========================================================================================
     fun getAnswer(singleObserver: DisposableSingleObserver<AnswerModel>, answerId: Int) {
-        if (::currentAnswer.isInitialized && answerId == currentAnswer.id) Single.just(currentAnswer).subscribe(singleObserver)
-        else Single.just(
-            if (answerId == NEW_ENTITY_ID) TempElementsFabric.createTempAnswer()
-            else currentQuestion.answers.find { it.id == answerId } ?: throw RuntimeException("wrong question id")
-        )
-            .map { it.apply { currentAnswer = it } }
-            .subscribe(singleObserver)
+        if (::currentAnswer.isInitialized && currentAnswer.id == answerId) {
+            Single.just(currentAnswer)
+        } else {
+            Single.just(currentQuestion.answers.find { it.id == answerId }
+                ?: throw RuntimeException("wrong question id"))
+                .onErrorReturn { TempEntitiesFabric.createTempAnswer() }
+                .map { it.apply { currentAnswer = it } }
+        }.subscribe(singleObserver)
     }
 
     fun saveAnswer(answer: String, isRight: Boolean) {
-        if (currentAnswer.isTemp() && !currentQuestion.answers.contains(currentAnswer)) currentQuestion.answers.add(
-            currentAnswer
-        )
+        if (currentAnswer.isTemp() && !currentQuestion.answers.contains(currentAnswer))
+            currentQuestion.answers.add(currentAnswer)
         currentAnswer.apply {
             setModified()
             text = answer

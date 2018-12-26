@@ -6,6 +6,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.demoss.idp.R
 import com.demoss.idp.base.BaseFragment
+import com.demoss.idp.domain.model.EntityStatus
 import com.demoss.idp.domain.model.QuestionModel
 import com.demoss.idp.presentation.adapter.AnswersRecyclerViewAdapter
 import com.demoss.idp.presentation.main.main.MainCallback
@@ -49,7 +50,11 @@ class EditQuestionFragment : BaseFragment<EditQuestionContract.Presenter>(), Edi
     // View ============================================================================================================
     override fun showQuestion(question: QuestionModel) {
         etQuestion.setText(question.text)
-        rvAdapter.dispatchData(question.answers)
+        if (question.answers.isEmpty()) {
+            tvEmptyState.text = getString(R.string.rv_empty_data, resources.getQuantityString(R.plurals.answer_plural, Int.MAX_VALUE))
+        } else {
+            rvAdapter.dispatchData(question.answers.filter { it.status != EntityStatus.DROPPED })
+        }
     }
 
     // MainFragment ====================================================================================================

@@ -8,7 +8,7 @@ import com.demoss.idp.presentation.main.main.MainFragment
 interface EditAnswerContract {
 
     interface Presenter : BasePresenter {
-        fun getAnswer(id: Int)
+        var answerId: Int
         fun saveAnswer(answer: String, isRight: Boolean)
         fun deleteAnswer(answer: AnswerModel)
     }

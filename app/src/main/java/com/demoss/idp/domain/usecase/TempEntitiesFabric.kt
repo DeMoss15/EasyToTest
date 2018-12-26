@@ -7,7 +7,7 @@ import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.util.Constants.NEW_ENTITY_ID
 import com.demoss.idp.util.EmptyConstants
 
-object TempElementsFabric {
+object TempEntitiesFabric {
 
     private var tempIdIterator = -1
 

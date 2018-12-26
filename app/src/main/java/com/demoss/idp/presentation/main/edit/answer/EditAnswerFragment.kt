@@ -30,14 +30,12 @@ class EditAnswerFragment : BaseFragment<EditAnswerContract.Presenter>(), EditAns
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         mainCallback = activity as MainCallback
+        arguments?.getInt(ExtraConstants.EXTRA_ANSWER_ID)?.let { presenter.answerId = it }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mainCallback.readyToSetupAppBar()
-        arguments?.getInt(ExtraConstants.EXTRA_ANSWER_ID)?.let {
-            presenter.getAnswer(it)
-        }
     }
 
     // View ========================================================================================
