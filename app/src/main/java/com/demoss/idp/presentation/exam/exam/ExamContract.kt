@@ -5,10 +5,10 @@ import com.demoss.idp.base.mvp.BaseView
 
 interface ExamContract {
 
-    interface Presenter: BasePresenter {
+    interface Presenter : BasePresenter {
         fun setTestId(testId: Int)
     }
-    interface View: BaseView {
+    interface View : BaseView {
         fun showSettings()
     }
 }

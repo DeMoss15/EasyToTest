@@ -62,7 +62,7 @@ class ExamActivity : BaseActivity<ExamContract.Presenter>(), ExamContract.View, 
         navigateToFragment(ResultsFragment.TAG) { ResultsFragment.getInstance() }
     }
 
-    private fun navigateToFragment(tag: String, fabric: ()-> Fragment) {
+    private fun navigateToFragment(tag: String, fabric: () -> Fragment) {
         replaceFragment(supportFragmentManager.findFragmentByTag(tag) ?: fabric(), tag)
     }
 

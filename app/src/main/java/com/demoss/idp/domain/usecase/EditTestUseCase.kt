@@ -6,7 +6,6 @@ import com.demoss.idp.domain.model.QuestionModel
 import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.domain.usecase.model.GetTestUseCase
 import com.demoss.idp.util.Constants.NEW_ENTITY_ID
-import com.demoss.idp.util.EmptyConstants
 import io.reactivex.Single
 import io.reactivex.observers.DisposableCompletableObserver
 import io.reactivex.observers.DisposableSingleObserver

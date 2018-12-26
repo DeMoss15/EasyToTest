@@ -4,7 +4,7 @@ import com.demoss.idp.base.mvp.BasePresenterImpl
 import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.domain.usecase.TestSessionUseCase
 
-class SetupSessionPresenter(private val testSessionUseCase: TestSessionUseCase): BasePresenterImpl<SetupSessionContract.View>(), SetupSessionContract.Presenter {
+class SetupSessionPresenter(private val testSessionUseCase: TestSessionUseCase) : BasePresenterImpl<SetupSessionContract.View>(), SetupSessionContract.Presenter {
 
     override fun getTest(): TestModel = testSessionUseCase.getTest()
 

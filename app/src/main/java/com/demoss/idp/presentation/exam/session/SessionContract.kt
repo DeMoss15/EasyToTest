@@ -7,11 +7,11 @@ import com.demoss.idp.domain.model.QuestionModel
 
 interface SessionContract {
 
-    interface Presenter: BasePresenter {
+    interface Presenter : BasePresenter {
         fun startSession()
         fun setAnswer(answer: AnswerModel)
     }
-    interface View: BaseView {
+    interface View : BaseView {
         fun showTimer(time: String)
         fun showQuestion(question: QuestionModel)
         fun showCounter(counter: String)

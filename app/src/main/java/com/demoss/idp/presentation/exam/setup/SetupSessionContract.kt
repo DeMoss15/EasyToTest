@@ -6,9 +6,9 @@ import com.demoss.idp.domain.model.TestModel
 
 interface SetupSessionContract {
 
-    interface Presenter: BasePresenter {
+    interface Presenter : BasePresenter {
         fun getTest(): TestModel
         fun setupSession(isShuffled: Boolean, timeInMinutes: Long, numberOfQuestions: Int)
     }
-    interface View: BaseView
+    interface View : BaseView
 }

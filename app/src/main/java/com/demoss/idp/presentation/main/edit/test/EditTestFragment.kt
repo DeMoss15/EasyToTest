@@ -73,7 +73,7 @@ class EditTestFragment : BaseFragment<EditTestContract.Presenter>(), EditTestCon
     override fun onMenuItemPressed(itemId: Int) {
         if (activity == null) return
         when (itemId) {
-            //R.id.item_back -> mainCallback.back(TAG)
+            // R.id.item_back -> mainCallback.back(TAG)
             R.id.item_done -> presenter.saveTest(etTestName.text.toString())
             R.id.item_drop -> presenter.deleteTest()
         }

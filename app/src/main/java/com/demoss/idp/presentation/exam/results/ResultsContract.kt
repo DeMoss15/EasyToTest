@@ -5,8 +5,8 @@ import com.demoss.idp.base.mvp.BaseView
 
 interface ResultsContract {
 
-    interface Presenter: BasePresenter
-    interface View: BaseView {
+    interface Presenter : BasePresenter
+    interface View : BaseView {
         fun showTestName(testName: String)
         fun showSpentTime(time: String)
         fun showAnswersStats(stats: String)

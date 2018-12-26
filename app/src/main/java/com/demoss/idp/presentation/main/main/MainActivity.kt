@@ -68,7 +68,7 @@ class MainActivity : BaseActivity<MainContract.Presenter>(), MainContract.View, 
         navigateToFragment(EditQuestionFragment.TAG) { EditQuestionFragment.newInstance(questionId) }
 
     private fun navigateToEditAnswer(answerId: Int) =
-        navigateToFragment(EditAnswerFragment.TAG) { EditAnswerFragment.newInstance(answerId)}
+        navigateToFragment(EditAnswerFragment.TAG) { EditAnswerFragment.newInstance(answerId) }
 
     private fun navigateToFragment(tag: String, fragmentFabric: () -> Fragment): Unit =
         replaceFragment(supportFragmentManager.findFragmentByTag(tag) ?: fragmentFabric(), tag)

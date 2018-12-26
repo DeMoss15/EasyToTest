@@ -42,8 +42,7 @@ object TempElementsFabric {
             isRightAnswer = false,
             status = EntityStatus.NEW
         )
-
 }
-fun TestModel.isTemp():Boolean = this.id < 0
-fun QuestionModel.isTemp():Boolean = this.id < 0
-fun AnswerModel.isTemp():Boolean = this.id < 0
+fun TestModel.isTemp(): Boolean = this.id < 0
+fun QuestionModel.isTemp(): Boolean = this.id < 0
+fun AnswerModel.isTemp(): Boolean = this.id < 0

@@ -60,7 +60,7 @@ class EditQuestionFragment : BaseFragment<EditQuestionContract.Presenter>(), Edi
     override fun onMenuItemPressed(itemId: Int) {
         if (activity == null) return
         when (itemId) {
-            //R.id.item_back -> mainCallback.back(TAG)
+            // R.id.item_back -> mainCallback.back(TAG)
             R.id.item_done -> presenter.saveQuestion(etQuestion.text.toString())
             R.id.item_drop -> presenter.deleteQuestion()
         }
