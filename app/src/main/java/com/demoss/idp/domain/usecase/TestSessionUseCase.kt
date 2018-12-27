@@ -98,6 +98,7 @@ class TestSessionUseCase(private val getTestUseCase: GetTestUseCase) {
     // Private =====================================================================================
     private fun createTimer(): Observable<String> = PublishSubject
         .interval(1, TimeUnit.SECONDS)
+        .map { it + 1 }
         .startWith(0)
         .takeWhile { isRunning && (timer == 0L || (timer != 0L && it != timer)) }
         .map { time -> "${time / 60}:${time % 60}" }

@@ -23,7 +23,7 @@ class EditTestFragment : BaseFragment<EditTestContract.Presenter>(), EditTestCon
     companion object {
         const val TAG = "com.demoss.diploma.edit_test_fragment"
         fun newInstance(testId: Int): EditTestFragment = EditTestFragment()
-            .withArguments(ExtraConstants.EXTRA_TEST_ID to testId)
+                .withArguments(ExtraConstants.EXTRA_TEST_ID to testId)
     }
 
     override val presenter by inject<EditTestContract.Presenter>()
@@ -54,9 +54,12 @@ class EditTestFragment : BaseFragment<EditTestContract.Presenter>(), EditTestCon
 
     // View ============================================================================================================
     override fun showTest(test: TestModel) {
-        etTestName.setText(test.name)
+        if (etTestName.text.isEmpty()) etTestName.setText(test.name)
         if (test.questions.isEmpty()) {
-            tvEmptyState.text = getString(R.string.rv_empty_data, resources.getQuantityString(R.plurals.question_plural, Int.MAX_VALUE))
+            tvEmptyState.text = getString(
+                    R.string.rv_empty_data,
+                    resources.getQuantityString(R.plurals.question_plural, Int.MAX_VALUE)
+            )
         } else {
             rvAdapter.dispatchData(test.questions.filter { it.status != EntityStatus.DROPPED })
         }

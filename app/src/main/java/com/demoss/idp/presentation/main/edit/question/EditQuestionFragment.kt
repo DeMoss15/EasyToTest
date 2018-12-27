@@ -23,7 +23,7 @@ class EditQuestionFragment : BaseFragment<EditQuestionContract.Presenter>(), Edi
     companion object {
         const val TAG = "com.demoss.diploma.edit_question_fragment"
         fun newInstance(questionId: Int): EditQuestionFragment = EditQuestionFragment()
-            .withArguments(ExtraConstants.EXTRA_QUESTION_ID to questionId)
+                .withArguments(ExtraConstants.EXTRA_QUESTION_ID to questionId)
     }
 
     override val presenter by inject<EditQuestionContract.Presenter>()
@@ -49,9 +49,12 @@ class EditQuestionFragment : BaseFragment<EditQuestionContract.Presenter>(), Edi
 
     // View ============================================================================================================
     override fun showQuestion(question: QuestionModel) {
-        etQuestion.setText(question.text)
+        if (etQuestion.text.isEmpty()) etQuestion.setText(question.text)
         if (question.answers.isEmpty()) {
-            tvEmptyState.text = getString(R.string.rv_empty_data, resources.getQuantityString(R.plurals.answer_plural, Int.MAX_VALUE))
+            tvEmptyState.text = getString(
+                    R.string.rv_empty_data,
+                    resources.getQuantityString(R.plurals.answer_plural, Int.MAX_VALUE)
+            )
         } else {
             rvAdapter.dispatchData(question.answers.filter { it.status != EntityStatus.DROPPED })
         }

@@ -48,6 +48,9 @@ class MainActivity : BaseActivity<MainContract.Presenter>(), MainContract.View, 
             EditQuestionFragment.TAG -> supportFragmentManager.popBackStack()
             EditAnswerFragment.TAG -> supportFragmentManager.popBackStack()
         }
+        supportFragmentManager.findFragmentByTag(currentFragmentTag)?.let {
+            supportFragmentManager.beginTransaction().remove(it)
+        }
     }
 
     override fun readyToSetupAppBar() = applyActionForVisibleFragment { setupAppBar(bottomAppBar, fab) }

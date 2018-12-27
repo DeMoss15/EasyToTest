@@ -52,8 +52,7 @@ class EditTestUseCase(
             Single.just(currentQuestion)
         } else {
             Single.just(currentTest.questions.find { it.id == questionId }
-                ?: throw RuntimeException("wrong question id"))
-                .onErrorReturn { TempEntitiesFabric.createTempQuestion() }
+                ?: TempEntitiesFabric.createTempQuestion())
                 .map { it.apply { currentQuestion = it } }
         }.subscribe(singleObserver)
 
@@ -76,8 +75,7 @@ class EditTestUseCase(
             Single.just(currentAnswer)
         } else {
             Single.just(currentQuestion.answers.find { it.id == answerId }
-                ?: throw RuntimeException("wrong question id"))
-                .onErrorReturn { TempEntitiesFabric.createTempAnswer() }
+                ?: TempEntitiesFabric.createTempAnswer())
                 .map { it.apply { currentAnswer = it } }
         }.subscribe(singleObserver)
     }

@@ -12,11 +12,12 @@
         android:layout_height="wrap_content"
         android:background="@color/colorBackgroundWhite"
         android:hint="@string/test_name"
+        android:imeOptions="actionDone"
+        android:inputType="textCapSentences"
         android:paddingTop="@dimen/base_4dp"
         android:paddingBottom="@dimen/base_4dp"
         android:textAlignment="center"
         android:textAppearance="@style/TitleText"
-        android:inputType="textCapSentences"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -34,15 +35,15 @@
         tools:listitem="@layout/item_question" />
 
     <TextView
-            android:id="@+id/tvEmptyState"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/CommonText"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Empty View"/>
+        android:id="@+id/tvEmptyState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/CommonText"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Empty View" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
