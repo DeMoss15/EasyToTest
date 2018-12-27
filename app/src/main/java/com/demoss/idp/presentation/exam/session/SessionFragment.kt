@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.demoss.idp.R
 import com.demoss.idp.base.BaseFragment
 import com.demoss.idp.domain.model.QuestionModel
-import com.demoss.idp.presentation.adapter.AnswersRecyclerViewAdapter
+import com.demoss.idp.presentation.adapter.SelectableAnswersRecyclerView
 import com.demoss.idp.presentation.exam.ExamCallback
 import kotlinx.android.synthetic.main.fragment_session.*
 import org.koin.android.ext.android.inject
@@ -22,7 +22,7 @@ class SessionFragment : BaseFragment<SessionContract.Presenter>(), SessionContra
     override val presenter: SessionContract.Presenter by inject()
     override val layoutResourceId: Int = R.layout.fragment_session
     private lateinit var examCallback: ExamCallback
-    private val rvAdapter = AnswersRecyclerViewAdapter { presenter.setAnswer(it) }
+    private val rvAdapter = SelectableAnswersRecyclerView()
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -38,6 +38,13 @@ class SessionFragment : BaseFragment<SessionContract.Presenter>(), SessionContra
             manager.stackFromEnd = true
             layoutManager = manager
             adapter = rvAdapter
+        }
+        btnNext.setOnClickListener {
+            if (rvAdapter.showRightAnswer()) presenter.setAnswer(rvAdapter.getSelectedItem())
+        }
+        btnStop.setOnClickListener {
+            presenter.setAnswer(rvAdapter.getSelectedItem())
+            presenter.stopSession()
         }
     }
 

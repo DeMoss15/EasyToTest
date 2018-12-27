@@ -15,5 +15,5 @@
     <!--Checking-->
     <color name="colorRightAnswer">#9ccc65</color>
     <color name="colorChecked">#7e57c2</color>
-    <color name="colorUnchecked">#607d8b</color>
+    <color name="colorUnchecked">#ffffff</color>
 </resources>

@@ -76,6 +76,10 @@ class TestSessionUseCase(private val getTestUseCase: GetTestUseCase) {
         )
     }
 
+    fun stopSession() {
+        questionsObservable.onComplete()
+    }
+
     private fun subscribeToQuestions(onNextQuestion: (QuestionModel) -> Unit) {
         questionsObservable = BehaviorSubject.create<QuestionModel>()
         compositeDisposable.add(questionsObservable.subscribe(onNextQuestion))

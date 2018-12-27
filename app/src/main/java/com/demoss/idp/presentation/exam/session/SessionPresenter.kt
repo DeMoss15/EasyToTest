@@ -20,6 +20,8 @@ class SessionPresenter(private val testSessionUseCase: TestSessionUseCase) : Bas
 
     override fun setAnswer(answer: AnswerModel) = testSessionUseCase.setAnswer(answer)
 
+    override fun stopSession() = testSessionUseCase.stopSession()
+
     private fun showCounter() {
         view?.showCounter("${testSessionUseCase.getNumberOfAnswers()}/${testSessionUseCase.getTest().questions.size}")
     }

@@ -10,6 +10,7 @@ interface SessionContract {
     interface Presenter : BasePresenter {
         fun startSession()
         fun setAnswer(answer: AnswerModel)
+        fun stopSession()
     }
     interface View : BaseView {
         fun showTimer(time: String)
