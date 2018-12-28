@@ -7,6 +7,14 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'diploma_key'
+            keyPassword '987572'
+            storeFile file('/home/danylo/Desktop/diploma_key_store.jks')
+            storePassword '727598'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.demoss.idp"
@@ -20,6 +28,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
 }
@@ -40,8 +49,8 @@ dependencies {
 
     // Room
     implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-rxjava2:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 
     // RxBinding
     implementation 'com.jakewharton.rxbinding3:rxbinding:3.0.0-alpha1'

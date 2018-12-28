@@ -8,7 +8,11 @@ interface SetupSessionContract {
 
     interface Presenter : BasePresenter {
         fun getTest(): TestModel
-        fun setupSession(isShuffled: Boolean, timeInMinutes: Long, numberOfQuestions: Int)
+        fun setupSession(isShuffled: Boolean, timeInMinutes: String, numberOfQuestions: Int)
     }
-    interface View : BaseView
+    interface View : BaseView {
+        fun showTimerValidationError()
+        fun showQuestionsAmountValidationError()
+        fun navigateToSession()
+    }
 }
