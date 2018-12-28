@@ -47,7 +47,7 @@ class TestSessionUseCase(private val getTestUseCase: GetTestUseCase) {
     }
 
     // Session =====================================================================================
-    private val compositeDisposable = CompositeDisposable()
+    private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var timeObservable: Observable<String>
     private lateinit var questionsObservable: BehaviorSubject<QuestionModel>
 
@@ -61,6 +61,7 @@ class TestSessionUseCase(private val getTestUseCase: GetTestUseCase) {
     }
 
     fun runSession(onNextQuestion: (QuestionModel) -> Unit, onTick: (String) -> Unit, onSessionEnd: () -> Unit) {
+        compositeDisposable = CompositeDisposable()
         // run timer
         runTimer(onTick)
         // run questions
@@ -71,7 +72,7 @@ class TestSessionUseCase(private val getTestUseCase: GetTestUseCase) {
         compositeDisposable.add(
             timeObservable.mergeWith(questionsObservable.map { it.text })
                 .doOnComplete(onSessionEnd)
-                .doOnComplete { compositeDisposable.clear() }
+                .doOnComplete { compositeDisposable.dispose() }
                 .subscribe()
         )
     }

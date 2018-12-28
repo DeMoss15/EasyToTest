@@ -15,7 +15,7 @@
         android:layout_marginBottom="@dimen/base_8dp"
         android:ems="10"
         android:hint="@string/answer_hint"
-        android:inputType="textPersonName"
+        android:inputType="textMultiLine|textCapSentences"
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
