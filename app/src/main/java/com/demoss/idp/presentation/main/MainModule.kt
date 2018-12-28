@@ -14,7 +14,7 @@ import org.koin.dsl.module.module
 
 val mainModule = module {
     factory { MainPresenter() as MainContract.Presenter }
-    factory { TestsPresenter(get()) as TestsContract.Presenter }
+    factory { TestsPresenter(get(), get()) as TestsContract.Presenter }
     factory { EditTestPresenter(get()) as EditTestContract.Presenter }
     factory { EditQuestionPresenter(get()) as EditQuestionContract.Presenter }
     factory { EditAnswerPresenter(get()) as EditAnswerContract.Presenter }

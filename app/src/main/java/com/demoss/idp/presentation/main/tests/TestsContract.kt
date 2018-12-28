@@ -5,11 +5,13 @@ import com.demoss.idp.base.mvp.BaseView
 import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.presentation.main.main.MainFragment
 import com.demoss.idp.util.pagination.Paginator
+import java.io.InputStream
 
 interface TestsContract {
 
     interface Presenter : BasePresenter {
         fun loadMore()
+        fun parseFileStream(stream: InputStream)
     }
 
     interface View : BaseView, Paginator.ViewController<TestModel>, MainFragment

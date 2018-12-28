@@ -14,4 +14,5 @@ val useCaseModule = module {
     factory { GetTestUseCase(get()) }
     factory { UpdateTestUseCase(get()) }
     factory { DeleteTestUseCase(get()) }
+    factory { ParseFileUseCase(get()) }
 }

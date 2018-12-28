@@ -1,6 +1,8 @@
 package com.demoss.idp.presentation.main.tests
 
+import android.app.Activity.RESULT_OK
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,6 +11,7 @@ import com.demoss.idp.R
 import com.demoss.idp.base.BaseFragment
 import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.presentation.adapter.TestsRecyclerViewAdapter
+import com.demoss.idp.presentation.main.dialog.SimpleItemsListDialogFragment
 import com.demoss.idp.presentation.main.main.MainCallback
 import com.demoss.idp.util.Constants
 import com.demoss.idp.util.pagination.setOnNextPageListener
@@ -21,6 +24,7 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
 
     companion object {
         const val TAG = "com.demoss.diploma.tests_fragment"
+        const val BROWSE_FILE_REQUEST_CODE = 1
         fun newInstance(): TestsFragment = TestsFragment()
     }
 
@@ -57,11 +61,45 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
 
     // MainFragment ===================================================================================================
     override fun onFabPressed() {
-        mainCallback.nextFragment(TAG, Constants.NEW_ENTITY_ID)
+        SimpleItemsListDialogFragment.Builder().apply {
+            title = "Choose way to add test"
+            itemsList = listOf("file", "input")
+            onClickListener = { item ->
+                when (item) {
+                    itemsList[0] -> startActivityForResult(
+                            Intent(Intent.ACTION_GET_CONTENT).setType("text/plain"),
+                            BROWSE_FILE_REQUEST_CODE
+                    )
+                    itemsList[1] -> mainCallback.nextFragment(TAG, Constants.NEW_ENTITY_ID)
+                }
+            }
+        }.build().show(childFragmentManager, TAG)
     }
 
     override fun onMenuItemPressed(itemId: Int) {
         // TODO: add menu handling
+    }
+
+    override fun setupAppBar(bottomAppBar: BottomAppBar, fab: FloatingActionButton) {
+        fab.setImageResource(R.drawable.ic_add)
+        bottomAppBar.apply {
+            fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+            replaceMenu(R.menu.bottomappbar_menu_tests)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        // TODO: close dialog here
+        if (requestCode == BROWSE_FILE_REQUEST_CODE && resultCode == RESULT_OK) {
+            data?.data?.let { uri ->
+                context?.contentResolver?.let { contentResolver ->
+                    contentResolver.openInputStream(uri)?.let { inputStream ->
+                        presenter.parseFileStream(inputStream)
+                    }
+                }
+            }
+        }
     }
 
     // Paginator =======================================================================================================
@@ -75,7 +113,8 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
     }
 
     override fun showEmptyView(show: Boolean) {
-        emptyState.text = getString(R.string.rv_empty_data, resources.getQuantityString(R.plurals.test_plural, Int.MAX_VALUE))
+        emptyState.text =
+                getString(R.string.rv_empty_data, resources.getQuantityString(R.plurals.test_plural, Int.MAX_VALUE))
         emptyState.visibility = if (show) View.VISIBLE else View.GONE
         rvTests.visibility = if (show) View.GONE else View.VISIBLE
     }
@@ -99,14 +138,5 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
 
     interface Callback {
         fun startTest(test: TestModel)
-    }
-
-    // Private =====================================================================================
-    override fun setupAppBar(bottomAppBar: BottomAppBar, fab: FloatingActionButton) {
-        fab.setImageResource(R.drawable.ic_add)
-        bottomAppBar.apply {
-            fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
-            replaceMenu(R.menu.bottomappbar_menu_tests)
-        }
     }
 }
