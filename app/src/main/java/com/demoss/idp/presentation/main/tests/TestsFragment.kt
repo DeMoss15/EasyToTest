@@ -17,6 +17,8 @@ import com.demoss.idp.util.Constants
 import com.demoss.idp.util.pagination.setOnNextPageListener
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import io.reactivex.Completable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_local_data.*
 import org.koin.android.ext.android.inject
 
@@ -90,11 +92,12 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        // TODO optimize content resolving
         if (requestCode == BROWSE_FILE_REQUEST_CODE && resultCode == RESULT_OK) {
-            context?.contentResolver?.openInputStream(data?.data)?.let { inputStream ->
-                presenter.parseFileStream(inputStream)
-            }
+            Completable.fromCallable {
+                context?.contentResolver?.openInputStream(data?.data)?.let { inputStream ->
+                    presenter.parseFileStream(inputStream)
+                }
+            }.subscribeOn(Schedulers.io()).subscribe()
         }
     }
 
