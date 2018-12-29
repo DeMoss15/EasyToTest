@@ -7,29 +7,28 @@ import com.demoss.idp.base.BaseRecyclerViewAdapter
 import com.demoss.idp.domain.model.AnswerModel
 import com.demoss.idp.domain.usecase.TempEntitiesFabric
 import kotlinx.android.synthetic.main.item_answer.view.*
-import java.lang.AssertionError
 
-class SelectableAnswersRecyclerView : BaseRecyclerViewAdapter<AnswerModel, SelectableAnswersRecyclerView.VH, AnswersDiffUtilCallback>() {
+class SelectableAnswersRecyclerView :
+    BaseRecyclerViewAdapter<AnswerModel, SelectableAnswersRecyclerView.VH, AnswersDiffUtilCallback>() {
 
     override val viewHolderFactory: (view: View) -> VH = { VH(it) }
     override val layoutResId: Int = R.layout.item_answer
     override val diffUtilCallbackFactory = { oldList: List<AnswerModel>, newList: List<AnswerModel> ->
-        showRightAnswer = false
         AnswersDiffUtilCallback(oldList, newList)
     }
 
     private var selectedItem: AnswerModel? = null
-    private var showRightAnswer = false
+    var isRightAnswerShown = false
 
     fun getSelectedItem(): AnswerModel = selectedItem
-            ?: TempEntitiesFabric.createTempAnswer().apply { isRightAnswer = false }
+        ?: TempEntitiesFabric.createTempAnswer().apply { isRightAnswer = false }
 
-    fun showRightAnswer(): Boolean = showRightAnswer.also {
-        if (!it) {
+    fun showRightAnswer() {
+        if (!isRightAnswerShown) {
+            isRightAnswerShown = true
             data.filter { answer -> answer.isRightAnswer }.forEach { answer ->
                 redrawItem(answer)
             }
-            showRightAnswer = true
         }
     }
 
@@ -40,7 +39,7 @@ class SelectableAnswersRecyclerView : BaseRecyclerViewAdapter<AnswerModel, Selec
     inner class VH(view: View) : BaseRecyclerViewAdapter.BaseViewHolder<AnswerModel>(view) {
 
         override fun bindData(item: AnswerModel) {
-            view.setOnClickListener { if (!showRightAnswer) changeSelection(item) }
+            view.setOnClickListener { if (!isRightAnswerShown) changeSelection(item) }
             view.setBackgroundColor(getItemColor(item))
             view.tvAnswer.text = item.text
         }
@@ -53,12 +52,12 @@ class SelectableAnswersRecyclerView : BaseRecyclerViewAdapter<AnswerModel, Selec
         }
 
         private fun getItemColor(item: AnswerModel): Int = ContextCompat.getColor(
-                view.context,
-                getBackgroundColorResource(item)
+            view.context,
+            getBackgroundColorResource(item)
         )
 
         private fun getBackgroundColorResource(item: AnswerModel): Int = when {
-            showRightAnswer && item.isRightAnswer -> R.color.colorRightAnswer
+            isRightAnswerShown && item.isRightAnswer -> R.color.colorRightAnswer
             selectedItem == item -> R.color.colorChecked
             else -> R.color.colorUnchecked
         }

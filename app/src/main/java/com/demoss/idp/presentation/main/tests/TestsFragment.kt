@@ -90,14 +90,10 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        // TODO: close dialog here
+        // TODO optimize content resolving
         if (requestCode == BROWSE_FILE_REQUEST_CODE && resultCode == RESULT_OK) {
-            data?.data?.let { uri ->
-                context?.contentResolver?.let { contentResolver ->
-                    contentResolver.openInputStream(uri)?.let { inputStream ->
-                        presenter.parseFileStream(inputStream)
-                    }
-                }
+            context?.contentResolver?.openInputStream(data?.data)?.let { inputStream ->
+                presenter.parseFileStream(inputStream)
             }
         }
     }

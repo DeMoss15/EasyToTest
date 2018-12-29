@@ -33,6 +33,7 @@ class SetupSessionFragment : BaseFragment<SetupSessionContract.Presenter>(), Set
         with(presenter.getTest()) {
             tvResultsTitle.text = name
             sbQuestionsAmount.max = questions.size
+            tvQuestionsAmount.text = questions.size.toString()
         }
 
         sbQuestionsAmount.apply {

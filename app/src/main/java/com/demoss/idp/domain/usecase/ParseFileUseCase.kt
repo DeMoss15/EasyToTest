@@ -9,18 +9,22 @@ import com.demoss.idp.util.Constants.NEW_QUESTION
 import com.demoss.idp.util.Constants.NEW_TEST
 import com.demoss.idp.util.Constants.RIGHT_ANSWER
 import io.reactivex.Completable
+import io.reactivex.Single
 import io.reactivex.rxkotlin.toObservable
+import io.reactivex.schedulers.Schedulers
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
 
-class ParseFileUseCase(private val saveChangesUseCase: SaveChangesUseCase) : RxUseCaseCompletable<ParseFileUseCase.Params>() {
+class ParseFileUseCase(private val saveChangesUseCase: SaveChangesUseCase) :
+    RxUseCaseCompletable<ParseFileUseCase.Params>() {
 
-    override fun buildUseCaseObservable(params: Params): Completable = parseStream(params.stream)
-            .toObservable()
-            .flatMapCompletable {
-                saveChangesUseCase.save(it)
-            }
+    override fun buildUseCaseObservable(params: Params): Completable = Single.just(parseStream(params.stream))
+        .subscribeOn(Schedulers.computation())
+        .flatMapObservable { it.toObservable() }
+        .flatMapCompletable {
+            saveChangesUseCase.save(it)
+        }
 
     private fun parseStream(stream: InputStream): List<TestModel> {
         val bufferedReader = BufferedReader(InputStreamReader(stream))
@@ -53,7 +57,7 @@ class ParseFileUseCase(private val saveChangesUseCase: SaveChangesUseCase) : RxU
                 }
                 !lineOfText.startsWith(EMPTY_LINE) -> {
                     answer = TempEntitiesFabric.createTempAnswer()
-                    answer.isRightAnswer = true
+                    answer.isRightAnswer = false
                     answer.text = lineOfText.substring(lineOfText.indexOf(EMPTY_LINE) + 1)
                     question.answers.add(answer)
                 }
@@ -68,6 +72,6 @@ class ParseFileUseCase(private val saveChangesUseCase: SaveChangesUseCase) : RxU
     }
 
     data class Params(
-            val stream: InputStream
+        val stream: InputStream
     )
 }

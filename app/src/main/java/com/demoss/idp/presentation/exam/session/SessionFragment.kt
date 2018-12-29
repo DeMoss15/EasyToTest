@@ -2,6 +2,7 @@ package com.demoss.idp.presentation.exam.session
 
 import android.content.Context
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.demoss.idp.R
@@ -33,6 +34,7 @@ class SessionFragment : BaseFragment<SessionContract.Presenter>(), SessionContra
         super.onViewCreated(view, savedInstanceState)
         presenter.startSession()
 
+        tvQuestion.movementMethod = ScrollingMovementMethod()
         rvAnswers.apply {
             val manager = LinearLayoutManager(context)
             manager.stackFromEnd = true
@@ -40,7 +42,10 @@ class SessionFragment : BaseFragment<SessionContract.Presenter>(), SessionContra
             adapter = rvAdapter
         }
         btnNext.setOnClickListener {
-            if (rvAdapter.showRightAnswer()) presenter.setAnswer(rvAdapter.getSelectedItem())
+            if (rvAdapter.isRightAnswerShown)
+                presenter.setAnswer(rvAdapter.getSelectedItem())
+            else
+                rvAdapter.showRightAnswer()
         }
         btnStop.setOnClickListener {
             presenter.setAnswer(rvAdapter.getSelectedItem())
@@ -54,6 +59,7 @@ class SessionFragment : BaseFragment<SessionContract.Presenter>(), SessionContra
 
     override fun showQuestion(question: QuestionModel) {
         tvQuestion.text = question.text
+        rvAdapter.isRightAnswerShown = false
         rvAdapter.dispatchData(question.answers)
     }
 

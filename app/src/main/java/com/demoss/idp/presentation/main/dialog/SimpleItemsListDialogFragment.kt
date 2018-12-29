@@ -32,7 +32,10 @@ class SimpleItemsListDialogFragment : DialogFragment() {
 
     fun setupFragment(title: String, itemsList: List<String>, onItemClick: (String) -> Unit) {
         this.title = title
-        rvAdapter = SimpleItemsListAdapter(onItemClick)
+        rvAdapter = SimpleItemsListAdapter {
+            onItemClick(it)
+            dismiss()
+        }
         rvAdapter.dispatchData(itemsList)
     }
 
