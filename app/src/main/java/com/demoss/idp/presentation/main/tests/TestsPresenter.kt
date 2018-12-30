@@ -54,8 +54,6 @@ class TestsPresenter(private val getTestsUserCase: GetTestsUserCase,
     }
 
     override fun parseFileStream(stream: Single<InputStream?>) {
-        view?.showPageProgress(true)
-
         compositeDisposable.add(stream.subscribeOn(Schedulers.computation()).subscribe(
                 { if (it != null) parse(it) },
                 { it.printStackTrace() }
@@ -65,12 +63,10 @@ class TestsPresenter(private val getTestsUserCase: GetTestsUserCase,
     private fun parse(stream: InputStream) {
         parseFileUseCase.execute(object : DisposableCompletableObserver() {
             override fun onComplete() {
-                view?.showPageProgress(false)
                 paginator.refresh()
             }
 
             override fun onError(e: Throwable) {
-                view?.showPageProgress(false)
                 e.printStackTrace()
                 view?.showToast(e.localizedMessage)
             }
