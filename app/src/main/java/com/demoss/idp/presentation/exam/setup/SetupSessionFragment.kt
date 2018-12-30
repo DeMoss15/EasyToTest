@@ -2,6 +2,7 @@ package com.demoss.idp.presentation.exam.setup
 
 import android.content.Context
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.View
 import com.demoss.idp.R
 import com.demoss.idp.base.BaseFragment
@@ -30,8 +31,10 @@ class SetupSessionFragment : BaseFragment<SetupSessionContract.Presenter>(), Set
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        tvTestName.movementMethod = ScrollingMovementMethod()
+
         with(presenter.getTest()) {
-            tvResultsTitle.text = name
+            tvTestName.text = name
             sbQuestionsAmount.max = questions.size
             tvQuestionsAmount.text = questions.size.toString()
         }

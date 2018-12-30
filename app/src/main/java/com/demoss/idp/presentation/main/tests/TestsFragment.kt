@@ -17,10 +17,11 @@ import com.demoss.idp.util.Constants
 import com.demoss.idp.util.pagination.setOnNextPageListener
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import io.reactivex.Completable
+import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_local_data.*
 import org.koin.android.ext.android.inject
+import java.io.InputStream
 
 class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.View {
 
@@ -38,7 +39,7 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
         when (action) {
             TestsRecyclerViewAdapter.Action.SELECT -> callback.startTest(test)
             TestsRecyclerViewAdapter.Action.EDIT -> mainCallback.nextFragment(TAG, test.id)
-            TestsRecyclerViewAdapter.Action.SHARE -> TODO("no share action")
+            TestsRecyclerViewAdapter.Action.SHARE -> showToast("not implemented")//TODO("no share action")
         }
     }
 
@@ -93,11 +94,9 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == BROWSE_FILE_REQUEST_CODE && resultCode == RESULT_OK) {
-            Completable.fromCallable {
-                context?.contentResolver?.openInputStream(data?.data)?.let { inputStream ->
-                    presenter.parseFileStream(inputStream)
-                }
-            }.subscribeOn(Schedulers.io()).subscribe()
+            presenter.parseFileStream(
+                    Single.fromCallable { context?.contentResolver?.openInputStream(data?.data) }
+            )
         }
     }
 

@@ -21,5 +21,6 @@
         android:id="@+id/rvItems"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item_text" />
+        tools:listitem="@layout/item_text"
+        android:background="@color/colorPrimary"/>
 </LinearLayout>
