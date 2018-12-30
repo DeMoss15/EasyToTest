@@ -32,6 +32,13 @@ class MainActivity : BaseActivity<MainContract.Presenter>(), MainContract.View, 
         return item != null
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        /*supportFragmentManager.findFragmentByTag(TestsFragment.TAG)?.let {
+            if (it.isVisible) finish()
+        }*/
+    }
+
     // MainCallback ====================================================================================================
     override fun nextFragment(currentFragmentTag: String, entityId: Int) {
         when (currentFragmentTag) {

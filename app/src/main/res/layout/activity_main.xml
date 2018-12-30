@@ -9,7 +9,8 @@
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginBottom="56dp"/>
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
@@ -21,7 +22,7 @@
         app:fabAnimationMode="slide"
         app:fabCradleMargin="@dimen/base_8dp"
         app:fabCradleRoundedCornerRadius="@dimen/base_16dp"
-        app:hideOnScroll="true" />
+        app:hideOnScroll="false" /> <!--todo fix hide on scroll issue-->
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
