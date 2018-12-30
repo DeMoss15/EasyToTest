@@ -2,6 +2,7 @@ package com.demoss.idp.presentation.exam.results
 
 import android.content.Context
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.View
 import com.demoss.idp.R
 import com.demoss.idp.base.BaseFragment
@@ -27,6 +28,7 @@ class ResultsFragment : BaseFragment<ResultsContract.Presenter>(), ResultsContra
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        tvTestName.movementMethod = ScrollingMovementMethod()
         btnBack.setOnClickListener { examCallback.back(TAG) }
     }
 

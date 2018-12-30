@@ -59,6 +59,7 @@ class SessionFragment : BaseFragment<SessionContract.Presenter>(), SessionContra
 
     override fun showQuestion(question: QuestionModel) {
         tvQuestion.text = question.text
+        tvQuestion.scrollTo(0, 0)
         rvAdapter.isRightAnswerShown = false
         rvAdapter.dispatchData(question.answers)
     }

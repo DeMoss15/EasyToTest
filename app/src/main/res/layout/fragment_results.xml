@@ -26,29 +26,25 @@
         android:layout_marginBottom="@dimen/base_12dp"
         android:textAlignment="center"
         android:textAppearance="@style/TitleText"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        android:scrollbars="vertical"
+        android:overScrollMode="ifContentScrolls"
+        app:layout_constraintBottom_toTopOf="@+id/tvTimeHint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvResultsTitle"
         tools:text="TEXT NAME" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
-
     <TextView
         android:id="@+id/tvTimeHint"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/base_12dp"
         android:text="@string/time_spent"
         android:textAppearance="@style/CommonText"
         app:layout_constraintEnd_toStartOf="@+id/tvTime"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline2" />
+        app:layout_constraintBottom_toTopOf="@id/tvAnswersHint"/>
 
     <TextView
         android:id="@+id/tvTime"
@@ -60,20 +56,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tvTimeHint"
-        app:layout_constraintTop_toTopOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/tvTimeHint"
         tools:text="0:00" />
 
     <TextView
         android:id="@+id/tvAnswersHint"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/base_12dp"
+        android:layout_marginBottom="@dimen/base_12dp"
         android:text="@string/right_shown"
         android:textAppearance="@style/CommonText"
         app:layout_constraintEnd_toStartOf="@+id/tvAnswersStats"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTimeHint" />
+        app:layout_constraintBottom_toTopOf="@id/btnBack"/>
 
     <TextView
         android:id="@+id/tvAnswersStats"
