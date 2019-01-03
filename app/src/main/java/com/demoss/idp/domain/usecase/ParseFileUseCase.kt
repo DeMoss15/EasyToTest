@@ -5,28 +5,32 @@ import com.demoss.idp.domain.model.QuestionModel
 import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.domain.usecase.base.RxUseCaseCompletable
 import com.demoss.idp.util.Constants.EMPTY_LINE
+import com.demoss.idp.util.Constants.JSON_PREFIX
 import com.demoss.idp.util.Constants.NEW_QUESTION
 import com.demoss.idp.util.Constants.NEW_TEST
 import com.demoss.idp.util.Constants.RIGHT_ANSWER
 import io.reactivex.Completable
-import io.reactivex.Single
+import io.reactivex.Observable
 import io.reactivex.rxkotlin.toObservable
 import io.reactivex.schedulers.Schedulers
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
+import java.lang.StringBuilder
 
-class ParseFileUseCase(private val saveChangesUseCase: SaveChangesUseCase) :
-    RxUseCaseCompletable<ParseFileUseCase.Params>() {
+class ParseFileUseCase(
+    private val saveChangesUseCase: SaveChangesUseCase,
+    private val encryptionUseCase: EncryptionUseCase,
+    private val jsonConverterUseCase: JsonConverterUseCase
+) : RxUseCaseCompletable<ParseFileUseCase.Params>() {
 
-    override fun buildUseCaseObservable(params: Params): Completable = Single.just(parseStream(params.stream))
+    override fun buildUseCaseObservable(params: Params): Completable = parseStreamToJson(params.stream)
         .subscribeOn(Schedulers.computation())
-        .flatMapObservable { it.toObservable() }
         .flatMapCompletable {
             saveChangesUseCase.save(it)
         }
 
-    private fun parseStream(stream: InputStream): List<TestModel> {
+    private fun parseStreamToJson(stream: InputStream): Observable<TestModel> {
         val bufferedReader = BufferedReader(InputStreamReader(stream))
         var lineOfText: String? = bufferedReader.readLine()
 
@@ -35,6 +39,21 @@ class ParseFileUseCase(private val saveChangesUseCase: SaveChangesUseCase) :
         var test: TestModel = TempEntitiesFabric.createTempTest()
         var question: QuestionModel = TempEntitiesFabric.createTempQuestion()
         var answer: AnswerModel
+
+        if (lineOfText != null && lineOfText.startsWith(JSON_PREFIX)) {
+            val stringBuilder = StringBuilder()
+
+            while (lineOfText != null) {
+                stringBuilder.append(lineOfText)
+                lineOfText = bufferedReader.readLine()
+            }
+            bufferedReader.close()
+
+            return encryptionUseCase.buildUseCaseObservable(EncryptionUseCase.Params(stringBuilder.toString()))
+                .flatMapObservable { decryptedJson ->
+                    Observable.fromCallable { jsonConverterUseCase.parse(decryptedJson) }
+                }
+        }
 
         while (lineOfText != null) {
 
@@ -68,7 +87,7 @@ class ParseFileUseCase(private val saveChangesUseCase: SaveChangesUseCase) :
 
         bufferedReader.close()
         tests.map { TempEntitiesFabric.cleanTempIds(it) }
-        return tests
+        return tests.toObservable()
     }
 
     data class Params(

@@ -14,5 +14,8 @@ val useCaseModule = module {
     factory { GetTestUseCase(get()) }
     factory { UpdateTestUseCase(get()) }
     factory { DeleteTestUseCase(get()) }
-    factory { ParseFileUseCase(get()) }
+    factory { ParseFileUseCase(get(), get(), get()) }
+    factory { JsonConverterUseCase() }
+    factory { EncryptionUseCase() }
+    factory { ShareTestUseCase(get(), get(), get()) }
 }

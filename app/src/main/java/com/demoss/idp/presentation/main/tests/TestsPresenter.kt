@@ -3,18 +3,23 @@ package com.demoss.idp.presentation.main.tests
 import com.demoss.idp.base.mvp.BasePresenterImpl
 import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.domain.usecase.ParseFileUseCase
+import com.demoss.idp.domain.usecase.ShareTestUseCase
 import com.demoss.idp.domain.usecase.model.GetTestsUserCase
 import com.demoss.idp.util.pagination.Paginator
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableCompletableObserver
+import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import java.io.InputStream
 
-class TestsPresenter(private val getTestsUserCase: GetTestsUserCase,
-                     private val parseFileUseCase: ParseFileUseCase) :
-        TestsContract.Presenter, BasePresenterImpl<TestsContract.View>() {
+class TestsPresenter(
+    private val getTestsUserCase: GetTestsUserCase,
+    private val parseFileUseCase: ParseFileUseCase,
+    private val shareTestUseCase: ShareTestUseCase
+) :
+    TestsContract.Presenter, BasePresenterImpl<TestsContract.View>() {
 
     private val pagesPublishSubject = PublishSubject.create<Int>()
     private lateinit var paginator: Paginator<TestModel>
@@ -51,6 +56,19 @@ class TestsPresenter(private val getTestsUserCase: GetTestsUserCase,
 
     override fun loadMore() {
         paginator.loadNewPage()
+    }
+
+    override fun share(test: TestModel) {
+        shareTestUseCase.execute(object: DisposableSingleObserver<String>(){
+            override fun onSuccess(t: String) {
+                view?.share(t)
+            }
+
+            override fun onError(e: Throwable) {
+                e.printStackTrace()
+                view?.showToast(e.localizedMessage)
+            }
+        }, ShareTestUseCase.Params(test))
     }
 
     override fun parseFileStream(stream: Single<InputStream?>) {

@@ -39,7 +39,7 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
         when (action) {
             TestsRecyclerViewAdapter.Action.SELECT -> callback.startTest(test)
             TestsRecyclerViewAdapter.Action.EDIT -> mainCallback.nextFragment(TAG, test.id)
-            TestsRecyclerViewAdapter.Action.SHARE -> showToast("not implemented")//TODO("no share action")
+            TestsRecyclerViewAdapter.Action.SHARE -> presenter.share(test)
         }
     }
 
@@ -62,7 +62,17 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
         }
     }
 
-    // MainFragment ===================================================================================================
+    // View ============================================================================================================
+    override fun share(string: String) {
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, string)
+            type = "text/plain"
+        }
+        startActivity(sendIntent)
+    }
+
+    // MainFragment ====================================================================================================
     override fun onFabPressed() {
         SimpleItemsListDialogFragment.Builder().apply {
             title = "Choose way to add test"

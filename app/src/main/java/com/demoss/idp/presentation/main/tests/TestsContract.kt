@@ -12,8 +12,11 @@ interface TestsContract {
 
     interface Presenter : BasePresenter {
         fun loadMore()
+        fun share(test: TestModel)
         fun parseFileStream(stream: Single<InputStream?>)
     }
 
-    interface View : BaseView, Paginator.ViewController<TestModel>, MainFragment
+    interface View : BaseView, Paginator.ViewController<TestModel>, MainFragment {
+        fun share(string: String)
+    }
 }

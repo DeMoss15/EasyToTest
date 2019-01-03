@@ -10,4 +10,12 @@ object Constants {
     const val NEW_QUESTION: String = "?"
     const val RIGHT_ANSWER: String = "*"
     const val EMPTY_LINE: String = "+"
+
+    const val JSON_PREFIX: String = "diploma.test.JSON"
+    const val KEY_LENGTH: Int = 16
+
+    const val JSON_FIELD_NAME: String = "name"
+    const val JSON_FIELD_QUESTIONS: String = "questions"
+    const val JSON_FIELD_ANSWERS: String = "answers"
+    const val JSON_FIELD_IS_RIGHT: String = "isRight"
 }
