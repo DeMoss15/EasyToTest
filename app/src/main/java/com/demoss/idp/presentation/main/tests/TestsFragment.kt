@@ -4,7 +4,9 @@ import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Environment
 import android.view.View
+import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.demoss.idp.R
@@ -18,10 +20,10 @@ import com.demoss.idp.util.pagination.setOnNextPageListener
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_local_data.*
 import org.koin.android.ext.android.inject
-import java.io.InputStream
+import java.io.File
+import java.io.FileWriter
 
 class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.View {
 
@@ -64,18 +66,30 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
 
     // View ============================================================================================================
     override fun share(string: String) {
-        val sendIntent: Intent = Intent().apply {
-            action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, string)
-            type = "text/plain"
+        context?.let {
+
+            val file = File(Environment.getExternalStorageDirectory().toString() + "/" + "exported_test.txt")
+            val writer = FileWriter(file)
+            writer.append(string)
+            writer.flush()
+            writer.close()
+
+            val path = FileProvider.getUriForFile(it, "com.demoss.idp.fileprovider", file)
+
+            val sendIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_STREAM, path)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                type = "plain/*"
+            }
+            startActivity(sendIntent)
         }
-        startActivity(sendIntent)
     }
 
     // MainFragment ====================================================================================================
     override fun onFabPressed() {
         SimpleItemsListDialogFragment.Builder().apply {
-            title = "Choose way to add test"
+            title = "Choose way to add test" // todo extract resources
             itemsList = listOf("file", "input")
             onClickListener = { item ->
                 when (item) {
@@ -105,7 +119,7 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == BROWSE_FILE_REQUEST_CODE && resultCode == RESULT_OK) {
             presenter.parseFileStream(
-                    Single.fromCallable { context?.contentResolver?.openInputStream(data?.data) }
+                Single.fromCallable { data?.data?.let { dd -> context?.contentResolver?.openInputStream(dd) } }
             )
         }
     }
