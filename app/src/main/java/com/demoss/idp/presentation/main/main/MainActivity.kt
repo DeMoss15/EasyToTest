@@ -34,9 +34,9 @@ class MainActivity : BaseActivity<MainContract.Presenter>(), MainContract.View, 
 
     override fun onBackPressed() {
         super.onBackPressed()
-        /*supportFragmentManager.findFragmentByTag(TestsFragment.TAG)?.let {
-            if (it.isVisible) finish()
-        }*/
+        supportFragmentManager.fragments
+            .firstOrNull { fragment -> fragment.isVisible }
+            .let { fragment -> if (fragment == null) finish() }
     }
 
     // MainCallback ====================================================================================================
