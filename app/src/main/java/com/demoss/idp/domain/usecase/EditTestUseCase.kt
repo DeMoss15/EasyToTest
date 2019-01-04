@@ -5,11 +5,9 @@ import com.demoss.idp.domain.model.EntityStatus
 import com.demoss.idp.domain.model.QuestionModel
 import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.domain.usecase.model.GetTestUseCase
-import com.demoss.idp.util.Constants.NEW_ENTITY_ID
 import io.reactivex.Single
 import io.reactivex.observers.DisposableCompletableObserver
 import io.reactivex.observers.DisposableSingleObserver
-import java.lang.RuntimeException
 
 class EditTestUseCase(
     private val getTestUseCase: GetTestUseCase,

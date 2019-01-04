@@ -47,7 +47,7 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
         when (action) {
             TestsRecyclerViewAdapter.Action.SELECT -> callback.startTest(test)
             TestsRecyclerViewAdapter.Action.EDIT -> mainCallback.nextFragment(TAG, test.id)
-            TestsRecyclerViewAdapter.Action.SHARE -> presenter.share(test)
+            TestsRecyclerViewAdapter.Action.SHARE -> share(test)
         }
     }
 
@@ -100,8 +100,8 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
             onClickListener = { item ->
                 when (item) {
                     itemsList[0] -> startActivityForResult(
-                            Intent(Intent.ACTION_GET_CONTENT).setType("text/plain"),
-                            BROWSE_FILE_REQUEST_CODE
+                        Intent(Intent.ACTION_GET_CONTENT).setType("text/plain"),
+                        BROWSE_FILE_REQUEST_CODE
                     )
                     itemsList[1] -> mainCallback.nextFragment(TAG, Constants.NEW_ENTITY_ID)
                 }

@@ -11,6 +11,8 @@ import com.demoss.idp.util.Constants.NEW_TEST
 import com.demoss.idp.util.Constants.RIGHT_ANSWER
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.observers.DisposableCompletableObserver
 import io.reactivex.rxkotlin.toObservable
 import io.reactivex.schedulers.Schedulers
 import java.io.BufferedReader
@@ -24,8 +26,16 @@ class ParseFileUseCase(
     private val jsonConverterUseCase: JsonConverterUseCase
 ) : RxUseCaseCompletable<ParseFileUseCase.Params>() {
 
+    override fun execute(observer: DisposableCompletableObserver, params: Params) {
+        addDisposable(
+            buildUseCaseObservable(params)
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(observer)
+        )
+    }
+
     override fun buildUseCaseObservable(params: Params): Completable = parseStreamToJson(params.stream)
-        .subscribeOn(Schedulers.computation())
         .flatMapCompletable {
             saveChangesUseCase.save(it)
         }

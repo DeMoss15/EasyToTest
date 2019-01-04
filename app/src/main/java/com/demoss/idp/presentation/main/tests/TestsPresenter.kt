@@ -42,7 +42,8 @@ class TestsPresenter(
 
     override fun onViewHidden() {
         super.onViewHidden()
-        getTestsUserCase.clear()
+        parseFileUseCase.clear()
+        shareTestUseCase.clear()
         compositeDisposable.clear()
     }
 
@@ -50,7 +51,7 @@ class TestsPresenter(
         super.onDestroyView()
         paginator.release()
         parseFileUseCase.dispose()
-        getTestsUserCase.dispose()
+        shareTestUseCase.dispose()
         compositeDisposable.dispose()
     }
 
@@ -59,7 +60,7 @@ class TestsPresenter(
     }
 
     override fun share(test: TestModel) {
-        shareTestUseCase.execute(object: DisposableSingleObserver<String>(){
+        shareTestUseCase.execute(object : DisposableSingleObserver<String>() {
             override fun onSuccess(t: String) {
                 view?.share(t)
             }

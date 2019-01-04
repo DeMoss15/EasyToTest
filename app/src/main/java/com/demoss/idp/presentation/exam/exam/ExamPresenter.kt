@@ -8,6 +8,11 @@ class ExamPresenter(private val testSessionUseCase: TestSessionUseCase) : BasePr
 
     private val compositeDisposable = CompositeDisposable()
 
+    override fun onViewHidden() {
+        super.onViewHidden()
+        compositeDisposable.clear()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         compositeDisposable.dispose()
