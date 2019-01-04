@@ -1,11 +1,16 @@
 package com.demoss.idp.presentation.main.tests
 
+import android.Manifest
+import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Environment
 import android.view.View
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -30,6 +35,7 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
     companion object {
         const val TAG = "com.demoss.diploma.tests_fragment"
         const val BROWSE_FILE_REQUEST_CODE = 1
+        const val REQUEST_PERMISSION = 2
         fun newInstance(): TestsFragment = TestsFragment()
     }
 
@@ -160,5 +166,15 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
 
     interface Callback {
         fun startTest(test: TestModel)
+    }
+
+    private fun share(test: TestModel) {
+        context?.let { ctx ->
+            val writePermission = Manifest.permission.WRITE_EXTERNAL_STORAGE
+
+            if (ContextCompat.checkSelfPermission(ctx, writePermission) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(activity as Activity, arrayOf(writePermission), REQUEST_PERMISSION)
+            } else presenter.share(test)
+        }
     }
 }
