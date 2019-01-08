@@ -44,6 +44,10 @@ class EditTestUseCase(
         saveChanges(completableObserver)
     }
 
+    fun cancelTestEditing() {
+        currentTest = TempEntitiesFabric.createTempTest()
+    }
+
     // Question ====================================================================================
     fun getQuestion(singleObserver: DisposableSingleObserver<QuestionModel>, questionId: Int) =
         if (::currentQuestion.isInitialized && currentQuestion.id == questionId) {
@@ -65,6 +69,14 @@ class EditTestUseCase(
 
     fun deleteQuestion() {
         currentQuestion.status = EntityStatus.DROPPED
+    }
+
+    fun deleteQuestion(question: QuestionModel) {
+        question.status = EntityStatus.DROPPED
+    }
+
+    fun cancelQuestionEditing() {
+        currentQuestion.answers.map { it.status = EntityStatus.SAVED }
     }
 
     // Answer ========================================================================================

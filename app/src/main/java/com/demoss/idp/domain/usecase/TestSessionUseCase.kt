@@ -23,7 +23,12 @@ class TestSessionUseCase(private val getTestUseCase: GetTestUseCase) {
     fun setTestId(testId: Int): Completable {
         resetSession()
         return getTestUseCase.buildUseCaseObservable(GetTestUseCase.Params(testId))
-            .map { test = it }
+            .map {
+                test = it
+                it.questions = it.questions
+                    .filter { question -> question.answers.size > 0 }
+                    .toMutableList()
+            }
             .ignoreElement()
     }
 

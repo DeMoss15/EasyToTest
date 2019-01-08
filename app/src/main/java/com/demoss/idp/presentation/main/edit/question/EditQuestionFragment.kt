@@ -12,6 +12,7 @@ import com.demoss.idp.presentation.adapter.AnswersRecyclerViewAdapter
 import com.demoss.idp.presentation.main.main.MainCallback
 import com.demoss.idp.util.Constants
 import com.demoss.idp.util.ExtraConstants
+import com.demoss.idp.util.setupSwipeToDelete
 import com.demoss.idp.util.withArguments
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -44,6 +45,9 @@ class EditQuestionFragment : BaseFragment<EditQuestionContract.Presenter>(), Edi
         rvAnswers.apply {
             adapter = rvAdapter
             layoutManager = LinearLayoutManager(context)
+            setupSwipeToDelete(rvAdapter) {
+                presenter.deleteAnswer(it)
+            }
         }
     }
 
@@ -60,6 +64,10 @@ class EditQuestionFragment : BaseFragment<EditQuestionContract.Presenter>(), Edi
         }
     }
 
+    override fun navigateBack() {
+        mainCallback.back(TAG)
+    }
+
     // MainFragment ====================================================================================================
     override fun onFabPressed() {
         mainCallback.nextFragment(TAG, Constants.NEW_ENTITY_ID)
@@ -68,11 +76,10 @@ class EditQuestionFragment : BaseFragment<EditQuestionContract.Presenter>(), Edi
     override fun onMenuItemPressed(itemId: Int) {
         if (activity == null) return
         when (itemId) {
-            // R.id.item_back -> mainCallback.back(TAG)
+            R.id.item_back -> presenter.cancel()
             R.id.item_done -> presenter.saveQuestion(etQuestion.text.toString())
             R.id.item_drop -> presenter.deleteQuestion()
         }
-        mainCallback.back(TAG)
     }
 
     override fun setupAppBar(bottomAppBar: BottomAppBar, fab: FloatingActionButton) {

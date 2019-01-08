@@ -1,6 +1,7 @@
 package com.demoss.idp.presentation.main.edit.question
 
 import com.demoss.idp.base.mvp.BasePresenterImpl
+import com.demoss.idp.domain.model.AnswerModel
 import com.demoss.idp.domain.model.QuestionModel
 import com.demoss.idp.domain.usecase.EditTestUseCase
 import com.demoss.idp.util.Constants.NEW_ENTITY_ID
@@ -16,9 +17,18 @@ class EditQuestionPresenter(private val editTestUseCase: EditTestUseCase)
         editTestUseCase.getQuestion(getSingleObserver(), questionId)
     }
 
-    override fun saveQuestion(question: String) = editTestUseCase.saveQuestion(question)
+    override fun saveQuestion(question: String) = navigationAction { editTestUseCase.saveQuestion(question) }
 
-    override fun deleteQuestion() = editTestUseCase.deleteQuestion()
+    override fun deleteQuestion() = navigationAction { editTestUseCase.deleteQuestion() }
+
+    override fun cancel() = navigationAction { editTestUseCase.cancelQuestionEditing() }
+
+    override fun deleteAnswer(answer: AnswerModel) = editTestUseCase.deleteAnswer(answer)
+
+    private inline fun navigationAction(action: () -> Unit) {
+        action()
+        view?.navigateBack()
+    }
 
     private fun getSingleObserver(): DisposableSingleObserver<QuestionModel> = object : DisposableSingleObserver<QuestionModel>() {
         override fun onSuccess(t: QuestionModel) {
