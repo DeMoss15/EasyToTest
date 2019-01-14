@@ -2,20 +2,19 @@ package com.demoss.idp.presentation.adapter
 
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.AsyncListDiffer
 import com.demoss.idp.R
 import com.demoss.idp.base.BaseRecyclerViewAdapter
 import com.demoss.idp.domain.model.AnswerModel
 import com.demoss.idp.domain.usecase.TempEntitiesFabric
 import kotlinx.android.synthetic.main.item_answer.view.*
 
-class SelectableAnswersRecyclerView :
-    BaseRecyclerViewAdapter<AnswerModel, SelectableAnswersRecyclerView.VH, AnswersDiffUtilCallback>() {
+class SelectableAnswersRecyclerViewAdapter :
+    BaseRecyclerViewAdapter<AnswerModel, SelectableAnswersRecyclerViewAdapter.VH>() {
 
     override val viewHolderFactory: (view: View) -> VH = { VH(it) }
     override val layoutResId: Int = R.layout.item_answer
-    override val diffUtilCallbackFactory = { oldList: List<AnswerModel>, newList: List<AnswerModel> ->
-        AnswersDiffUtilCallback(oldList, newList)
-    }
+    override var differ: AsyncListDiffer<AnswerModel> = AsyncListDiffer(this, DiffUtilAnswerModelItemCallback())
 
     private var selectedItem: AnswerModel? = null
     var isRightAnswerShown = false
@@ -26,14 +25,14 @@ class SelectableAnswersRecyclerView :
     fun showRightAnswer() {
         if (!isRightAnswerShown) {
             isRightAnswerShown = true
-            data.filter { answer -> answer.isRightAnswer }.forEach { answer ->
+            differ.currentList.filter { answer -> answer.isRightAnswer }.forEach { answer ->
                 redrawItem(answer)
             }
         }
     }
 
     private fun redrawItem(item: AnswerModel) {
-        notifyItemChanged(data.indexOf(item))
+        notifyItemChanged(differ.currentList.indexOf(item))
     }
 
     inner class VH(view: View) : BaseRecyclerViewAdapter.BaseViewHolder<AnswerModel>(view) {
@@ -61,5 +60,10 @@ class SelectableAnswersRecyclerView :
             selectedItem == item -> R.color.colorChecked
             else -> R.color.colorUnchecked
         }
+    }
+
+    class DiffUtilAnswerModelItemCallback(): BaseDiffUtilItemCallback<AnswerModel>() {
+        override fun areContentsTheSame(oldItem: AnswerModel, newItem: AnswerModel): Boolean =
+                oldItem == newItem
     }
 }

@@ -3,8 +3,8 @@ package com.demoss.idp.presentation.adapter
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
-class SwipeItemToActionCallback(
-    val onItemSwipeAction: (Int) -> Unit
+class SimpleSwipeItemCallback(
+    private val onItemSwipeAction: (Int) -> Unit
 ) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
 
     override fun onMove(

@@ -3,20 +3,18 @@ package com.demoss.idp.base
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class BaseRecyclerViewAdapter<T,
-        VH : BaseRecyclerViewAdapter.BaseViewHolder<T>,
-        DiffUtilCallback : BaseRecyclerViewAdapter.BaseDiffUtilCallback<T>> : RecyclerView.Adapter<VH>() {
+abstract class BaseRecyclerViewAdapter<T, VH : BaseRecyclerViewAdapter.BaseViewHolder<T>> : RecyclerView.Adapter<VH>() {
 
-    val data: MutableList<T> = mutableListOf()
     abstract val viewHolderFactory: (view: View) -> VH
     abstract val layoutResId: Int
-    abstract val diffUtilCallbackFactory: (oldList: List<T>, newList: List<T>) -> DiffUtilCallback
+    abstract var differ: AsyncListDiffer<T>
 
     // RV Adapter functions ============================================================================================
-    final override fun getItemCount(): Int = data.size
+    final override fun getItemCount(): Int = differ.currentList.size
 
     final override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH = viewHolderFactory(
         LayoutInflater.from(parent.context)
@@ -24,27 +22,17 @@ abstract class BaseRecyclerViewAdapter<T,
     )
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        holder.bindData(data[position])
+        holder.bindData(differ.currentList[position])
     }
+
+    fun getItemAt(position: Int): T = differ.currentList[position]
 
     // DiffUtil applying ===============================================================================================
-    fun dispatchData(list: List<T>) {
-        with(DiffUtil.calculateDiff(diffUtilCallbackFactory(data, list))) {
-            data.clear()
-            data.addAll(list)
-            dispatchUpdatesTo(this@BaseRecyclerViewAdapter)
-        }
-    }
+    fun dispatchData(list: List<T>) = differ.submitList(list)
 
     // Abstract classes ================================================================================================
-    abstract class BaseDiffUtilCallback<T>(private var oldList: List<T>, private var newList: List<T>) : DiffUtil.Callback() {
-        override fun getOldListSize(): Int = oldList.size
-        override fun getNewListSize(): Int = newList.size
-        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-            oldList[oldItemPosition]?.hashCode() == newList[newItemPosition]?.hashCode()
-
-        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-            oldList[oldItemPosition] == newList[newItemPosition]
+    abstract class BaseDiffUtilItemCallback<T>() : DiffUtil.ItemCallback<T>() {
+        override fun areItemsTheSame(oldItem: T, newItem: T): Boolean = oldItem == newItem
     }
 
     abstract class BaseViewHolder<T>(val view: View) : RecyclerView.ViewHolder(view) {

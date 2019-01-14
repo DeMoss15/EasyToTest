@@ -1,6 +1,7 @@
 package com.demoss.idp.presentation.adapter
 
 import android.view.View
+import androidx.recyclerview.widget.AsyncListDiffer
 import com.demoss.idp.R
 import com.demoss.idp.base.BaseRecyclerViewAdapter
 import com.demoss.idp.domain.model.TestModel
@@ -8,12 +9,12 @@ import kotlinx.android.synthetic.main.item_test.view.*
 
 class TestsRecyclerViewAdapter(
     val onItemClick: (TestModel, Action) -> Unit
-) : BaseRecyclerViewAdapter<TestModel, TestsRecyclerViewAdapter.ViewHolder, TestsDiffUtilCallback>() {
+) : BaseRecyclerViewAdapter<TestModel, TestsRecyclerViewAdapter.ViewHolder>() {
 
     override val viewHolderFactory = { v: View -> ViewHolder(v) }
     override val layoutResId = R.layout.item_test
-    override val diffUtilCallbackFactory =
-        { old: List<TestModel>, new: List<TestModel> -> TestsDiffUtilCallback(old, new) }
+    override var differ: AsyncListDiffer<TestModel> =
+        AsyncListDiffer<TestModel>(this, DiffUtilTestModelItemCallback())
 
     inner class ViewHolder(view: View) : BaseRecyclerViewAdapter.BaseViewHolder<TestModel>(view) {
         override fun bindData(item: TestModel) {
@@ -28,5 +29,10 @@ class TestsRecyclerViewAdapter(
         SELECT,
         EDIT,
         SHARE
+    }
+
+    class DiffUtilTestModelItemCallback: BaseDiffUtilItemCallback<TestModel>() {
+        override fun areContentsTheSame(oldItem: TestModel, newItem: TestModel): Boolean =
+                oldItem == newItem
     }
 }
