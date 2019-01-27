@@ -59,7 +59,7 @@ class TestSessionUseCase(private val getTestUseCase: GetTestUseCase) {
     fun setAnswer(answer: AnswerModel) {
         userAnswers.add(answer)
         if (test.questions.size <= userAnswers.size) {
-            questionsObservable.onComplete()
+            stopSession()
             return
         }
         questionsObservable.onNext(test.questions[userAnswers.size])
@@ -67,11 +67,8 @@ class TestSessionUseCase(private val getTestUseCase: GetTestUseCase) {
 
     fun runSession(onNextQuestion: (QuestionModel) -> Unit, onTick: (String) -> Unit, onSessionEnd: () -> Unit) {
         compositeDisposable = CompositeDisposable()
-        // run timer
-        runTimer(onTick)
-        // run questions
+        subscribeToTimer(onTick)
         subscribeToQuestions(onNextQuestion)
-        // combine
         compositeDisposable.add(questionsObservable.doOnComplete { isRunning = !isRunning }.subscribe()) // complete timer
         compositeDisposable.add(timeObservable.doOnComplete { questionsObservable.onComplete() }.subscribe()) // complete questions
         compositeDisposable.add(
@@ -92,7 +89,7 @@ class TestSessionUseCase(private val getTestUseCase: GetTestUseCase) {
         questionsObservable.onNext(test.questions[0])
     }
 
-    private fun runTimer(onTick: (String) -> Unit) {
+    private fun subscribeToTimer(onTick: (String) -> Unit) {
         timeObservable = createTimer()
         compositeDisposable.add(timeObservable.subscribe(onTick))
         compositeDisposable.add(timeObservable.takeLast(1).subscribe { timeSpent = it })
