@@ -83,7 +83,7 @@ class TestSessionUseCase(private val getTestUseCase: GetTestUseCase) {
     }
 
     fun stopSession() {
-        questionsObservable.onComplete()
+        isRunning = false
     }
 
     private fun subscribeToQuestions(onNextQuestion: (QuestionModel) -> Unit) {
@@ -111,6 +111,12 @@ class TestSessionUseCase(private val getTestUseCase: GetTestUseCase) {
         .map { it + 1 }
         .startWith(0)
         .takeWhile { isRunning && (timer == 0L || (timer != 0L && it != timer)) }
-        .map { time -> "${time / 60}:${time % 60}" }
+        .map { time ->
+            var minutes = (time / 60).toString()
+            var seconds = (time % 60).toString()
+            while (minutes.length < 2) minutes = "0$minutes"
+            while (seconds.length < 2) seconds = "0$seconds"
+            "$minutes : $seconds"
+        }
         .setDefaultSchedulers()
 }

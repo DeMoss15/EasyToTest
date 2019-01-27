@@ -47,7 +47,7 @@ class SetupSessionFragment : BaseFragment<SetupSessionContract.Presenter>(), Set
         }
 
         switchTimer.setOnCheckedChangeListener { compoundButton, checked ->
-            etTimer.visibility = if (checked) View.VISIBLE else View.GONE
+            tilTimer.visibility = if (checked) View.VISIBLE else View.GONE
         }
 
         btnNext.setOnClickListener {

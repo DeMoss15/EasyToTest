@@ -5,6 +5,12 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/colorWindowBackground</item>
+        <item name="shapeAppearanceSmallComponent">@style/AppShapeAppearance.SmallComponent</item>
+    </style>
+
+    <style name="AppShapeAppearance.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/base_24dp</item>
     </style>
 
     <style name="SmallText" parent="TextAppearance.AppCompat">
@@ -20,6 +26,12 @@
     <style name="TitleText" parent="TextAppearance.AppCompat">
         <item name="android:textSize">@dimen/big_text</item>
         <item name="android:color">@color/colorDarkText</item>
+    </style>
+
+    <style name="CommonButton" parent="Widget.MaterialComponents.Button.Icon">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:backgroundTint">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorBackgroundWhite</item>
     </style>
 
 </resources>

@@ -44,11 +44,12 @@ class SessionFragment : BaseFragment<SessionContract.Presenter>(), SessionContra
         btnNext.setOnClickListener {
             if (rvAdapter.isRightAnswerShown)
                 presenter.setAnswer(rvAdapter.getSelectedItem())
-            else
+            else {
                 rvAdapter.showRightAnswer()
+                scrollToFirstRightAnswer()
+            }
         }
         btnStop.setOnClickListener {
-            presenter.setAnswer(rvAdapter.getSelectedItem())
             presenter.stopSession()
         }
     }
@@ -70,5 +71,13 @@ class SessionFragment : BaseFragment<SessionContract.Presenter>(), SessionContra
 
     override fun showCounter(counter: String) {
         tvCounter.text = counter
+    }
+
+    private fun scrollToFirstRightAnswer() {
+        rvAdapter.differ.currentList.apply {
+            firstOrNull { answer -> answer.isRightAnswer }.let { firstRightAnswer ->
+                rvAnswers.scrollToPosition(if (firstRightAnswer != null) indexOf(firstRightAnswer) else 0)
+            }
+        }
     }
 }

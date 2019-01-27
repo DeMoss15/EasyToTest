@@ -66,6 +66,7 @@
 
     <Button
         android:id="@+id/btnStop"
+        style="@style/CommonButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/base_12dp"
@@ -78,6 +79,7 @@
 
     <Button
         android:id="@+id/btnNext"
+        style="@style/CommonButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/base_8dp"
