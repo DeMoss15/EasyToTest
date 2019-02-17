@@ -19,7 +19,8 @@ class TestModel(
 ) {
 
     override fun equals(other: Any?): Boolean = other is TestModel &&
-            this.id == other.id
+            this.id == other.id &&
+            this.password == other.password
 
     override fun hashCode(): Int = id * 31 + questions.hashCode()
 }
