@@ -22,7 +22,7 @@ class EditTestFragment : BaseFragment<EditTestContract.Presenter>(), EditTestCon
     companion object {
         const val TAG = "com.demoss.diploma.edit_test_fragment"
         fun newInstance(testId: Int): EditTestFragment = EditTestFragment()
-                .withArguments(ExtraConstants.EXTRA_TEST_ID to testId)
+            .withArguments(ExtraConstants.EXTRA_TEST_ID to testId)
     }
 
     override val presenter by inject<EditTestContract.Presenter>()
@@ -56,15 +56,15 @@ class EditTestFragment : BaseFragment<EditTestContract.Presenter>(), EditTestCon
         if (etTestName.text.isEmpty()) etTestName.setText(test.name)
         if (test.questions.isEmpty()) {
             tvEmptyState.text = getString(
-                    R.string.rv_empty_data,
-                    resources.getQuantityString(R.plurals.question_plural, Int.MAX_VALUE)
+                R.string.rv_empty_data,
+                resources.getQuantityString(R.plurals.question_plural, Int.MAX_VALUE)
             )
         } else {
             rvAdapter.dispatchData(test.questions.filter { it.status != EntityStatus.DROPPED })
         }
         cbExamMode.isChecked = test.examMode
-        etPassword.setText(test.password)
-        if (test.timer != 0L) etTimer.setText(test.timer.toString())
+        if (etPassword.text.isEmpty()) etPassword.setText(test.password)
+        if (test.timer != 0L && etTimer.text.isEmpty()) etTimer.setText(test.timer.toString())
         sbQuestionsAmount.apply {
             max = test.questions.size
             progress = test.questionsAmount
@@ -85,11 +85,11 @@ class EditTestFragment : BaseFragment<EditTestContract.Presenter>(), EditTestCon
         when (itemId) {
             R.id.item_back -> presenter.cancel()
             R.id.item_done -> presenter.saveTest(
-                    etTestName.text.toString(),
-                    cbExamMode.isChecked,
-                    etTimer.text.toString().takeIf { it.isNotEmpty() }?.toLong(),
-                    etPassword.text.toString(),
-                    sbQuestionsAmount.progress
+                etTestName.text.toString(),
+                cbExamMode.isChecked,
+                etTimer.text.toString().takeIf { it.isNotEmpty() }?.toLong(),
+                etPassword.text.toString(),
+                sbQuestionsAmount.progress
             )
             R.id.item_drop -> presenter.deleteTest()
         }
