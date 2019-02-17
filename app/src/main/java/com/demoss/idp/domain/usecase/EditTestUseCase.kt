@@ -19,7 +19,7 @@ class EditTestUseCase(
 
     private fun saveChanges(completableObserver: DisposableCompletableObserver) {
         TempEntitiesFabric.cleanTempIds(currentTest)
-        saveChangesUseCase.save(currentTest).subscribe(completableObserver)
+        saveChangesUseCase.save(currentTest).doOnComplete { currentTest = TempEntitiesFabric.createTempTest() }.subscribe(completableObserver)
     }
 
     // Test ========================================================================================

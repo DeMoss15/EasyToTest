@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.demoss.idp.R
 import com.demoss.idp.base.BaseFragment
 import com.demoss.idp.domain.model.EntityStatus
+import com.demoss.idp.domain.model.QuestionModel
 import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.presentation.adapter.QuestionsRecyclerViewAdapter
 import com.demoss.idp.presentation.main.main.MainCallback
@@ -44,9 +45,7 @@ class EditTestFragment : BaseFragment<EditTestContract.Presenter>(), EditTestCon
         rvQuestions.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = rvAdapter
-            setupSwipeToDelete(rvAdapter) {
-                presenter.deleteQuestion(it)
-            }
+            setupSwipeToDelete(rvAdapter, ::onQuestionDelete)
         }
         cbExamMode.setOnCheckedChangeListener { _, isChecked -> setSessionVisibility(isChecked) }
         sbQuestionsAmount.setOnProgressChangeListener { tvQuestionsAmount.text = it.toString() }
@@ -112,5 +111,10 @@ class EditTestFragment : BaseFragment<EditTestContract.Presenter>(), EditTestCon
             sbQuestionsAmount.visibility = this
             etTimer.visibility = this
         }
+    }
+
+    private fun onQuestionDelete(question: QuestionModel) {
+        sbQuestionsAmount.apply { max -= 1 }
+        presenter.deleteQuestion(question)
     }
 }
