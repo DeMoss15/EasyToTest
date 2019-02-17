@@ -9,7 +9,7 @@ import com.demoss.idp.R
 import com.demoss.idp.util.EmptyConstants
 import kotlinx.android.synthetic.main.dialog_password_verification.*
 
-class PasswordVerificationFragment() : DialogFragment() {
+class PasswordVerificationFragment : DialogFragment() {
 
     companion object {
         const val TAG = "PasswordVerificationDialogFragment"
@@ -27,7 +27,7 @@ class PasswordVerificationFragment() : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        return inflater.inflate(R.layout.dialog_password_verification, null)
+        return inflater.inflate(R.layout.dialog_password_verification, container)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

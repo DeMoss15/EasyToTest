@@ -60,7 +60,7 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
                     .newInstance()
                     .setupFragment(
                             { mainCallback.nextFragment(TAG, test.id) },
-                            { showToast("Incorrect password") },
+                            { showToast(getString(R.string.warning_incorrect_password)) },
                             test.password
                     )
                     .show(childFragmentManager, TAG)
@@ -124,8 +124,8 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
     // MainFragment ====================================================================================================
     override fun onFabPressed() {
         SimpleItemsListDialogFragment.Builder().apply {
-            title = "Choose way to add test" // todo extract resources
-            itemsList = listOf("file", "input")
+            title = getString(R.string.adding_test_dialog_title)
+            itemsList = listOf(getString(R.string.input_type_file), getString(R.string.input_type_editing))
             onClickListener = { item ->
                 when (item) {
                     itemsList[0] -> startActivityForResult(

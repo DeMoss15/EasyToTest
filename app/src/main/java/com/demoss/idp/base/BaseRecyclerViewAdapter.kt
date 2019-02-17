@@ -31,7 +31,7 @@ abstract class BaseRecyclerViewAdapter<T, VH : BaseRecyclerViewAdapter.BaseViewH
     fun dispatchData(list: List<T>) = differ.submitList(list)
 
     // Abstract classes ================================================================================================
-    abstract class BaseDiffUtilItemCallback<T>() : DiffUtil.ItemCallback<T>() {
+    abstract class BaseDiffUtilItemCallback<T> : DiffUtil.ItemCallback<T>() {
         override fun areItemsTheSame(oldItem: T, newItem: T): Boolean = oldItem == newItem
     }
 

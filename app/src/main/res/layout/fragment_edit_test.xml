@@ -50,7 +50,7 @@
         android:id="@+id/etTimer"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginLeft="@dimen/base_2dp"
+        android:layout_marginStart="@dimen/base_2dp"
         android:background="@color/colorBackgroundWhite"
         android:hint="@string/timer"
         android:imeOptions="actionDone"

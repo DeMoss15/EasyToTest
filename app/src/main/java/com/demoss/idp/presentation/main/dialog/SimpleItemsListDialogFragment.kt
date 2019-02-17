@@ -39,7 +39,7 @@ class SimpleItemsListDialogFragment : DialogFragment() {
         rvAdapter.dispatchData(itemsList)
     }
 
-    class Builder() {
+    class Builder {
 
         var title: String = EmptyConstants.EMPTY_STRING
         var itemsList: List<String> = listOf()

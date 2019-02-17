@@ -30,4 +30,8 @@
     <string name="exam_mode">enable exam mode</string>
     <string name="password_verification_hint">This test under the password. You should enter it to edit</string>
     <string name="verify">Verify</string>
+    <string name="adding_test_dialog_title">Choose way to add test</string>
+    <string name="input_type_file">file</string>
+    <string name="input_type_editing">input</string>
+    <string name="warning_incorrect_password">Incorrect password</string>
 </resources>
