@@ -10,7 +10,7 @@ interface EditTestContract {
 
     interface Presenter : BasePresenter {
         var testId: Int
-        fun saveTest(testName: String)
+        fun saveTest(testName: String, examMode: Boolean, timer: Long?, password: String, questionsAmount: Int)
         fun deleteTest()
         fun cancel()
         fun deleteQuestion(question: QuestionModel)
@@ -19,5 +19,6 @@ interface EditTestContract {
     interface View : BaseView, MainFragment {
         fun showTest(test: TestModel)
         fun navigateBack()
+        fun showValidationError()
     }
 }

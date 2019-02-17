@@ -37,4 +37,14 @@
         android:visibility="gone"
         tools:text="Empty State" />
 
+    <ProgressBar
+        android:id="@+id/pbParsing"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progress="@android:integer/config_mediumAnimTime"
+        android:visibility="gone"
+        app:layout_anchor="@+id/rvTests"
+        app:layout_anchorGravity="top|center" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

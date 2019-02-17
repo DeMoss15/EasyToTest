@@ -6,6 +6,7 @@ import android.text.method.ScrollingMovementMethod
 import android.view.View
 import com.demoss.idp.R
 import com.demoss.idp.base.BaseFragment
+import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.presentation.exam.ExamCallback
 import com.demoss.idp.util.Constants
 import com.demoss.idp.util.setOnProgressChangeListener
@@ -23,7 +24,7 @@ class SetupSessionFragment : BaseFragment<SetupSessionContract.Presenter>(), Set
     override val layoutResourceId: Int = R.layout.fragment_setup_session
     private lateinit var examCallback: ExamCallback
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         examCallback = activity as ExamCallback
     }
@@ -32,12 +33,6 @@ class SetupSessionFragment : BaseFragment<SetupSessionContract.Presenter>(), Set
         super.onViewCreated(view, savedInstanceState)
 
         tvTestName.movementMethod = ScrollingMovementMethod()
-
-        with(presenter.getTest()) {
-            tvTestName.text = name
-            sbQuestionsAmount.max = questions.size
-            tvQuestionsAmount.text = questions.size.toString()
-        }
 
         sbQuestionsAmount.apply {
             progress = max
@@ -59,6 +54,13 @@ class SetupSessionFragment : BaseFragment<SetupSessionContract.Presenter>(), Set
         }
 
         btnBack.setOnClickListener { examCallback.back(TAG) }
+
+        with(presenter.getTest()) {
+            tvTestName.text = name
+            sbQuestionsAmount.max = questions.size
+            tvQuestionsAmount.text = questions.size.toString()
+            if (examMode) setupExamMode(this)
+        }
     }
 
     override fun navigateToSession() {
@@ -71,5 +73,22 @@ class SetupSessionFragment : BaseFragment<SetupSessionContract.Presenter>(), Set
 
     override fun showQuestionsAmountValidationError() {
         showToast("0 questions is too easy for you")
+    }
+
+    private fun setupExamMode(test: TestModel) {
+        // setup exam mode
+        tilTimer.visibility = View.VISIBLE
+        switchTimer.isChecked = true
+        switchShuffle.isChecked = true
+        test.apply {
+            etTimer.setText(timer.toString())
+            sbQuestionsAmount.setProgress(test.questionsAmount, true)
+        }
+
+        // disable session settings
+        sbQuestionsAmount.isEnabled = false
+        etTimer.isEnabled = false
+        switchTimer.isEnabled = false
+        switchShuffle.isEnabled = false
     }
 }

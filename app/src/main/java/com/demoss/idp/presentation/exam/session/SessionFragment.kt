@@ -25,7 +25,7 @@ class SessionFragment : BaseFragment<SessionContract.Presenter>(), SessionContra
     private lateinit var examCallback: ExamCallback
     private val rvAdapter = SelectableAnswersRecyclerViewAdapter()
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         examCallback = activity as ExamCallback
     }

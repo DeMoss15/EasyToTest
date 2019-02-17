@@ -27,7 +27,7 @@ fun RecyclerView.addItemTouchHelperWithCallback(callback: ItemTouchHelper.Simple
     }
 }
 
-fun <T>RecyclerView.setupSwipeToDelete(adapter: BaseRecyclerViewAdapter<T,*>, onItemDeleteAction: (T) -> Unit) {
+fun <T> RecyclerView.setupSwipeToDelete(adapter: BaseRecyclerViewAdapter<T, *>, onItemDeleteAction: (T) -> Unit) {
     this.addItemTouchHelperWithCallback(SimpleSwipeItemCallback { itemPosition ->
         adapter.apply {
             onItemDeleteAction(differ.currentList[itemPosition])

@@ -20,29 +20,34 @@ object TempEntitiesFabric {
     }
 
     fun createTempTest(): TestModel =
-        TestModel(
-            id = tempIdIterator--,
-            name = EmptyConstants.EMPTY_STRING,
-            questions = mutableListOf(),
-            status = EntityStatus.NEW
-        )
+            TestModel(
+                    id = tempIdIterator--,
+                    name = EmptyConstants.EMPTY_STRING,
+                    questions = mutableListOf(),
+                    status = EntityStatus.NEW,
+                    timer = 0L,
+                    password = EmptyConstants.EMPTY_STRING,
+                    questionsAmount = 0,
+                    examMode = false
+            )
 
     fun createTempQuestion(): QuestionModel =
-        QuestionModel(
-            id = tempIdIterator--,
-            text = EmptyConstants.EMPTY_STRING,
-            answers = mutableListOf(),
-            status = EntityStatus.NEW
-        )
+            QuestionModel(
+                    id = tempIdIterator--,
+                    text = EmptyConstants.EMPTY_STRING,
+                    answers = mutableListOf(),
+                    status = EntityStatus.NEW
+            )
 
     fun createTempAnswer(): AnswerModel =
-        AnswerModel(
-            id = tempIdIterator--,
-            text = EmptyConstants.EMPTY_STRING,
-            isRightAnswer = false,
-            status = EntityStatus.NEW
-        )
+            AnswerModel(
+                    id = tempIdIterator--,
+                    text = EmptyConstants.EMPTY_STRING,
+                    isRightAnswer = false,
+                    status = EntityStatus.NEW
+            )
 }
+
 fun TestModel.isTemp(): Boolean = this.id < 0
 fun QuestionModel.isTemp(): Boolean = this.id < 0
 fun AnswerModel.isTemp(): Boolean = this.id < 0

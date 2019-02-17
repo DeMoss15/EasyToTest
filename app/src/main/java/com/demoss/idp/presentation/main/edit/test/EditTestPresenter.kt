@@ -9,7 +9,7 @@ import io.reactivex.observers.DisposableCompletableObserver
 import io.reactivex.observers.DisposableSingleObserver
 
 class EditTestPresenter(private val editTestUseCase: EditTestUseCase) : BasePresenterImpl<EditTestContract.View>(),
-    EditTestContract.Presenter {
+        EditTestContract.Presenter {
 
     override var testId: Int = NEW_ENTITY_ID
 
@@ -27,8 +27,16 @@ class EditTestPresenter(private val editTestUseCase: EditTestUseCase) : BasePres
         }, testId)
     }
 
-    override fun saveTest(testName: String) =
-        navigationAction { editTestUseCase.saveTest(testName, getCompletableObserver()) }
+    override fun saveTest(testName: String, examMode: Boolean, timer: Long?, password: String, questionsAmount: Int) {
+        if (validateInput(testName, examMode, timer, questionsAmount, password)) {
+            navigationAction {
+                editTestUseCase.saveTest(testName, examMode, password, timer
+                        ?: 0L, questionsAmount, getCompletableObserver())
+            }
+        } else {
+            view?.showValidationError()
+        }
+    }
 
     override fun deleteTest() = navigationAction { editTestUseCase.deleteTest(getCompletableObserver()) }
 
@@ -41,14 +49,17 @@ class EditTestPresenter(private val editTestUseCase: EditTestUseCase) : BasePres
         view?.navigateBack()
     }
 
-    private fun getCompletableObserver(): DisposableCompletableObserver =
-        object : DisposableCompletableObserver() {
-            override fun onComplete() {
-                view?.navigateBack()
-            }
+    private fun validateInput(name: String, examMode: Boolean, timer: Long?, questionsAmount: Int, password: String): Boolean = name.isNotEmpty() &&
+            ((examMode && timer != null && timer != 0L && questionsAmount != 0 && password.isNotEmpty()) || !examMode)
 
-            override fun onError(e: Throwable) {
-                view?.showToast(e.localizedMessage)
+    private fun getCompletableObserver(): DisposableCompletableObserver =
+            object : DisposableCompletableObserver() {
+                override fun onComplete() {
+                    view?.navigateBack()
+                }
+
+                override fun onError(e: Throwable) {
+                    view?.showToast(e.localizedMessage)
+                }
             }
-        }
 }

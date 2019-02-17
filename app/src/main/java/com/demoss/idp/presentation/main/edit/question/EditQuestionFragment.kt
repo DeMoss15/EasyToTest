@@ -33,7 +33,7 @@ class EditQuestionFragment : BaseFragment<EditQuestionContract.Presenter>(), Edi
     private val rvAdapter = AnswersRecyclerViewAdapter { mainCallback.nextFragment(TAG, it.id) }
 
     // Lifecycle =======================================================================================================
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         arguments?.let { presenter.questionId = it.getInt(ExtraConstants.EXTRA_QUESTION_ID) }
         mainCallback = activity as MainCallback

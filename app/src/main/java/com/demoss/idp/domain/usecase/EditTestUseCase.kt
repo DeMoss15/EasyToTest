@@ -33,9 +33,13 @@ class EditTestUseCase(
         }.subscribe(singleObserver)
     }
 
-    fun saveTest(testName: String, completableObserver: DisposableCompletableObserver) {
+    fun saveTest(testName: String, examMode: Boolean, password: String, timer: Long, questionsAmount: Int, completableObserver: DisposableCompletableObserver) {
         currentTest.setModified()
         currentTest.name = testName
+        currentTest.timer = timer
+        currentTest.password = password
+        currentTest.examMode = examMode
+        currentTest.questionsAmount = questionsAmount
         saveChanges(completableObserver)
     }
 

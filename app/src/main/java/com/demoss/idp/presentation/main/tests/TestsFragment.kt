@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Environment
 import android.view.View
+import android.view.WindowManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -18,14 +19,16 @@ import com.demoss.idp.R
 import com.demoss.idp.base.BaseFragment
 import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.presentation.adapter.TestsRecyclerViewAdapter
+import com.demoss.idp.presentation.main.dialog.PasswordVerificationFragment
 import com.demoss.idp.presentation.main.dialog.SimpleItemsListDialogFragment
 import com.demoss.idp.presentation.main.main.MainCallback
 import com.demoss.idp.util.Constants
+import com.demoss.idp.util.EmptyConstants
 import com.demoss.idp.util.pagination.setOnNextPageListener
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import io.reactivex.Single
-import kotlinx.android.synthetic.main.activity_local_data.*
+import kotlinx.android.synthetic.main.fragment_tests.*
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.io.FileWriter
@@ -40,19 +43,34 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
     }
 
     override val presenter by inject<TestsContract.Presenter>()
-    override val layoutResourceId = R.layout.activity_local_data
+    override val layoutResourceId = R.layout.fragment_tests
     private lateinit var mainCallback: MainCallback
     private lateinit var callback: Callback
     private val rvAdapter = TestsRecyclerViewAdapter { test, action ->
         when (action) {
             TestsRecyclerViewAdapter.Action.SELECT -> callback.startTest(test)
-            TestsRecyclerViewAdapter.Action.EDIT -> mainCallback.nextFragment(TAG, test.id)
+            TestsRecyclerViewAdapter.Action.EDIT -> onTestEditClick(test)
             TestsRecyclerViewAdapter.Action.SHARE -> share(test)
         }
     }
 
+    private fun onTestEditClick(test: TestModel) {
+        if (test.password != EmptyConstants.EMPTY_STRING) {
+            PasswordVerificationFragment
+                    .newInstance()
+                    .setupFragment(
+                            { mainCallback.nextFragment(TAG, test.id) },
+                            { showToast("Incorrect password") },
+                            test.password
+                    )
+                    .show(childFragmentManager, TAG)
+        } else {
+            mainCallback.nextFragment(TAG, test.id)
+        }
+    }
+
     // Lifecycle =======================================================================================================
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         mainCallback = activity as MainCallback
         callback = activity as Callback
@@ -92,6 +110,17 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
         }
     }
 
+    override fun showParsingProgress(isVisible: Boolean) {
+        if (isVisible) {
+            pbParsing.visibility = View.VISIBLE
+            activity?.window?.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        } else {
+            pbParsing.visibility = View.GONE
+            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        }
+    }
+
     // MainFragment ====================================================================================================
     override fun onFabPressed() {
         SimpleItemsListDialogFragment.Builder().apply {
@@ -100,8 +129,8 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
             onClickListener = { item ->
                 when (item) {
                     itemsList[0] -> startActivityForResult(
-                        Intent(Intent.ACTION_GET_CONTENT).setType("text/plain"),
-                        BROWSE_FILE_REQUEST_CODE
+                            Intent(Intent.ACTION_GET_CONTENT).setType("text/plain"),
+                            BROWSE_FILE_REQUEST_CODE
                     )
                     itemsList[1] -> mainCallback.nextFragment(TAG, Constants.NEW_ENTITY_ID)
                 }
@@ -125,7 +154,7 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == BROWSE_FILE_REQUEST_CODE && resultCode == RESULT_OK) {
             presenter.parseFileStream(
-                Single.fromCallable { data?.data?.let { dd -> context?.contentResolver?.openInputStream(dd) } }
+                    Single.fromCallable { data?.data?.let { dd -> context?.contentResolver?.openInputStream(dd) } }
             )
         }
     }

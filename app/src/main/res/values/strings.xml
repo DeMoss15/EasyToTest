@@ -26,4 +26,8 @@
     <string name="time_spent">Time spent</string>
     <string name="right_shown">Right/shown</string>
     <string name="back_to_tests">Back to tests</string>
+    <string name="password">Password</string>
+    <string name="exam_mode">enable exam mode</string>
+    <string name="password_verification_hint">This test under the password. You should enter it to edit</string>
+    <string name="verify">Verify</string>
 </resources>

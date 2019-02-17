@@ -20,8 +20,7 @@ class SimpleItemsListAdapter(val onItemClickListener: (String) -> Unit)
         }
     }
 
-
-    inner class DiffUtilStringItemCallback(): BaseDiffUtilItemCallback<String>() {
+    inner class DiffUtilStringItemCallback() : BaseDiffUtilItemCallback<String>() {
         override fun areContentsTheSame(oldItem: String, newItem: String): Boolean =
                 oldItem == newItem
     }

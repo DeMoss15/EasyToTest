@@ -27,7 +27,7 @@ class EditAnswerFragment : BaseFragment<EditAnswerContract.Presenter>(), EditAns
     private lateinit var mainCallback: MainCallback
 
     // Lifecycle ===================================================================================
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         mainCallback = activity as MainCallback
         arguments?.getInt(ExtraConstants.EXTRA_ANSWER_ID)?.let { presenter.answerId = it }

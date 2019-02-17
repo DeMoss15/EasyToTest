@@ -17,30 +17,34 @@ object LocalToDomainMapper {
 
     fun toDomain(test: TestRoomEntity): TestModel {
         return TestModel(
-            test.id,
-            test.name,
-            test.questions.map { toDomain(it) }.toMutableList(),
-            EntityStatus.SAVED
+                test.id,
+                test.name,
+                test.questions.map { toDomain(it) }.toMutableList(),
+                EntityStatus.SAVED,
+                test.password,
+                test.timer,
+                test.questionsAmount,
+                test.examMode
         )
     }
 
     // Question ==============================================================================
     fun toDomain(question: QuestionRoomEntity): QuestionModel {
         return QuestionModel(
-            question.id,
-            question.content,
-            question.answers.map { toDomain(it) }.toMutableList(),
-            EntityStatus.SAVED
+                question.id,
+                question.content,
+                question.answers.map { toDomain(it) }.toMutableList(),
+                EntityStatus.SAVED
         )
     }
 
     // Answers ================================================================================
     fun toDomain(answer: AnswerRoomEntity): AnswerModel {
         return AnswerModel(
-            answer.id,
-            answer.content,
-            answer.isRight,
-            EntityStatus.SAVED
+                answer.id,
+                answer.content,
+                answer.isRight,
+                EntityStatus.SAVED
         )
     }
 }

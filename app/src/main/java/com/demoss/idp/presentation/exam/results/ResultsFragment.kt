@@ -21,7 +21,7 @@ class ResultsFragment : BaseFragment<ResultsContract.Presenter>(), ResultsContra
     override val layoutResourceId: Int = R.layout.fragment_results
     private lateinit var examCallback: ExamCallback
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         examCallback = activity as ExamCallback
     }

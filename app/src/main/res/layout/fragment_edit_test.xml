@@ -14,10 +14,10 @@
         android:hint="@string/test_name"
         android:imeOptions="actionDone"
         android:inputType="textCapSentences"
-        android:paddingTop="@dimen/base_4dp"
-        android:paddingBottom="@dimen/base_4dp"
         android:paddingStart="@dimen/base_8dp"
+        android:paddingTop="@dimen/base_4dp"
         android:paddingEnd="@dimen/base_8dp"
+        android:paddingBottom="@dimen/base_4dp"
         android:textAlignment="center"
         android:textAppearance="@style/TitleText"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,15 +25,72 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="Autofill" />
 
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/base_2dp"
+        android:background="@color/colorBackgroundWhite"
+        android:hint="@string/password"
+        android:imeOptions="actionDone"
+        android:inputType="textVisiblePassword"
+        android:maxLength="6"
+        android:paddingStart="@dimen/base_8dp"
+        android:paddingTop="@dimen/base_4dp"
+        android:paddingEnd="@dimen/base_8dp"
+        android:paddingBottom="@dimen/base_4dp"
+        android:textAlignment="center"
+        android:textAppearance="@style/TitleText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etTestName"
+        tools:ignore="Autofill" />
+
+    <EditText
+        android:id="@+id/etTimer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="@dimen/base_2dp"
+        android:background="@color/colorBackgroundWhite"
+        android:hint="@string/timer"
+        android:imeOptions="actionDone"
+        android:inputType="number"
+        android:maxLength="3"
+        android:paddingStart="@dimen/base_8dp"
+        android:paddingTop="@dimen/base_4dp"
+        android:paddingEnd="@dimen/base_8dp"
+        android:paddingBottom="@dimen/base_4dp"
+        android:textAlignment="center"
+        android:textAppearance="@style/TitleText"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/cbExamMode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cbExamMode"
+        app:layout_constraintTop_toTopOf="@+id/cbExamMode"
+        tools:ignore="Autofill" />
+
+    <CheckBox
+        android:id="@+id/cbExamMode"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/base_2dp"
+        android:background="@color/colorBackgroundWhite"
+        android:button="@drawable/selector_check_box"
+        android:text="@string/exam_mode"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@+id/etTimer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etPassword" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvQuestions"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/base_4dp"
+        android:layout_marginTop="@dimen/base_8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etTestName"
+        app:layout_constraintTop_toBottomOf="@+id/sbQuestionsAmount"
         tools:listitem="@layout/item_question" />
 
     <TextView
@@ -47,5 +104,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Empty View" />
+
+    <SeekBar
+        android:id="@+id/sbQuestionsAmount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/base_4dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/tvQuestionsAmount"
+        app:layout_constraintStart_toStartOf="@+id/tvQuestionsAmountHint"
+        app:layout_constraintTop_toBottomOf="@+id/tvQuestionsAmountHint" />
+
+    <TextView
+        android:id="@+id/tvQuestionsAmountHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/base_8dp"
+        android:layout_marginTop="@dimen/base_8dp"
+        android:text="@string/number_of_questions"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/tvQuestionsAmount"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cbExamMode" />
+
+    <TextView
+        android:id="@+id/tvQuestionsAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/base_8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvQuestionsAmountHint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvQuestionsAmountHint"
+        app:layout_constraintTop_toTopOf="@+id/tvQuestionsAmountHint"
+        tools:text="0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

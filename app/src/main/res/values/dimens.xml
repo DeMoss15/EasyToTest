@@ -18,4 +18,6 @@
     <dimen name="medium_text">16sp</dimen>
     <dimen name="big_text">24sp</dimen>
 
+    <dimen name="dialog_width">300dp</dimen>
+
 </resources>

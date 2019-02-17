@@ -19,7 +19,7 @@ class AnswersRecyclerViewAdapter(private val onItemClickListener: (AnswerModel) 
         }
     }
 
-    class DiffUtilAnswerModelItemCallback(): BaseRecyclerViewAdapter.BaseDiffUtilItemCallback<AnswerModel>() {
+    class DiffUtilAnswerModelItemCallback() : BaseRecyclerViewAdapter.BaseDiffUtilItemCallback<AnswerModel>() {
         override fun areContentsTheSame(oldItem: AnswerModel, newItem: AnswerModel): Boolean =
             oldItem == newItem
     }
