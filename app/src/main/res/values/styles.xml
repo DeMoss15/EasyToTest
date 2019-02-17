@@ -1,11 +1,38 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">?themeColorPrimary</item>
+        <item name="colorPrimaryDark">?themeColorPrimaryDark</item>
+        <item name="colorAccent">?themeColorAccent</item>
         <item name="android:windowBackground">@color/colorWindowBackground</item>
         <item name="shapeAppearanceSmallComponent">@style/AppShapeAppearance.SmallComponent</item>
+        <item name="themeColorPrimary">@color/colorPrimary</item>
+        <item name="themeColorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="themeColorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.Blue">
+        <item name="android:windowBackground">@color/colorBlueThemeWindowBackground</item>
+        <item name="shapeAppearanceSmallComponent">@style/AppShapeAppearance.SmallComponent</item>
+        <item name="themeColorPrimary">@color/colorBlueThemePrimary</item>
+        <item name="themeColorPrimaryDark">@color/colorBlueThemePrimaryDark</item>
+        <item name="themeColorAccent">@color/colorBlueThemeAccent</item>
+    </style>
+
+    <style name="AppTheme.Red">
+        <item name="android:windowBackground">@color/colorRedThemeWindowBackground</item>
+        <item name="shapeAppearanceSmallComponent">@style/AppShapeAppearance.SmallComponent</item>
+        <item name="themeColorPrimary">@color/colorRedThemePrimary</item>
+        <item name="themeColorPrimaryDark">@color/colorRedThemePrimaryDark</item>
+        <item name="themeColorAccent">@color/colorRedThemeAccent</item>
+    </style>
+
+    <style name="AppTheme.Green">
+        <item name="android:windowBackground">@color/colorGreenThemeWindowBackground</item>
+        <item name="shapeAppearanceSmallComponent">@style/AppShapeAppearance.SmallComponent</item>
+        <item name="themeColorPrimary">@color/colorGreenThemePrimary</item>
+        <item name="themeColorPrimaryDark">@color/colorGreenThemePrimaryDark</item>
+        <item name="themeColorAccent">@color/colorGreenThemeAccent</item>
     </style>
 
     <style name="AppShapeAppearance.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
@@ -30,7 +57,7 @@
 
     <style name="CommonButton" parent="Widget.MaterialComponents.Button.Icon">
         <item name="android:textAllCaps">true</item>
-        <item name="android:backgroundTint">@color/colorAccent</item>
+        <item name="android:backgroundTint">?themeColorAccent</item>
         <item name="android:textColor">@color/colorBackgroundWhite</item>
     </style>
 

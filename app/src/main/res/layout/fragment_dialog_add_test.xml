@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorAccent">
+    android:background="?themeColorAccent">
 
     <TextView
         android:id="@+id/tvTitle"
@@ -22,5 +22,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/item_text"
-        android:background="@color/colorPrimary"/>
+        android:background="?themeColorPrimary"/>
 </LinearLayout>

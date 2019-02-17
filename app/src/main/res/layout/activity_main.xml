@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:backgroundTint="@color/colorPrimaryDark"
+        app:backgroundTint="?themeColorPrimaryDark"
         app:fabAlignmentMode="center"
         app:fabAnimationMode="slide"
         app:fabCradleMargin="@dimen/base_8dp"
@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_add"
-        app:backgroundTint="@color/colorAccent"
+        app:backgroundTint="?themeColorAccent"
         app:layout_anchor="@id/bottomAppBar" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

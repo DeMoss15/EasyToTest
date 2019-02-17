@@ -3,8 +3,23 @@
     <color name="colorPrimary">#616161</color>
     <color name="colorPrimaryDark">#212121</color>
     <color name="colorAccent">#7e57c2</color>
-
     <color name="colorWindowBackground">#eeeeee</color>
+
+    <color name="colorBlueThemePrimary">#3d8dd6</color>
+    <color name="colorBlueThemePrimaryDark">#224d92</color>
+    <color name="colorBlueThemeAccent">#e5bf56</color>
+    <color name="colorBlueThemeWindowBackground">#e5f2fb</color>
+
+    <color name="colorRedThemePrimary">#ec2d42</color>
+    <color name="colorRedThemePrimaryDark">#cc1934</color>
+    <color name="colorRedThemeAccent">#34cc19</color>
+    <color name="colorRedThemeWindowBackground">#ffebf0</color>
+
+    <color name="colorGreenThemePrimary">#19cc31</color>
+    <color name="colorGreenThemePrimaryDark">#009802</color>
+    <color name="colorGreenThemeAccent">#cc19b4</color>
+    <color name="colorGreenThemeWindowBackground">#e8f9e8</color>
+
     <color name="colorBackgroundWhite">#FFFFFF</color>
 
     <!--Text colors-->

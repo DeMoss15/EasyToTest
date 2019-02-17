@@ -72,8 +72,8 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:boxStrokeColor="@color/colorAccent"
-        app:hintTextColor="@color/colorAccent"
+        app:boxStrokeColor="?themeColorAccent"
+        app:hintTextColor="?themeColorAccent"
         app:layout_constraintBottom_toTopOf="@id/btnBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">

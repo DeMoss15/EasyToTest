@@ -20,9 +20,7 @@ import com.demoss.idp.base.BaseFragment
 import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.presentation.adapter.TestsRecyclerViewAdapter
 import com.demoss.idp.presentation.main.dialog.PasswordVerificationFragment
-import com.demoss.idp.presentation.main.dialog.SimpleItemsListDialogFragment
 import com.demoss.idp.presentation.main.main.MainCallback
-import com.demoss.idp.util.Constants
 import com.demoss.idp.util.EmptyConstants
 import com.demoss.idp.util.pagination.setOnNextPageListener
 import com.google.android.material.bottomappbar.BottomAppBar
@@ -122,8 +120,19 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
     }
 
     // MainFragment ====================================================================================================
+    private val themes = listOf(
+        R.style.AppTheme_Red,
+        R.style.AppTheme_Blue,
+        R.style.AppTheme_Green,
+        R.style.AppTheme
+    )
+    private var currentTheme = 0
+
     override fun onFabPressed() {
-        SimpleItemsListDialogFragment.Builder().apply {
+        activity?.setTheme(themes[currentTheme++ % themes.size])
+        activity?.recreate()
+        // TODO: Uncomment when dynamic theme issue will be resolved
+        /*SimpleItemsListDialogFragment.Builder().apply {
             title = getString(R.string.adding_test_dialog_title)
             itemsList = listOf(getString(R.string.input_type_file), getString(R.string.input_type_editing))
             onClickListener = { item ->
@@ -135,7 +144,7 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
                     itemsList[1] -> mainCallback.nextFragment(TAG, Constants.NEW_ENTITY_ID)
                 }
             }
-        }.build().show(childFragmentManager, TAG)
+        }.build().show(childFragmentManager, TAG)*/
     }
 
     override fun onMenuItemPressed(itemId: Int) {
