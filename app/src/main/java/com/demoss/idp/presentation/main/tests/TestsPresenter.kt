@@ -62,7 +62,7 @@ class TestsPresenter(
     override fun share(test: TestModel) {
         shareTestUseCase.execute(object : DisposableSingleObserver<String>() {
             override fun onSuccess(t: String) {
-                view?.share(t)
+                view?.share(t, test.name)
             }
 
             override fun onError(e: Throwable) {
