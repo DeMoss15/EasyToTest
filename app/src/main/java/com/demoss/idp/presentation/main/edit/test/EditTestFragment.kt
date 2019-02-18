@@ -62,12 +62,12 @@ class EditTestFragment : BaseFragment<EditTestContract.Presenter>(), EditTestCon
         } else {
             rvAdapter.dispatchData(test.questions.filter { it.status != EntityStatus.DROPPED })
         }
-        cbExamMode.isChecked = test.examMode
-        if (etPassword.text.isEmpty()) etPassword.setText(test.password)
-        if (test.timer != 0L && etTimer.text.isEmpty()) etTimer.setText(test.timer.toString())
+        cbExamMode.isChecked = test.metaData.examMode
+        if (etPassword.text.isEmpty()) etPassword.setText(test.metaData.password)
+        if (test.metaData.timer != 0L && etTimer.text.isEmpty()) etTimer.setText(test.metaData.timer.toString())
         sbQuestionsAmount.apply {
             max = test.questions.size
-            progress = test.questionsAmount
+            progress = test.metaData.questionsAmountPerSession
         }
     }
 

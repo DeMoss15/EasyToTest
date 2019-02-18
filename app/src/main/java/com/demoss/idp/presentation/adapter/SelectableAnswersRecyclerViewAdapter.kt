@@ -1,7 +1,6 @@
 package com.demoss.idp.presentation.adapter
 
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.AsyncListDiffer
 import com.demoss.idp.R
 import com.demoss.idp.base.BaseRecyclerViewAdapter
@@ -50,9 +49,9 @@ class SelectableAnswersRecyclerViewAdapter :
             selectedItem?.let { redrawItem(it) }
         }
 
-        private fun getItemColor(item: AnswerModel): Int = ContextCompat.getColor(
-            view.context,
-            getBackgroundColorResource(item)
+        private fun getItemColor(item: AnswerModel): Int = view.resources.getColor(
+            getBackgroundColorResource(item),
+            view.context.theme
         )
 
         private fun getBackgroundColorResource(item: AnswerModel): Int = when {

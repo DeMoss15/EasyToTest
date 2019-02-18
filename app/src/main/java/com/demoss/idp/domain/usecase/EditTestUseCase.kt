@@ -36,10 +36,10 @@ class EditTestUseCase(
     fun saveTest(testName: String, examMode: Boolean, password: String, timer: Long, questionsAmount: Int, completableObserver: DisposableCompletableObserver) {
         currentTest.setModified()
         currentTest.name = testName
-        currentTest.timer = timer
-        currentTest.password = password
-        currentTest.examMode = examMode
-        currentTest.questionsAmount = questionsAmount
+        currentTest.metaData.timer = timer
+        currentTest.metaData.password = password
+        currentTest.metaData.examMode = examMode
+        currentTest.metaData.questionsAmountPerSession = questionsAmount
         saveChanges(completableObserver)
     }
 

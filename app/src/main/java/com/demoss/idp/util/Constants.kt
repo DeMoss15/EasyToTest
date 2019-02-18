@@ -14,6 +14,8 @@ object Constants {
     const val JSON_PREFIX: String = "diploma.test.JSON"
     const val KEY_LENGTH: Int = 16
 
+    const val JSON_FIELD_META_DATA: String = "metaData"
+    const val JSON_FIELD_UTID: String = "utid"
     const val JSON_FIELD_QUESTIONS_AMOUNT: String = "questionsAmount"
     const val JSON_FIELD_EXAM_MODE: String = "examMode"
     const val JSON_FIELD_PASSWORD: String = "password"

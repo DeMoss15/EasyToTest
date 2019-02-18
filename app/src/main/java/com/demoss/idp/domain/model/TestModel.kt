@@ -7,20 +7,22 @@ class TestModel(
     var name: String,
     var questions: MutableList<QuestionModel>,
     var status: EntityStatus = EntityStatus.NEW,
+    var metaData: TestMetaData,
+    var sessionResults: SessionResults/*
     var password: String,
         // session
     var timer: Long,
     var questionsAmount: Int,
         // exam mode
-    /** NOTE:
+    *//** NOTE:
      * if example mode enabled session and password are required
-     **/
-    var examMode: Boolean
+     **//*
+    var examMode: Boolean*/
 ) {
 
     override fun equals(other: Any?): Boolean = other is TestModel &&
             this.id == other.id &&
-            this.password == other.password
+            this.metaData.password == other.metaData.password
 
     override fun hashCode(): Int = id * 31 + questions.hashCode()
 }

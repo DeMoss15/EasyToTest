@@ -12,31 +12,35 @@ object DomainToLocalMapper {
     // Test =================================================================================
     fun toLocal(test: TestModel): TestRoomEntity {
         return TestRoomEntity(
-                test.id,
-                test.name,
-                test.timer,
-                test.password,
-                test.examMode,
-                test.questionsAmount
+            test.id,
+            test.name,
+            test.metaData.utid,
+            test.metaData.password,
+            test.metaData.examMode,
+            test.metaData.timer,
+            test.metaData.questionsAmountPerSession,
+            test.sessionResults.spentTime,
+            test.sessionResults.rightAnswersAmount,
+            test.sessionResults.shownQuestionsAmount
         ).apply { questions = test.questions.map { toLocal(test.id, it) } }
     }
 
     // Question ==============================================================================
     fun toLocal(testId: Int, question: QuestionModel): QuestionRoomEntity {
         return QuestionRoomEntity(
-                question.id,
-                testId,
-                question.text
+            question.id,
+            testId,
+            question.text
         ).apply { answers = question.answers.map { toLocal(question.id, it) } }
     }
 
     // Answers ================================================================================
     fun toLocal(questionId: Int, answer: AnswerModel): AnswerRoomEntity {
         return AnswerRoomEntity(
-                answer.id,
-                questionId,
-                answer.text,
-                answer.isRightAnswer
+            answer.id,
+            questionId,
+            answer.text,
+            answer.isRightAnswer
         )
     }
 }
