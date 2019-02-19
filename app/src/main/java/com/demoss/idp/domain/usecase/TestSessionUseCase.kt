@@ -2,8 +2,10 @@ package com.demoss.idp.domain.usecase
 
 import com.demoss.idp.domain.model.AnswerModel
 import com.demoss.idp.domain.model.QuestionModel
+import com.demoss.idp.domain.model.SessionResults
 import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.domain.usecase.model.GetTestUseCase
+import com.demoss.idp.domain.usecase.model.UpdateTestUseCase
 import com.demoss.idp.util.setDefaultSchedulers
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -12,12 +14,14 @@ import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 
-class TestSessionUseCase(private val getTestUseCase: GetTestUseCase) {
+class TestSessionUseCase(
+    private val getTestUseCase: GetTestUseCase,
+    private val updateTestUseCase: UpdateTestUseCase
+) {
 
     private lateinit var test: TestModel
     private var timer: Long = 0L
     private val userAnswers = mutableListOf<AnswerModel>()
-    private var timeSpent = ""
     private var isRunning = true
 
     fun setTestId(testId: Int): Completable {
@@ -34,7 +38,6 @@ class TestSessionUseCase(private val getTestUseCase: GetTestUseCase) {
 
     private fun resetSession() {
         timer = 0L
-        timeSpent = ""
         userAnswers.clear()
         isRunning = true
     }
@@ -53,11 +56,12 @@ class TestSessionUseCase(private val getTestUseCase: GetTestUseCase) {
 
     // Session =====================================================================================
     private lateinit var compositeDisposable: CompositeDisposable
-    private lateinit var timeObservable: Observable<String>
     private lateinit var questionsObservable: BehaviorSubject<QuestionModel>
 
     fun setAnswer(answer: AnswerModel) {
         userAnswers.add(answer)
+        test.sessionResults.rightAnswersAmount = userAnswers.filter { it.isRightAnswer }.size
+        test.sessionResults.shownQuestionsAmount = userAnswers.size
         if (test.questions.size <= userAnswers.size) {
             stopSession()
             return
@@ -66,48 +70,60 @@ class TestSessionUseCase(private val getTestUseCase: GetTestUseCase) {
     }
 
     fun runSession(onNextQuestion: (QuestionModel) -> Unit, onTick: (String) -> Unit, onSessionEnd: () -> Unit) {
+        test.sessionResults = TempEntitiesFabric.createEmptySession()
         compositeDisposable = CompositeDisposable()
-        subscribeToTimer(onTick)
-        subscribeToQuestions(onNextQuestion)
-        compositeDisposable.add(questionsObservable.doOnComplete { isRunning = !isRunning }.subscribe()) // complete timer
-        compositeDisposable.add(timeObservable.doOnComplete { questionsObservable.onComplete() }.subscribe()) // complete questions
         compositeDisposable.add(
-            timeObservable.mergeWith(questionsObservable.map { it.text })
-                .doOnComplete(onSessionEnd)
-                .doOnComplete { compositeDisposable.dispose() }
+            setUpTimer(onTick).mergeWith(setUpQuestions(onNextQuestion).map { it.text })
+                .doOnComplete { updateTest(onSessionEnd) }
+                .doOnError { it.printStackTrace() }
                 .subscribe()
         )
     }
+
+    private fun updateTest(onSessionEnd: () -> Unit) {
+        compositeDisposable.add(
+            updateTestUseCase.buildUseCaseObservable(UpdateTestUseCase.Params(test))
+                .setDefaultSchedulers()
+                .subscribe(
+                    {
+                        onSessionEnd()
+                        compositeDisposable.clear()
+                    }, { it.printStackTrace() }
+                )
+        )
+    }
+
+    private fun setUpTimer(onTick: (String) -> Unit): Observable<String> = createTimer().doOnNext(onTick)
+        .doOnNext { test.sessionResults.spentTime = it }
+        .doOnComplete { questionsObservable.onComplete() }
+
+    private fun setUpQuestions(onNextQuestion: (QuestionModel) -> Unit): Observable<QuestionModel> {
+        questionsObservable = BehaviorSubject.create<QuestionModel>()
+        questionsObservable.onNext(test.questions[0])
+        return questionsObservable.doOnNext(onNextQuestion)
+    }
+
 
     fun stopSession() {
         isRunning = false
     }
 
-    private fun subscribeToQuestions(onNextQuestion: (QuestionModel) -> Unit) {
-        questionsObservable = BehaviorSubject.create<QuestionModel>()
-        compositeDisposable.add(questionsObservable.subscribe(onNextQuestion))
-        questionsObservable.onNext(test.questions[0])
-    }
-
-    private fun subscribeToTimer(onTick: (String) -> Unit) {
-        timeObservable = createTimer()
-        compositeDisposable.add(timeObservable.subscribe(onTick))
-        compositeDisposable.add(timeObservable.takeLast(1).subscribe { timeSpent = it })
-    }
-
     // Results =====================================================================================
-    fun getNumberOfAnswers(): Int = userAnswers.size
+    fun getNumberOfAnswers(): Int = test.sessionResults.shownQuestionsAmount
 
-    fun getNumberOfRightAnswers(): Int = userAnswers.filter { it.isRightAnswer }.size
+    fun getNumberOfRightAnswers(): Int = test.sessionResults.rightAnswersAmount
 
-    fun getTimeSpent(): String = timeSpent
+    fun getTimeSpent(): String = test.sessionResults.spentTime.also {
+        if (::compositeDisposable.isInitialized) compositeDisposable.dispose()
+    }
 
     // Private =====================================================================================
     private fun createTimer(): Observable<String> = PublishSubject
         .interval(1, TimeUnit.SECONDS)
         .map { it + 1 }
         .startWith(0)
-        .takeWhile { isRunning && (timer == 0L || (timer != 0L && it != timer)) }
+        .takeWhile { !isTimeOut(it)/*(timer == 0L || (timer != 0L && it != timer))*/ } // stop taking on false
+        .takeWhile { isRunning }
         .map { time ->
             var minutes = (time / 60).toString()
             var seconds = (time % 60).toString()
@@ -115,5 +131,8 @@ class TestSessionUseCase(private val getTestUseCase: GetTestUseCase) {
             while (seconds.length < 2) seconds = "0$seconds"
             "$minutes : $seconds"
         }
-        .setDefaultSchedulers()
+
+    private fun isTimeOut(currentTime: Long): Boolean =
+        if (timer == 0L) false
+        else currentTime > timer
 }

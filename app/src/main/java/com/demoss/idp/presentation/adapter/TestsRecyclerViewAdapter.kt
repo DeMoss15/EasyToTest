@@ -19,9 +19,9 @@ class TestsRecyclerViewAdapter(
     inner class ViewHolder(view: View) : BaseRecyclerViewAdapter.BaseViewHolder<TestModel>(view) {
         override fun bindData(item: TestModel) {
             view.tvName.text = item.name
-            view.setOnClickListener { onItemClick(item, Action.SELECT) }
-            view.ivEdit.setOnClickListener { onItemClick(item, Action.EDIT) }
-            view.ivShare.setOnClickListener { onItemClick(item, Action.SHARE) }
+            view.setOnClickListener { onItemClick(differ.currentList.first { it.id == item.id }, Action.SELECT) }
+            view.ivEdit.setOnClickListener { onItemClick(differ.currentList.first { it.id == item.id }, Action.EDIT) }
+            view.ivShare.setOnClickListener { onItemClick(differ.currentList.first { it.id == item.id }, Action.SHARE) }
         }
     }
 
@@ -33,6 +33,6 @@ class TestsRecyclerViewAdapter(
 
     class DiffUtilTestModelItemCallback : BaseDiffUtilItemCallback<TestModel>() {
         override fun areContentsTheSame(oldItem: TestModel, newItem: TestModel): Boolean =
-                oldItem == newItem
+            oldItem == newItem
     }
 }

@@ -33,7 +33,7 @@ object TempEntitiesFabric {
         questionsAmountPerSession = 0
     )
 
-    fun createEmptySession(): SessionResults = SessionResults(0, 0, 0)
+    fun createEmptySession(): SessionResults = SessionResults(EmptyConstants.EMPTY_STRING, 0, 0)
 
     fun createTempQuestion(): QuestionModel =
         QuestionModel(

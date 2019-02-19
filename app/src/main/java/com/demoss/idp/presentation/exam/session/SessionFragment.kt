@@ -32,8 +32,6 @@ class SessionFragment : BaseFragment<SessionContract.Presenter>(), SessionContra
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.startSession()
-
         tvQuestion.movementMethod = ScrollingMovementMethod()
         rvAnswers.apply {
             val manager = LinearLayoutManager(context)
@@ -52,6 +50,7 @@ class SessionFragment : BaseFragment<SessionContract.Presenter>(), SessionContra
         btnStop.setOnClickListener {
             presenter.stopSession()
         }
+        presenter.startSession()
     }
 
     override fun showTimer(time: String) {

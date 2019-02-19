@@ -36,8 +36,8 @@ class TestsPresenter(
     }
 
     override fun onViewShown() {
-        super.onViewShown()
         paginator.refresh()
+        super.onViewShown()
     }
 
     override fun onViewHidden() {
@@ -89,8 +89,9 @@ class TestsPresenter(
             }
 
             override fun onError(e: Throwable) {
-                e.printStackTrace()
+                view?.showParsingProgress(false)
                 view?.showToast(e.localizedMessage)
+                e.printStackTrace()
             }
         }, ParseFileUseCase.Params(stream))
     }

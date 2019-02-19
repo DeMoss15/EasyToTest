@@ -10,6 +10,15 @@ class TestMetaData (
     companion object {
         fun buildUtid(testName: String, password: String, generatedKey: String): String = testName + password + generatedKey
     }
+
+    override fun equals(other: Any?): Boolean = other is TestMetaData &&
+            utid == other.utid &&
+            password == other.utid &&
+            examMode == other.examMode &&
+            timer == other.timer &&
+            questionsAmountPerSession == other.questionsAmountPerSession
+
+    override fun hashCode(): Int = utid.hashCode() * 31 + password.hashCode()
 }
 
 typealias Minutes = Long

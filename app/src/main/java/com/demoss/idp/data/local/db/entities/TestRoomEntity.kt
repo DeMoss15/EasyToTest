@@ -14,7 +14,7 @@ data class TestRoomEntity(
     @ColumnInfo(name = "timer") var timer: Long,
     @ColumnInfo(name = "questionsAmountPerSession") var questionsAmountPerSession: Int,
     // Session
-    @ColumnInfo(name = "spentTime") var spentTime: Long,
+    @ColumnInfo(name = "spentTime") var spentTime: String,
     @ColumnInfo(name = "rightAnswersAmount") var rightAnswersAmount: Int,
     @ColumnInfo(name = "shownQuestionsAmount") var shownQuestionsAmount: Int
 ) {

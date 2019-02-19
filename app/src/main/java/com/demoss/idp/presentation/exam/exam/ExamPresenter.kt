@@ -4,7 +4,8 @@ import com.demoss.idp.base.mvp.BasePresenterImpl
 import com.demoss.idp.domain.usecase.TestSessionUseCase
 import io.reactivex.disposables.CompositeDisposable
 
-class ExamPresenter(private val testSessionUseCase: TestSessionUseCase) : BasePresenterImpl<ExamContract.View>(), ExamContract.Presenter {
+class ExamPresenter(private val testSessionUseCase: TestSessionUseCase) : BasePresenterImpl<ExamContract.View>(),
+    ExamContract.Presenter {
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -18,13 +19,16 @@ class ExamPresenter(private val testSessionUseCase: TestSessionUseCase) : BasePr
         compositeDisposable.dispose()
     }
 
-    override fun setTestId(testId: Int) {
+    override fun setExtra(testId: Int, isResults: Boolean) {
         compositeDisposable.addAll(testSessionUseCase.setTestId(testId).subscribe(
-                { view?.showSettings() },
-                {
-                    it.printStackTrace()
-                    view?.showToast(it.localizedMessage)
-                }
+            {
+                if (isResults) view?.showResults()
+                else view?.showSettings()
+            },
+            {
+                it.printStackTrace()
+                view?.showToast(it.localizedMessage)
+            }
         ))
     }
 }
