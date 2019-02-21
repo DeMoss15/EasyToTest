@@ -5,20 +5,20 @@
     <color name="colorAccent">#7e57c2</color>
     <color name="colorWindowBackground">#eeeeee</color>
 
-    <color name="colorBlueThemePrimary">#3d8dd6</color>
-    <color name="colorBlueThemePrimaryDark">#224d92</color>
-    <color name="colorBlueThemeAccent">#e5bf56</color>
-    <color name="colorBlueThemeWindowBackground">#e5f2fb</color>
+    <color name="colorBlueThemePrimary">#5076b1</color>
+    <color name="colorBlueThemePrimaryDark">#48669f</color>
+    <color name="colorBlueThemeAccent">#b18a50</color>
+    <color name="colorBlueThemeWindowBackground">#e6e9f5</color>
 
-    <color name="colorRedThemePrimary">#ec2d42</color>
-    <color name="colorRedThemePrimaryDark">#cc1934</color>
-    <color name="colorRedThemeAccent">#34cc19</color>
-    <color name="colorRedThemeWindowBackground">#ffebf0</color>
+    <color name="colorRedThemePrimary">#cf5050</color>
+    <color name="colorRedThemePrimaryDark">#bd4849</color>
+    <color name="colorRedThemeAccent">#50cfcf</color>
+    <color name="colorRedThemeWindowBackground">#faecef</color>
 
-    <color name="colorGreenThemePrimary">#19cc31</color>
-    <color name="colorGreenThemePrimaryDark">#009802</color>
-    <color name="colorGreenThemeAccent">#cc19b4</color>
-    <color name="colorGreenThemeWindowBackground">#e8f9e8</color>
+    <color name="colorGreenThemePrimary">#42b98b</color>
+    <color name="colorGreenThemePrimaryDark">#00ad77</color>
+    <color name="colorGreenThemeAccent">#b9426f</color>
+    <color name="colorGreenThemeWindowBackground">#e5f5ee</color>
 
     <color name="colorBackgroundWhite">#FFFFFF</color>
 

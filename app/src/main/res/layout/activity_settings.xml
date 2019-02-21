@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/base_16dp">
+
+        <Spinner
+            android:id="@+id/spinnerThemes"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/base_8dp"
+            android:dropDownWidth="match_parent"
+            android:spinnerMode="dialog"
+            app:layout_constraintBottom_toBottomOf="@+id/tvApplicationThemeHint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvApplicationThemeHint"
+            app:layout_constraintTop_toTopOf="@+id/tvApplicationThemeHint" />
+
+        <TextView
+            android:id="@+id/tvApplicationThemeHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/application_theme"
+            android:textAppearance="@style/TitleText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnSendFeedback"
+            style="@style/CommonButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/base_16dp"
+            android:text="@string/send_feedback"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvApplicationThemeHint" />
+
+        <TextView
+            android:id="@+id/tvAboutApplication"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/base_16dp"
+            android:text="@string/about_application"
+            android:textAppearance="@style/CommonText"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnSendFeedback"
+            tools:text="About application" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:backgroundTint="?themeColorPrimaryDark"
+        app:fabAlignmentMode="end"
+        app:fabAnimationMode="scale"
+        app:fabCradleMargin="@dimen/base_8dp"
+        app:fabCradleRoundedCornerRadius="@dimen/base_16dp"
+        app:hideOnScroll="true" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:iconTint="?themeColorWindowBackground"
+        android:src="@drawable/ic_arrow_back"
+        app:backgroundTint="?themeColorAccent"
+        app:layout_anchor="@id/bottomAppBar"
+        app:maxImageSize="@dimen/base_36dp"
+        app:tint="@color/colorWindowBackground" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

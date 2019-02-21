@@ -34,4 +34,7 @@
     <string name="input_type_file">file</string>
     <string name="input_type_editing">input</string>
     <string name="warning_incorrect_password">Incorrect password</string>
+    <string name="about_application">about ...</string>
+    <string name="application_theme">Application Theme</string>
+    <string name="send_feedback">Send Feedback</string>
 </resources>

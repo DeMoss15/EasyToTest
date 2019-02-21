@@ -10,7 +10,7 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="?android:attr/actionBarSize"/>
+        android:layout_marginBottom="?android:attr/actionBarSize" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
@@ -28,8 +28,11 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:iconTint="?themeColorWindowBackground"
         android:src="@drawable/ic_add"
         app:backgroundTint="?themeColorAccent"
-        app:layout_anchor="@id/bottomAppBar" />
+        app:layout_anchor="@id/bottomAppBar"
+        app:maxImageSize="@dimen/base_36dp"
+        app:tint="@color/colorWindowBackground" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

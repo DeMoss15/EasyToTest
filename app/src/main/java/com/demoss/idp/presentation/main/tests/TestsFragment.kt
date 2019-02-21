@@ -124,20 +124,7 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
     }
 
     // MainFragment ====================================================================================================
-    private val themes = listOf(
-        R.style.Red,
-        R.style.Blue,
-        R.style.Green,
-        R.style.AppTheme
-    )
-
     override fun onFabPressed() {
-        // TODO: move this code to settings; maybe this logic should be in shared preferences manager class
-        /*activity?.getSharedPreferences(Constants.SP_NAME, Context.MODE_PRIVATE)?.apply {
-            val currentTheme = getInt(Constants.THEME_KEY, R.style.AppTheme)
-            edit().clear().putInt(Constants.THEME_KEY, themes[(themes.indexOf(currentTheme) + 1) % themes.size]).apply()
-        }
-        activity?.recreate()*/
         SimpleItemsListDialogFragment.Builder().apply {
             title = getString(R.string.adding_test_dialog_title)
             itemsList = listOf(getString(R.string.input_type_file), getString(R.string.input_type_editing))
