@@ -17,8 +17,10 @@ import org.koin.android.ext.android.inject
 class ExamActivity : BaseActivity<ExamContract.Presenter>(), ExamContract.View, ExamCallback {
 
     companion object {
-        fun getIntent(context: Context, testId: Int): Intent = Intent(context, ExamActivity::class.java)
+        fun getIntent(context: Context, testId: Int, isResultsFrame: Boolean): Intent =
+            Intent(context, ExamActivity::class.java)
                 .putExtra(ExtraConstants.EXTRA_TEST_ID, testId)
+                .putExtra(ExtraConstants.EXTRA_RESULTS, isResultsFrame)
     }
 
     override val presenter: ExamContract.Presenter by inject()
@@ -26,7 +28,10 @@ class ExamActivity : BaseActivity<ExamContract.Presenter>(), ExamContract.View, 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter.setTestId(intent.getIntExtra(ExtraConstants.EXTRA_TEST_ID, 0))
+        presenter.setExtra(
+            intent.getIntExtra(ExtraConstants.EXTRA_TEST_ID, 0),
+            intent.getBooleanExtra(ExtraConstants.EXTRA_RESULTS, false)
+        )
     }
 
     override fun onBackPressed() {
@@ -36,6 +41,8 @@ class ExamActivity : BaseActivity<ExamContract.Presenter>(), ExamContract.View, 
 
     // View ========================================================================================
     override fun showSettings() = navigateToSetup()
+
+    override fun showResults() = navigateToResults()
 
     // Callback ====================================================================================
     override fun nextFragment(currentFragmentTag: String) {
@@ -68,8 +75,8 @@ class ExamActivity : BaseActivity<ExamContract.Presenter>(), ExamContract.View, 
 
     private fun replaceFragment(fragment: Fragment, tag: String) {
         supportFragmentManager.beginTransaction()
-                .replace(container.id, fragment)
-                .addToBackStack(tag)
-                .commit()
+            .replace(container.id, fragment)
+            .addToBackStack(tag)
+            .commit()
     }
 }

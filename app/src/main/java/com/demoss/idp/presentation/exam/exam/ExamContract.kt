@@ -6,9 +6,10 @@ import com.demoss.idp.base.mvp.BaseView
 interface ExamContract {
 
     interface Presenter : BasePresenter {
-        fun setTestId(testId: Int)
+        fun setExtra(testId: Int, isResults: Boolean)
     }
     interface View : BaseView {
         fun showSettings()
+        fun showResults()
     }
 }

@@ -59,7 +59,7 @@ class SetupSessionFragment : BaseFragment<SetupSessionContract.Presenter>(), Set
             tvTestName.text = name
             sbQuestionsAmount.max = questions.size
             tvQuestionsAmount.text = questions.size.toString()
-            if (examMode) setupExamMode(this)
+            if (metaData.examMode) setupExamMode(this)
         }
     }
 
@@ -81,8 +81,8 @@ class SetupSessionFragment : BaseFragment<SetupSessionContract.Presenter>(), Set
         switchTimer.isChecked = true
         switchShuffle.isChecked = true
         test.apply {
-            etTimer.setText(timer.toString())
-            sbQuestionsAmount.setProgress(test.questionsAmount, true)
+            etTimer.setText(metaData.timer.toString())
+            sbQuestionsAmount.setProgress(test.metaData.questionsAmountPerSession, true)
         }
 
         // disable session settings

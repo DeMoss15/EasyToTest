@@ -1,9 +1,6 @@
 package com.demoss.idp.domain.usecase
 
-import com.demoss.idp.domain.model.AnswerModel
-import com.demoss.idp.domain.model.EntityStatus
-import com.demoss.idp.domain.model.QuestionModel
-import com.demoss.idp.domain.model.TestModel
+import com.demoss.idp.domain.model.*
 import com.demoss.idp.util.Constants.NEW_ENTITY_ID
 import com.demoss.idp.util.EmptyConstants
 
@@ -19,33 +16,40 @@ object TempEntitiesFabric {
         }
     }
 
-    fun createTempTest(): TestModel =
-            TestModel(
-                    id = tempIdIterator--,
-                    name = EmptyConstants.EMPTY_STRING,
-                    questions = mutableListOf(),
-                    status = EntityStatus.NEW,
-                    timer = 0L,
-                    password = EmptyConstants.EMPTY_STRING,
-                    questionsAmount = 0,
-                    examMode = false
-            )
+    fun createTempTest(): TestModel = TestModel(
+        id = tempIdIterator--,
+        name = EmptyConstants.EMPTY_STRING,
+        questions = mutableListOf(),
+        status = EntityStatus.NEW,
+        metaData = createEmptyTestMetaData(),
+        sessionResults = createEmptySession()
+    )
+
+    fun createEmptyTestMetaData(): TestMetaData = TestMetaData(
+        utid = EmptyConstants.EMPTY_STRING,
+        password = EmptyConstants.EMPTY_STRING,
+        examMode = false,
+        timer = 0L,
+        questionsAmountPerSession = 0
+    )
+
+    fun createEmptySession(): SessionResults = SessionResults(EmptyConstants.EMPTY_STRING, 0, 0)
 
     fun createTempQuestion(): QuestionModel =
-            QuestionModel(
-                    id = tempIdIterator--,
-                    text = EmptyConstants.EMPTY_STRING,
-                    answers = mutableListOf(),
-                    status = EntityStatus.NEW
-            )
+        QuestionModel(
+            id = tempIdIterator--,
+            text = EmptyConstants.EMPTY_STRING,
+            answers = mutableListOf(),
+            status = EntityStatus.NEW
+        )
 
     fun createTempAnswer(): AnswerModel =
-            AnswerModel(
-                    id = tempIdIterator--,
-                    text = EmptyConstants.EMPTY_STRING,
-                    isRightAnswer = false,
-                    status = EntityStatus.NEW
-            )
+        AnswerModel(
+            id = tempIdIterator--,
+            text = EmptyConstants.EMPTY_STRING,
+            isRightAnswer = false,
+            status = EntityStatus.NEW
+        )
 }
 
 fun TestModel.isTemp(): Boolean = this.id < 0

@@ -64,7 +64,7 @@ class MainActivity : BaseActivity<MainContract.Presenter>(), MainContract.View, 
 
     // TestsFragment.Callback ==========================================================================================
     override fun startTest(test: TestModel) {
-        startActivity(ExamActivity.getIntent(this, test.id))
+        startActivity(ExamActivity.getIntent(this, test.id, test.metaData.examMode && !test.sessionResults.isEmpty()))
     }
 
     // Private =========================================================================================================

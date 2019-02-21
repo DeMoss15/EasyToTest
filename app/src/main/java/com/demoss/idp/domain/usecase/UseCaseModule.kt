@@ -5,7 +5,7 @@ import org.koin.dsl.module.module
 
 val useCaseModule = module {
     single { EditTestUseCase(get(), get()) }
-    single { TestSessionUseCase(get()) }
+    single { TestSessionUseCase(get(), get()) }
 
     factory { SaveChangesUseCase(get(), get(), get()) }
     factory { ParseFileUseCase(get(), get(), get()) }
@@ -19,4 +19,5 @@ val useCaseModule = module {
     factory { GetTestsUserCase(get()) }
     factory { UpdateTestUseCase(get()) }
     factory { DeleteTestUseCase(get()) }
+    factory { UpdateTestSessionResult(get()) }
 }

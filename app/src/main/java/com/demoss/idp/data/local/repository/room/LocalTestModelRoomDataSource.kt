@@ -10,13 +10,17 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
+import java.lang.RuntimeException
 
 class LocalTestModelRoomDataSource(val db: AppDatabase) :
     LocalTestModelRepository {
 
     override fun createTest(test: TestModel): Single<Int> =
-        Single.just(test).observeOn(Schedulers.io()).map {
-            db.testDao().addTest(DomainToLocalMapper.toLocal(it)).toInt()
+        Single.just(test).observeOn(Schedulers.io()).flatMap {
+            db.testDao().getTestsByUTID(test.metaData.utid)
+        }.map {
+            if (it != 0) throw RuntimeException("This test has been already imported!")
+            db.testDao().addTest(DomainToLocalMapper.toLocal(test)).toInt()
         }.setDefaultSchedulers()
 
     override fun getTests(pageObservable: Observable<Int>): Observable<List<TestModel>> =

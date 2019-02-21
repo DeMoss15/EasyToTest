@@ -7,10 +7,16 @@ data class TestRoomEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id") var id: Int,
     @ColumnInfo(name = "name") var name: String,
-    @ColumnInfo(name = "timer") var timer: Long,
+    // MetaData
+    @ColumnInfo(name = "utid") var utid: String,
     @ColumnInfo(name = "password") var password: String,
     @ColumnInfo(name = "exam_mode") var examMode: Boolean,
-    @ColumnInfo(name = "questionsAmount") var questionsAmount: Int
+    @ColumnInfo(name = "timer") var timer: Long,
+    @ColumnInfo(name = "questionsAmountPerSession") var questionsAmountPerSession: Int,
+    // Session
+    @ColumnInfo(name = "spentTime") var spentTime: String,
+    @ColumnInfo(name = "rightAnswersAmount") var rightAnswersAmount: Int,
+    @ColumnInfo(name = "shownQuestionsAmount") var shownQuestionsAmount: Int
 ) {
     @Ignore
     var questions: List<QuestionRoomEntity> = listOf()

@@ -53,13 +53,13 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
     }
 
     private fun onTestEditClick(test: TestModel) {
-        if (test.password != EmptyConstants.EMPTY_STRING) {
+        if (test.metaData.password != EmptyConstants.EMPTY_STRING) {
             PasswordVerificationFragment
                     .newInstance()
                     .setupFragment(
                             { mainCallback.nextFragment(TAG, test.id) },
                             { showToast(getString(R.string.warning_incorrect_password)) },
-                            test.password
+                            test.metaData.password
                     )
                     .show(childFragmentManager, TAG)
         } else {
@@ -87,10 +87,10 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
     }
 
     // View ============================================================================================================
-    override fun share(string: String) {
+    override fun share(string: String, testName: String) {
         context?.let {
 
-            val file = File(Environment.getExternalStorageDirectory().toString() + "/" + "exported_test.txt")
+            val file = File(Environment.getExternalStorageDirectory().toString() + "/" + "$testName.txt")
             val writer = FileWriter(file)
             writer.append(string)
             writer.flush()

@@ -17,7 +17,7 @@ interface TestsContract {
     }
 
     interface View : BaseView, Paginator.ViewController<TestModel>, MainFragment {
-        fun share(string: String)
+        fun share(string: String, testName: String)
         fun showParsingProgress(isVisible: Boolean)
     }
 }

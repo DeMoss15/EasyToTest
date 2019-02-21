@@ -1,9 +1,7 @@
 package com.demoss.idp.presentation.main.dialog
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.DialogFragment
 import com.demoss.idp.R
 import com.demoss.idp.util.EmptyConstants
@@ -33,10 +31,13 @@ class PasswordVerificationFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         btnVerify.setOnClickListener {
-            if (password == etPassword.text.toString()) {
-                onSuccessfulVerificationAction?.invoke()
-                dismiss()
-            } else onVerificationErrorAction?.invoke()
+            verifyPassword()
+        }
+        etPassword.showSoftInputOnFocus = true
+        etPassword.requestFocus()
+        etPassword.setOnEditorActionListener { textView, i, keyEvent ->
+            verifyPassword()
+            true
         }
     }
 
@@ -44,5 +45,12 @@ class PasswordVerificationFragment : DialogFragment() {
         onSuccessfulVerificationAction = onSuccess
         onVerificationErrorAction = onError
         this.password = password
+    }
+
+    private fun verifyPassword() {
+        if (password == etPassword.text.toString()) {
+            onSuccessfulVerificationAction?.invoke()
+            dismiss()
+        } else onVerificationErrorAction?.invoke()
     }
 }

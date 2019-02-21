@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.demoss.idp.R
 import com.demoss.idp.base.BaseFragment
 import com.demoss.idp.domain.model.EntityStatus
+import com.demoss.idp.domain.model.QuestionModel
 import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.presentation.adapter.QuestionsRecyclerViewAdapter
 import com.demoss.idp.presentation.main.main.MainCallback
@@ -21,7 +22,7 @@ class EditTestFragment : BaseFragment<EditTestContract.Presenter>(), EditTestCon
     companion object {
         const val TAG = "com.demoss.diploma.edit_test_fragment"
         fun newInstance(testId: Int): EditTestFragment = EditTestFragment()
-                .withArguments(ExtraConstants.EXTRA_TEST_ID to testId)
+            .withArguments(ExtraConstants.EXTRA_TEST_ID to testId)
     }
 
     override val presenter by inject<EditTestContract.Presenter>()
@@ -44,9 +45,7 @@ class EditTestFragment : BaseFragment<EditTestContract.Presenter>(), EditTestCon
         rvQuestions.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = rvAdapter
-            setupSwipeToDelete(rvAdapter) {
-                presenter.deleteQuestion(it)
-            }
+            setupSwipeToDelete(rvAdapter, ::onQuestionDelete)
         }
         cbExamMode.setOnCheckedChangeListener { _, isChecked -> setSessionVisibility(isChecked) }
         sbQuestionsAmount.setOnProgressChangeListener { tvQuestionsAmount.text = it.toString() }
@@ -57,18 +56,18 @@ class EditTestFragment : BaseFragment<EditTestContract.Presenter>(), EditTestCon
         if (etTestName.text.isEmpty()) etTestName.setText(test.name)
         if (test.questions.isEmpty()) {
             tvEmptyState.text = getString(
-                    R.string.rv_empty_data,
-                    resources.getQuantityString(R.plurals.question_plural, Int.MAX_VALUE)
+                R.string.rv_empty_data,
+                resources.getQuantityString(R.plurals.question_plural, Int.MAX_VALUE)
             )
         } else {
             rvAdapter.dispatchData(test.questions.filter { it.status != EntityStatus.DROPPED })
         }
-        cbExamMode.isChecked = test.examMode
-        etPassword.setText(test.password)
-        if (test.timer != 0L) etTimer.setText(test.timer.toString())
+        cbExamMode.isChecked = test.metaData.examMode
+        if (etPassword.text.isEmpty()) etPassword.setText(test.metaData.password)
+        if (test.metaData.timer != 0L && etTimer.text.isEmpty()) etTimer.setText(test.metaData.timer.toString())
         sbQuestionsAmount.apply {
             max = test.questions.size
-            progress = test.questionsAmount
+            progress = test.metaData.questionsAmountPerSession
         }
     }
 
@@ -86,11 +85,11 @@ class EditTestFragment : BaseFragment<EditTestContract.Presenter>(), EditTestCon
         when (itemId) {
             R.id.item_back -> presenter.cancel()
             R.id.item_done -> presenter.saveTest(
-                    etTestName.text.toString(),
-                    cbExamMode.isChecked,
-                    etTimer.text.toString().takeIf { it.isNotEmpty() }?.toLong(),
-                    etPassword.text.toString(),
-                    sbQuestionsAmount.progress
+                etTestName.text.toString(),
+                cbExamMode.isChecked,
+                etTimer.text.toString().takeIf { it.isNotEmpty() }?.toLong(),
+                etPassword.text.toString(),
+                sbQuestionsAmount.progress
             )
             R.id.item_drop -> presenter.deleteTest()
         }
@@ -112,5 +111,10 @@ class EditTestFragment : BaseFragment<EditTestContract.Presenter>(), EditTestCon
             sbQuestionsAmount.visibility = this
             etTimer.visibility = this
         }
+    }
+
+    private fun onQuestionDelete(question: QuestionModel) {
+        sbQuestionsAmount.apply { max -= 1 }
+        presenter.deleteQuestion(question)
     }
 }

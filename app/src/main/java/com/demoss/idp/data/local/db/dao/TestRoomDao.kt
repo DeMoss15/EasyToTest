@@ -20,6 +20,9 @@ interface TestRoomDao {
     @Query("SELECT * FROM tests WHERE id LIKE :testId")
     fun getTest(testId: Int): Single<TestRoomEntity>
 
+    @Query("SELECT count(*) FROM tests WHERE utid LIKE :utid")
+    fun getTestsByUTID(utid: String): Single<Int>
+
     @Query("SELECT * FROM tests")
     fun getTests(): List<TestRoomEntity>
 
