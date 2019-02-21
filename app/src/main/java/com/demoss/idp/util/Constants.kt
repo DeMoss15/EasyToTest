@@ -24,4 +24,7 @@ object Constants {
     const val JSON_FIELD_QUESTIONS: String = "questions"
     const val JSON_FIELD_ANSWERS: String = "answers"
     const val JSON_FIELD_IS_RIGHT: String = "isRight"
+
+    const val SP_NAME: String = "demoss.shared_prefs"
+    const val THEME_KEY: String = "demoss.idp.sp.theme"
 }

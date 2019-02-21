@@ -1,12 +1,15 @@
 package com.demoss.idp.base
 
+import android.content.Context
 import android.os.Bundle
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import com.demoss.idp.base.mvp.BasePresenter
-import com.demoss.idp.base.mvp.BaseView
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.demoss.idp.R
+import com.demoss.idp.base.mvp.BasePresenter
+import com.demoss.idp.base.mvp.BaseView
+import com.demoss.idp.util.Constants
 
 abstract class BaseActivity<Presenter : BasePresenter> : AppCompatActivity(), BaseView {
 
@@ -14,6 +17,10 @@ abstract class BaseActivity<Presenter : BasePresenter> : AppCompatActivity(), Ba
     abstract val layoutResourceId: Int
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(
+            getSharedPreferences(Constants.SP_NAME, Context.MODE_PRIVATE)
+                .getInt(Constants.THEME_KEY, R.style.AppTheme)
+        )
         super.onCreate(savedInstanceState)
         setContentView(layoutResourceId)
         presenter.attachView(this)

@@ -20,7 +20,9 @@ import com.demoss.idp.base.BaseFragment
 import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.presentation.adapter.TestsRecyclerViewAdapter
 import com.demoss.idp.presentation.main.dialog.PasswordVerificationFragment
+import com.demoss.idp.presentation.main.dialog.SimpleItemsListDialogFragment
 import com.demoss.idp.presentation.main.main.MainCallback
+import com.demoss.idp.util.Constants
 import com.demoss.idp.util.EmptyConstants
 import com.demoss.idp.util.pagination.setOnNextPageListener
 import com.google.android.material.bottomappbar.BottomAppBar
@@ -55,13 +57,13 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
     private fun onTestEditClick(test: TestModel) {
         if (test.metaData.password != EmptyConstants.EMPTY_STRING) {
             PasswordVerificationFragment
-                    .newInstance()
-                    .setupFragment(
-                            { mainCallback.nextFragment(TAG, test.id) },
-                            { showToast(getString(R.string.warning_incorrect_password)) },
-                            test.metaData.password
-                    )
-                    .show(childFragmentManager, TAG)
+                .newInstance()
+                .setupFragment(
+                    { mainCallback.nextFragment(TAG, test.id) },
+                    { showToast(getString(R.string.warning_incorrect_password)) },
+                    test.metaData.password
+                )
+                .show(childFragmentManager, TAG)
         } else {
             mainCallback.nextFragment(TAG, test.id)
         }
@@ -111,8 +113,10 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
     override fun showParsingProgress(isVisible: Boolean) {
         if (isVisible) {
             pbParsing.visibility = View.VISIBLE
-            activity?.window?.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+            activity?.window?.setFlags(
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+            )
         } else {
             pbParsing.visibility = View.GONE
             activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
@@ -121,18 +125,20 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
 
     // MainFragment ====================================================================================================
     private val themes = listOf(
-        R.style.AppTheme_Red,
-        R.style.AppTheme_Blue,
-        R.style.AppTheme_Green,
+        R.style.Red,
+        R.style.Blue,
+        R.style.Green,
         R.style.AppTheme
     )
-    private var currentTheme = 0
 
     override fun onFabPressed() {
-        activity?.setTheme(themes[currentTheme++ % themes.size])
-        activity?.recreate()
-        // TODO: Uncomment when dynamic theme issue will be resolved
-        /*SimpleItemsListDialogFragment.Builder().apply {
+        // TODO: move this code to settings; maybe this logic should be in shared preferences manager class
+        /*activity?.getSharedPreferences(Constants.SP_NAME, Context.MODE_PRIVATE)?.apply {
+            val currentTheme = getInt(Constants.THEME_KEY, R.style.AppTheme)
+            edit().clear().putInt(Constants.THEME_KEY, themes[(themes.indexOf(currentTheme) + 1) % themes.size]).apply()
+        }
+        activity?.recreate()*/
+        SimpleItemsListDialogFragment.Builder().apply {
             title = getString(R.string.adding_test_dialog_title)
             itemsList = listOf(getString(R.string.input_type_file), getString(R.string.input_type_editing))
             onClickListener = { item ->
@@ -144,7 +150,7 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
                     itemsList[1] -> mainCallback.nextFragment(TAG, Constants.NEW_ENTITY_ID)
                 }
             }
-        }.build().show(childFragmentManager, TAG)*/
+        }.build().show(childFragmentManager, TAG)
     }
 
     override fun onMenuItemPressed(itemId: Int) {
@@ -163,7 +169,7 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == BROWSE_FILE_REQUEST_CODE && resultCode == RESULT_OK) {
             presenter.parseFileStream(
-                    Single.fromCallable { data?.data?.let { dd -> context?.contentResolver?.openInputStream(dd) } }
+                Single.fromCallable { data?.data?.let { dd -> context?.contentResolver?.openInputStream(dd) } }
             )
         }
     }
@@ -180,7 +186,7 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
 
     override fun showEmptyView(show: Boolean) {
         emptyState.text =
-                getString(R.string.rv_empty_data, resources.getQuantityString(R.plurals.test_plural, Int.MAX_VALUE))
+            getString(R.string.rv_empty_data, resources.getQuantityString(R.plurals.test_plural, Int.MAX_VALUE))
         emptyState.visibility = if (show) View.VISIBLE else View.GONE
         rvTests.visibility = if (show) View.GONE else View.VISIBLE
     }

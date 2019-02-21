@@ -11,7 +11,7 @@
         <item name="themeColorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.Blue">
+    <style name="Blue">
         <item name="android:windowBackground">@color/colorBlueThemeWindowBackground</item>
         <item name="shapeAppearanceSmallComponent">@style/AppShapeAppearance.SmallComponent</item>
         <item name="themeColorPrimary">@color/colorBlueThemePrimary</item>
@@ -19,7 +19,7 @@
         <item name="themeColorAccent">@color/colorBlueThemeAccent</item>
     </style>
 
-    <style name="AppTheme.Red">
+    <style name="Red">
         <item name="android:windowBackground">@color/colorRedThemeWindowBackground</item>
         <item name="shapeAppearanceSmallComponent">@style/AppShapeAppearance.SmallComponent</item>
         <item name="themeColorPrimary">@color/colorRedThemePrimary</item>
@@ -27,7 +27,7 @@
         <item name="themeColorAccent">@color/colorRedThemeAccent</item>
     </style>
 
-    <style name="AppTheme.Green">
+    <style name="Green">
         <item name="android:windowBackground">@color/colorGreenThemeWindowBackground</item>
         <item name="shapeAppearanceSmallComponent">@style/AppShapeAppearance.SmallComponent</item>
         <item name="themeColorPrimary">@color/colorGreenThemePrimary</item>
