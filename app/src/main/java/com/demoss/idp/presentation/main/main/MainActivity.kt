@@ -1,6 +1,7 @@
 package com.demoss.idp.presentation.main.main
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import com.demoss.idp.R
@@ -23,7 +24,6 @@ class MainActivity : BaseActivity<MainContract.Presenter>(), MainContract.View, 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setSupportActionBar(bottomAppBar)
-        navigateToTests()
         fab.setOnClickListener { applyActionForVisibleFragment { onFabPressed() } }
     }
 
@@ -37,6 +37,11 @@ class MainActivity : BaseActivity<MainContract.Presenter>(), MainContract.View, 
         supportFragmentManager.fragments
             .firstOrNull { fragment -> fragment.isVisible }
             .let { fragment -> if (fragment == null) finish() }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        navigateToTests()
+        return super.onCreateOptionsMenu(menu)
     }
 
     // MainCallback ====================================================================================================
