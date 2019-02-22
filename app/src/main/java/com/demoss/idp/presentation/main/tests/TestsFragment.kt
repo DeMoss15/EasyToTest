@@ -22,6 +22,7 @@ import com.demoss.idp.presentation.adapter.TestsRecyclerViewAdapter
 import com.demoss.idp.presentation.main.dialog.PasswordVerificationFragment
 import com.demoss.idp.presentation.main.dialog.SimpleItemsListDialogFragment
 import com.demoss.idp.presentation.main.main.MainCallback
+import com.demoss.idp.presentation.main.settings.SettingsActivity
 import com.demoss.idp.util.Constants
 import com.demoss.idp.util.EmptyConstants
 import com.demoss.idp.util.pagination.setOnNextPageListener
@@ -37,6 +38,7 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
 
     companion object {
         const val TAG = "com.demoss.diploma.tests_fragment"
+        const val SETTINGS_REQUEST_CODE = 255
         const val BROWSE_FILE_REQUEST_CODE = 1
         const val REQUEST_PERMISSION = 2
         fun newInstance(): TestsFragment = TestsFragment()
@@ -141,7 +143,9 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
     }
 
     override fun onMenuItemPressed(itemId: Int) {
-        // TODO: add menu handling
+        when (itemId) {
+            R.id.item_settings -> startSettings()
+        }
     }
 
     override fun setupAppBar(bottomAppBar: BottomAppBar, fab: FloatingActionButton) {
@@ -158,6 +162,9 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
             presenter.parseFileStream(
                 Single.fromCallable { data?.data?.let { dd -> context?.contentResolver?.openInputStream(dd) } }
             )
+        }
+        if (requestCode == SETTINGS_REQUEST_CODE && resultCode == RESULT_OK) {
+            activity?.recreate()
         }
     }
 
@@ -207,5 +214,9 @@ class TestsFragment : BaseFragment<TestsContract.Presenter>(), TestsContract.Vie
                 ActivityCompat.requestPermissions(activity as Activity, arrayOf(writePermission), REQUEST_PERMISSION)
             } else presenter.share(test)
         }
+    }
+
+    private fun startSettings() {
+        context?.let { startActivityForResult(SettingsActivity.newIntent(it), SETTINGS_REQUEST_CODE) }
     }
 }

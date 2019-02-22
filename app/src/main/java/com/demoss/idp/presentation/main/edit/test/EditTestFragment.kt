@@ -57,7 +57,7 @@ class EditTestFragment : BaseFragment<EditTestContract.Presenter>(), EditTestCon
         if (test.questions.isEmpty()) {
             tvEmptyState.text = getString(
                 R.string.rv_empty_data,
-                resources.getQuantityString(R.plurals.question_plural, Int.MAX_VALUE)
+                resources.getQuantityString(R.plurals.question_plural, 2)
             )
         } else {
             rvAdapter.dispatchData(test.questions.filter { it.status != EntityStatus.DROPPED })
