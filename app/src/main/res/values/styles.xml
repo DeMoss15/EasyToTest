@@ -10,11 +10,10 @@
         <item name="themeColorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="themeColorAccent">@color/colorAccent</item>
         <item name="themeColorRightAnswer">@color/colorRightAnswer</item>
-
+        <item name="themeColorForegroundElementsBackground">@color/colorBlueForegroundElementsBackground</item>
     </style>
 
     <style name="AppTheme.Blue">
-        <item name="shapeAppearanceSmallComponent">@style/AppShapeAppearance.SmallComponent</item>
         <item name="themeColorPrimary">@color/colorBlueThemePrimary</item>
         <item name="themeColorPrimaryDark">@color/colorBlueThemePrimaryDark</item>
         <item name="themeColorAccent">@color/colorBlueThemeAccent</item>
@@ -23,7 +22,6 @@
     </style>
 
     <style name="AppTheme.Red">
-        <item name="shapeAppearanceSmallComponent">@style/AppShapeAppearance.SmallComponent</item>
         <item name="themeColorPrimary">@color/colorRedThemePrimary</item>
         <item name="themeColorPrimaryDark">@color/colorRedThemePrimaryDark</item>
         <item name="themeColorAccent">@color/colorRedThemeAccent</item>
@@ -32,12 +30,27 @@
     </style>
 
     <style name="AppTheme.Green">
-        <item name="shapeAppearanceSmallComponent">@style/AppShapeAppearance.SmallComponent</item>
         <item name="themeColorPrimary">@color/colorGreenThemePrimary</item>
         <item name="themeColorPrimaryDark">@color/colorGreenThemePrimaryDark</item>
         <item name="themeColorAccent">@color/colorGreenThemeAccent</item>
         <item name="themeColorRightAnswer">@color/colorGreenRightAnswer</item>
         <item name="themeColorForegroundElementsBackground">@color/colorGreenForegroundElementsBackground</item>
+    </style>
+
+    <style name="AppTheme.DeepOrange">
+        <item name="themeColorPrimary">@color/colorDeepOrangeThemePrimary</item>
+        <item name="themeColorPrimaryDark">@color/colorDeepOrangeThemePrimaryDark</item>
+        <item name="themeColorAccent">@color/colorDeepOrangeThemeAccent</item>
+        <item name="themeColorRightAnswer">@color/colorDeepOrangeRightAnswer</item>
+        <item name="themeColorForegroundElementsBackground">@color/colorDeepOrangeForegroundElementsBackground</item>
+    </style>
+
+    <style name="AppTheme.Yellow">
+        <item name="themeColorPrimary">@color/colorYellowThemePrimary</item>
+        <item name="themeColorPrimaryDark">@color/colorYellowThemePrimaryDark</item>
+        <item name="themeColorAccent">@color/colorYellowThemeAccent</item>
+        <item name="themeColorRightAnswer">@color/colorYellowRightAnswer</item>
+        <item name="themeColorForegroundElementsBackground">@color/colorYellowForegroundElementsBackground</item>
     </style>
 
     <style name="AppShapeAppearance.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">

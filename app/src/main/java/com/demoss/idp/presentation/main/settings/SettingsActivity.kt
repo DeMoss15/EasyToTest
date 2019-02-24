@@ -22,10 +22,12 @@ class SettingsActivity : BaseActivity<SettingsContract.Presenter>() {
     override val layoutResourceId: Int = R.layout.activity_settings
 
     companion object {
-        const val THEME_RED = "Red theme"
-        const val THEME_GREEN = "Green theme"
-        const val THEME_BLUE = "Blue theme"
-        const val THEME_BASE = "Standart theme"
+        const val THEME_RED = "Red"
+        const val THEME_GREEN = "Green"
+        const val THEME_BLUE = "Blue"
+        const val THEME_DEEP_ORANGE = "Deep Orange"
+        const val THEME_YELLOW = "Yellow"
+        const val THEME_BASE = "Standart"
 
         fun newIntent(context: Context): Intent = Intent(context, SettingsActivity::class.java)
     }
@@ -36,6 +38,8 @@ class SettingsActivity : BaseActivity<SettingsContract.Presenter>() {
             THEME_BASE to R.style.AppTheme,
             THEME_RED to R.style.AppTheme_Red,
             THEME_GREEN to R.style.AppTheme_Green,
+            THEME_DEEP_ORANGE to R.style.AppTheme_DeepOrange,
+            THEME_YELLOW to R.style.AppTheme_Yellow,
             THEME_BLUE to R.style.AppTheme_Blue
     )
 
@@ -43,7 +47,7 @@ class SettingsActivity : BaseActivity<SettingsContract.Presenter>() {
         getSharedPrefs()?.apply { previousTheme = getInt(Constants.THEME_KEY, R.style.AppTheme) }
         super.onCreate(savedInstanceState)
         spinnerThemes.apply {
-            context?.let { adapter = ArrayAdapter(it, android.R.layout.simple_spinner_item, themes.keys.toMutableList()) }
+            context?.let { adapter = ArrayAdapter(it, android.R.layout.simple_spinner_dropdown_item, themes.keys.toMutableList()) }
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                     // nothing
