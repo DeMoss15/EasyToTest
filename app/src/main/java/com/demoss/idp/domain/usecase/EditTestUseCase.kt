@@ -34,6 +34,7 @@ class EditTestUseCase(
     }
 
     fun saveTest(testName: String, examMode: Boolean, password: String, timer: Long, questionsAmount: Int, completableObserver: DisposableCompletableObserver) {
+        if(!currentTest.metaData.examMode && examMode) currentTest.sessionResults = TempEntitiesFabric.createEmptySession()
         currentTest.setModified()
         currentTest.name = testName
         currentTest.metaData.timer = timer
