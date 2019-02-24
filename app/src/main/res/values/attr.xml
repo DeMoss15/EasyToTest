@@ -3,5 +3,6 @@
     <attr name="themeColorPrimary" format="reference" />
     <attr name="themeColorPrimaryDark" format="reference" />
     <attr name="themeColorAccent" format="reference" />
-    <attr name="themeColorWindowBackground" format="reference" />
+    <attr name="themeColorRightAnswer" format="reference" />
+    <attr name="themeColorForegroundElementsBackground" format="reference" />
 </resources>

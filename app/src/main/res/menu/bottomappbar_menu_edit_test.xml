@@ -6,7 +6,7 @@
         android:id="@+id/item_back"
         android:enabled="true"
         android:icon="@drawable/ic_arrow_back"
-        android:iconTint="@color/colorBackgroundWhite"
+        android:iconTint="?themeColorForegroundElementsBackground"
         android:title="@string/back"
         android:visible="true"
         app:showAsAction="ifRoom" />
@@ -14,7 +14,7 @@
         android:id="@+id/item_drop"
         android:enabled="true"
         android:icon="@drawable/ic_delete"
-        android:iconTint="@color/colorBackgroundWhite"
+        android:iconTint="?themeColorForegroundElementsBackground"
         android:title="@string/drop"
         android:visible="true"
         app:showAsAction="ifRoom" />
@@ -22,7 +22,7 @@
         android:id="@+id/item_done"
         android:enabled="true"
         android:icon="@drawable/ic_done"
-        android:iconTint="@color/colorBackgroundWhite"
+        android:iconTint="?themeColorForegroundElementsBackground"
         android:title="@string/done"
         android:visible="true"
         app:showAsAction="ifRoom" />

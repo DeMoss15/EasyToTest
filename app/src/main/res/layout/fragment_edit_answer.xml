@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackgroundWhite"
+    android:background="?themeColorForegroundElementsBackground"
     android:padding="@dimen/base_12dp"
     tools:context=".presentation.main.edit.answer.EditAnswerFragment">
 

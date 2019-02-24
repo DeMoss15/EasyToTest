@@ -10,7 +10,7 @@
         android:id="@+id/tvTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorBackgroundWhite"
+        android:background="?themeColorForegroundElementsBackground"
         android:padding="@dimen/base_16dp"
         android:layout_marginBottom="@dimen/base_4dp"
         android:textAlignment="center"

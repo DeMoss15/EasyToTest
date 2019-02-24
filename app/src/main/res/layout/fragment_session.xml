@@ -39,7 +39,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/base_12dp"
-        android:background="@color/colorBackgroundWhite"
+        android:background="?themeColorForegroundElementsBackground"
         android:padding="@dimen/base_12dp"
         android:maxHeight="240dp"
         android:scrollbars="vertical"

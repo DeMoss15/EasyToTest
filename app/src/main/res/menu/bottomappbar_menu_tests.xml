@@ -6,7 +6,7 @@
         android:id="@+id/item_settings"
         android:enabled="true"
         android:icon="@drawable/ic_settings"
-        android:iconTint="@color/colorBackgroundWhite"
+        android:iconTint="?themeColorForegroundElementsBackground"
         android:title="@string/back"
         android:visible="true"
         app:showAsAction="ifRoom" />

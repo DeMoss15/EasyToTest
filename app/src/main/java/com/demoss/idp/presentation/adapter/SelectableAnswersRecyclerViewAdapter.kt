@@ -2,11 +2,15 @@ package com.demoss.idp.presentation.adapter
 
 import android.view.View
 import androidx.recyclerview.widget.AsyncListDiffer
-import com.demoss.idp.R
 import com.demoss.idp.base.BaseRecyclerViewAdapter
 import com.demoss.idp.domain.model.AnswerModel
 import com.demoss.idp.domain.usecase.TempEntitiesFabric
 import kotlinx.android.synthetic.main.item_answer.view.*
+import android.util.TypedValue
+import android.content.Context
+import androidx.annotation.AttrRes
+import com.demoss.idp.R
+
 
 class SelectableAnswersRecyclerViewAdapter :
     BaseRecyclerViewAdapter<AnswerModel, SelectableAnswersRecyclerViewAdapter.VH>() {
@@ -49,15 +53,18 @@ class SelectableAnswersRecyclerViewAdapter :
             selectedItem?.let { redrawItem(it) }
         }
 
-        private fun getItemColor(item: AnswerModel): Int = view.resources.getColor(
-            getBackgroundColorResource(item),
-            view.context.theme
-        )
+        private fun getItemColor(item: AnswerModel): Int = getBackgroundColorResource(item)
 
-        private fun getBackgroundColorResource(item: AnswerModel): Int = when {
-            isRightAnswerShown && item.isRightAnswer -> R.color.colorRightAnswer
-            selectedItem == item -> R.color.colorChecked
-            else -> R.color.colorUnchecked
+        private fun getBackgroundColorResource(item: AnswerModel): Int = getThemeColor(view.context, when {
+            isRightAnswerShown && item.isRightAnswer -> R.attr.themeColorRightAnswer
+            selectedItem == item -> R.attr.themeColorAccent
+            else -> R.attr.themeColorForegroundElementsBackground
+        })
+
+        private fun getThemeColor(context: Context, @AttrRes attributeId: Int): Int {
+            val value = TypedValue()
+            context.theme.resolveAttribute(attributeId, value, true)
+            return value.data
         }
     }
 

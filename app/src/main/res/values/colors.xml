@@ -1,26 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--window background for all themes-->
+    <color name="colorWindowBackground">#eeeeee</color>
+
     <color name="colorPrimary">#616161</color>
     <color name="colorPrimaryDark">#212121</color>
     <color name="colorAccent">#7e57c2</color>
-    <color name="colorWindowBackground">#eeeeee</color>
-
-    <color name="colorBlueThemePrimary">#5076b1</color>
-    <color name="colorBlueThemePrimaryDark">#48669f</color>
-    <color name="colorBlueThemeAccent">#b18a50</color>
-    <color name="colorBlueThemeWindowBackground">#e6e9f5</color>
-
-    <color name="colorRedThemePrimary">#cf5050</color>
-    <color name="colorRedThemePrimaryDark">#bd4849</color>
-    <color name="colorRedThemeAccent">#50cfcf</color>
-    <color name="colorRedThemeWindowBackground">#faecef</color>
-
-    <color name="colorGreenThemePrimary">#42b98b</color>
-    <color name="colorGreenThemePrimaryDark">#00ad77</color>
-    <color name="colorGreenThemeAccent">#b9426f</color>
-    <color name="colorGreenThemeWindowBackground">#e5f5ee</color>
-
     <color name="colorBackgroundWhite">#FFFFFF</color>
+
+    <color name="colorBlueThemePrimary">#42a5f5</color>
+    <color name="colorBlueThemePrimaryDark">#2196f3</color>
+    <color name="colorBlueThemeAccent">#fbc02d</color>
+    <color name="colorBlueRightAnswer">@color/colorRightAnswer</color>
+    <color name="colorBlueForegroundElementsBackground">#e6e9f5</color>
+
+    <color name="colorRedThemePrimary">#e53935</color>
+    <color name="colorRedThemePrimaryDark">#d32f2f</color>
+    <color name="colorRedThemeAccent">#00bcd4</color>
+    <color name="colorRedRightAnswer">@color/colorRightAnswer</color>
+    <color name="colorRedForegroundElementsBackground">#faecef</color>
+
+    <color name="colorGreenThemePrimary">#4caf50</color>
+    <color name="colorGreenThemePrimaryDark">#43a047</color>
+    <color name="colorGreenThemeAccent">#7c4dff</color>
+    <color name="colorGreenRightAnswer">@color/colorRightAnswer</color>
+    <color name="colorGreenForegroundElementsBackground">#e5f5ee</color>
 
     <!--Text colors-->
     <color name="colorLightText">#9e9e9e</color>
