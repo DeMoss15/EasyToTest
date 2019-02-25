@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -69,6 +70,7 @@ class SettingsActivity : BaseActivity<SettingsContract.Presenter>() {
             setResult(Activity.RESULT_OK)
             finish()
         }
+        tvAboutApplication.movementMethod = ScrollingMovementMethod()
     }
 
     override fun onBackPressed() {
