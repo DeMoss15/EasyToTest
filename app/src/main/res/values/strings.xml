@@ -50,8 +50,8 @@
         \n
         \nExam mode:
         \n
-        \nWhen exam mode on all session settings and password should be specified in editor.
-        \nStudent can pass exam only once. Next entrances will show only result of the exam.
+        \nWhen exam mode is on all session settings and password should be specified in editor.
+        \nStudent can pass exam only once. Next entrances will show only the result of the exam.
         \nYou may import the same test only once and delete exam you can only from editor.
         \nSo student can\'t import exam twice, edit it and even delete while he don\'t know the password.
         \n
