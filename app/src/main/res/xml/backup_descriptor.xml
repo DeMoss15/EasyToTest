@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <!-- Exclude specific shared preferences that contain GCM registration Id -->
+    <include domain="sharedpref" path="demoss.shared_prefs.xml"/>
+    <include domain="database" path="diploma_room_db.db"/>
+</full-backup-content>

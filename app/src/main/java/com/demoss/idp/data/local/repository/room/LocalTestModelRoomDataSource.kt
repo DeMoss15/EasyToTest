@@ -10,7 +10,6 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
-import java.lang.RuntimeException
 
 class LocalTestModelRoomDataSource(val db: AppDatabase) :
     LocalTestModelRepository {

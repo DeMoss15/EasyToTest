@@ -11,6 +11,7 @@ object Constants {
     const val RIGHT_ANSWER: String = "*"
     const val EMPTY_LINE: String = "+"
 
+    const val DATABASE_NAME = "diploma_room_db"
     const val JSON_PREFIX: String = "diploma.test.JSON"
     const val KEY_LENGTH: Int = 16
 

@@ -2,13 +2,16 @@ package com.demoss.idp.data.local
 
 import androidx.room.Room
 import com.demoss.idp.data.local.db.AppDatabase
+import com.demoss.idp.util.Constants
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module.module
 
 val dbModule = module {
     single {
-        Room.databaseBuilder(androidApplication(), AppDatabase::class.java, "db")
-            .build()
+        Room.databaseBuilder(androidApplication(), AppDatabase::class.java, Constants.DATABASE_NAME)
+            .build()/*.also {
+                Log.i("backup", it.openHelper.writableDatabase.path)
+            }*/
     }
 
     single { get<AppDatabase>().answerDao() }
