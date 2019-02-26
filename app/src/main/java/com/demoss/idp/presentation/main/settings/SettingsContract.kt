@@ -8,6 +8,11 @@ interface SettingsContract {
     interface View: BaseView
     interface Presenter: BasePresenter {
         var currentApplicationTheme: String
-        var saving: Boolean
+        var themeAction: ThemeChangeAction
+    }
+    enum class ThemeChangeAction {
+        APPLY_SELECTED,
+        SAVE_SELECTED,
+        REVERT
     }
 }

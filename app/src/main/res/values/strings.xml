@@ -1,7 +1,14 @@
 <resources>
     <string name="app_name">Diploma</string>
+    <string name="application_author_email">mossur15@gmail.com</string>
 
-    <!-- RV sources -->
+    <string name="theme_red">Red</string>
+    <string name="theme_green">Green</string>
+    <string name="theme_yellow">Yellow</string>
+    <string name="theme_default">Default</string>
+    <string name="theme_deep_orange">Deep Orange</string>
+    <string name="theme_blue">Blue</string>
+
     <string name="rv_error_message">Oops, something went wrong!</string>
     <string name="rv_empty_data">No %s available</string>
 
@@ -36,6 +43,7 @@
     <string name="warning_incorrect_password">Incorrect password</string>
     <string name="application_theme">Application Theme</string>
     <string name="send_feedback">Send Feedback</string>
+    <string name="feedback_title">Feedback for %s</string>
     <string name="about_application">
         Formatting:
         \n
