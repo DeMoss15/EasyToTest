@@ -5,7 +5,10 @@ import com.demoss.idp.data.local.db.entities.QuestionRoomEntity
 import com.demoss.idp.data.local.db.entities.TestRoomEntity
 import com.demoss.idp.domain.model.AnswerModel
 import com.demoss.idp.domain.model.QuestionModel
+import com.demoss.idp.domain.model.TestMetaData
 import com.demoss.idp.domain.model.TestModel
+import com.demoss.idp.util.Constants
+import com.demoss.idp.util.generateKey
 
 object DomainToLocalMapper {
 
@@ -14,7 +17,8 @@ object DomainToLocalMapper {
         return TestRoomEntity(
             test.id,
             test.name,
-            test.metaData.utid,
+            if (test.metaData.utid.isNotEmpty()) test.metaData.utid else
+            TestMetaData.buildUtid(test.name, test.metaData.password, generateKey(Constants.KEY_LENGTH)),
             test.metaData.password,
             test.metaData.examMode,
             test.metaData.timer,

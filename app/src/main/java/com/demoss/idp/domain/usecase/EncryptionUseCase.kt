@@ -4,6 +4,7 @@ import com.demoss.idp.domain.usecase.base.RxUseCaseSingle
 import com.demoss.idp.util.Constants
 import com.demoss.idp.util.EmptyConstants.EMPTY_STRING
 import com.demoss.idp.util.encription.CryptLib
+import com.demoss.idp.util.generateKey
 import io.reactivex.Single
 
 class EncryptionUseCase : RxUseCaseSingle<String, EncryptionUseCase.Params>() {
@@ -16,11 +17,7 @@ class EncryptionUseCase : RxUseCaseSingle<String, EncryptionUseCase.Params>() {
         }
 
     private fun encrypt(input: String): Single<String> {
-        val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
-        val key = (1..Constants.KEY_LENGTH)
-            .map { kotlin.random.Random.nextInt(0, charPool.size) }
-            .map { charPool[it] }
-            .joinToString(EMPTY_STRING)
+        val key = generateKey(Constants.KEY_LENGTH)
         val encryptedInput = CryptLib().encryptPlainTextWithRandomIV(input, key)
 
         return Single.just(
