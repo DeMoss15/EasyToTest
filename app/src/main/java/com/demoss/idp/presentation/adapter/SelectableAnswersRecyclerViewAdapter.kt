@@ -1,16 +1,15 @@
 package com.demoss.idp.presentation.adapter
 
+import android.content.Context
+import android.util.TypedValue
 import android.view.View
+import androidx.annotation.AttrRes
 import androidx.recyclerview.widget.AsyncListDiffer
+import com.demoss.idp.R
 import com.demoss.idp.base.BaseRecyclerViewAdapter
 import com.demoss.idp.domain.model.AnswerModel
 import com.demoss.idp.domain.usecase.TempEntitiesFabric
 import kotlinx.android.synthetic.main.item_answer.view.*
-import android.util.TypedValue
-import android.content.Context
-import androidx.annotation.AttrRes
-import com.demoss.idp.R
-
 
 class SelectableAnswersRecyclerViewAdapter :
     BaseRecyclerViewAdapter<AnswerModel, SelectableAnswersRecyclerViewAdapter.VH>() {

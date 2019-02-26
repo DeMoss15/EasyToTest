@@ -5,8 +5,8 @@ import com.demoss.idp.base.mvp.BaseView
 
 interface SettingsContract {
 
-    interface View: BaseView
-    interface Presenter: BasePresenter {
+    interface View : BaseView
+    interface Presenter : BasePresenter {
         var currentApplicationTheme: String
         var themeAction: ThemeChangeAction
     }

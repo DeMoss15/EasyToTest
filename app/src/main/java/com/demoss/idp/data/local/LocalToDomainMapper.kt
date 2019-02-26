@@ -4,7 +4,6 @@ import com.demoss.idp.data.local.db.entities.AnswerRoomEntity
 import com.demoss.idp.data.local.db.entities.QuestionRoomEntity
 import com.demoss.idp.data.local.db.entities.TestRoomEntity
 import com.demoss.idp.domain.model.*
-import com.demoss.idp.util.Constants
 
 object LocalToDomainMapper {
 

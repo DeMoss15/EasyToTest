@@ -2,7 +2,6 @@ package com.demoss.idp.domain.usecase
 
 import com.demoss.idp.domain.model.AnswerModel
 import com.demoss.idp.domain.model.QuestionModel
-import com.demoss.idp.domain.model.SessionResults
 import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.domain.usecase.model.GetTestUseCase
 import com.demoss.idp.domain.usecase.model.UpdateTestUseCase
@@ -102,7 +101,6 @@ class TestSessionUseCase(
         questionsObservable.onNext(test.questions[0])
         return questionsObservable.doOnNext(onNextQuestion)
     }
-
 
     fun stopSession() {
         isRunning = false
