@@ -13,6 +13,7 @@ import androidx.annotation.StyleRes
 import com.demoss.idp.R
 import com.demoss.idp.base.BaseActivity
 import com.demoss.idp.util.Constants
+import com.demoss.idp.util.EmptyConstants
 import de.cketti.mailto.EmailIntentBuilder
 import kotlinx.android.synthetic.main.activity_settings.*
 import org.koin.android.ext.android.inject
@@ -33,8 +34,6 @@ class SettingsActivity : BaseActivity<SettingsContract.Presenter>() {
         fun newIntent(context: Context): Intent = Intent(context, SettingsActivity::class.java)
     }
 
-    @StyleRes
-    private var previousTheme: Int = 0
     private val themes = linkedMapOf(
             THEME_BASE to R.style.AppTheme,
             THEME_RED to R.style.AppTheme_Red,
@@ -45,7 +44,9 @@ class SettingsActivity : BaseActivity<SettingsContract.Presenter>() {
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        getSharedPrefs()?.apply { previousTheme = getInt(Constants.THEME_KEY, R.style.AppTheme) }
+        getSharedPrefs()?.apply {
+            presenter.currentApplicationTheme = themes.filterValues { it == getInt(Constants.THEME_KEY, R.style.AppTheme) }.keys.first()
+        }
         super.onCreate(savedInstanceState)
         spinnerThemes.apply {
             context?.let { adapter = ArrayAdapter(it, android.R.layout.simple_spinner_dropdown_item, themes.keys.toMutableList()) }
@@ -59,7 +60,7 @@ class SettingsActivity : BaseActivity<SettingsContract.Presenter>() {
                 }
             }
         }
-        spinnerThemes.setSelection(themes.values.indexOf(previousTheme))
+        spinnerThemes.setSelection(themes.keys.indexOf(presenter.currentApplicationTheme))
         btnSendFeedback.setOnClickListener {
             EmailIntentBuilder.from(this)
                 .to("mossur15@gmail.com")
@@ -67,15 +68,17 @@ class SettingsActivity : BaseActivity<SettingsContract.Presenter>() {
                 .start()
         }
         fab.setOnClickListener {
+            presenter.currentApplicationTheme = EmptyConstants.EMPTY_STRING
+            presenter.saving = true
             setResult(Activity.RESULT_OK)
             finish()
         }
         tvAboutApplication.movementMethod = ScrollingMovementMethod()
     }
 
-    override fun onBackPressed() {
-        putThemeInSharedPrefs(previousTheme)
-        super.onBackPressed()
+    override fun onStop() {
+        if (!presenter.saving) themes[presenter.currentApplicationTheme]?.let { putThemeInSharedPrefs(it) }
+        super.onStop()
     }
 
     private fun setThemeForActivity(key: String) {
@@ -83,6 +86,7 @@ class SettingsActivity : BaseActivity<SettingsContract.Presenter>() {
             val currentTheme = getInt(Constants.THEME_KEY, R.style.AppTheme)
             if (currentTheme != themes[key]) {
                 themes[key]?.let { putThemeInSharedPrefs(it) }
+                presenter.saving = true
                 recreate()
             }
         }

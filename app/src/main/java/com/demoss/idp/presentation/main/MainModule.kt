@@ -20,5 +20,5 @@ val mainModule = module {
     factory { EditTestPresenter(get()) as EditTestContract.Presenter }
     factory { EditQuestionPresenter(get()) as EditQuestionContract.Presenter }
     factory { EditAnswerPresenter(get()) as EditAnswerContract.Presenter }
-    factory { SettingsPresenter() as SettingsContract.Presenter }
+    single { SettingsPresenter() as SettingsContract.Presenter }
 }
