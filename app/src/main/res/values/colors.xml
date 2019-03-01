@@ -8,20 +8,20 @@
     <color name="colorAccent">#7e57c2</color>
     <color name="colorForegroundElementsBackground">#FFFFFF</color>
 
-    <color name="colorBlueThemePrimary">#42a5f5</color>
-    <color name="colorBlueThemePrimaryDark">#2196f3</color>
-    <color name="colorBlueThemeAccent">#fbc02d</color>
+    <color name="colorBlueThemePrimary">#1e88e5</color>
+    <color name="colorBlueThemePrimaryDark">#1976d2</color>
+    <color name="colorBlueThemeAccent">#f9a825</color>
     <color name="colorBlueRightAnswer">@color/colorRightAnswer</color>
     <color name="colorBlueForegroundElementsBackground">@color/colorForegroundElementsBackground</color>
 
-    <color name="colorRedThemePrimary">#e53935</color>
-    <color name="colorRedThemePrimaryDark">#d32f2f</color>
-    <color name="colorRedThemeAccent">#00bcd4</color>
+    <color name="colorRedThemePrimary">#d32f2f</color>
+    <color name="colorRedThemePrimaryDark">#c62828</color>
+    <color name="colorRedThemeAccent">#00acc1</color>
     <color name="colorRedRightAnswer">@color/colorRightAnswer</color>
     <color name="colorRedForegroundElementsBackground">@color/colorForegroundElementsBackground</color>
 
-    <color name="colorGreenThemePrimary">#4caf50</color>
-    <color name="colorGreenThemePrimaryDark">#43a047</color>
+    <color name="colorGreenThemePrimary">#43a047</color>
+    <color name="colorGreenThemePrimaryDark">#388e3c</color>
     <color name="colorGreenThemeAccent">#7c4dff</color>
     <color name="colorGreenRightAnswer">@color/colorRightAnswer</color>
     <color name="colorGreenForegroundElementsBackground">@color/colorForegroundElementsBackground</color>
@@ -32,9 +32,9 @@
     <color name="colorDeepOrangeRightAnswer">@color/colorRightAnswer</color>
     <color name="colorDeepOrangeForegroundElementsBackground">@color/colorForegroundElementsBackground</color>
 
-    <color name="colorYellowThemePrimary">#ffc107</color>
-    <color name="colorYellowThemePrimaryDark">#ffb300</color>
-    <color name="colorYellowThemeAccent">#4fc3f7</color>
+    <color name="colorYellowThemePrimary">#ffb300</color>
+    <color name="colorYellowThemePrimaryDark">#ffa000</color>
+    <color name="colorYellowThemeAccent">#03a9f4</color>
     <color name="colorYellowRightAnswer">@color/colorRightAnswer</color>
     <color name="colorYellowForegroundElementsBackground">@color/colorForegroundElementsBackground</color>
 
