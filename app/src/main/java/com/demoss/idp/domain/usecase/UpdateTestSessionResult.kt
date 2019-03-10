@@ -1,6 +1,6 @@
 package com.demoss.idp.domain.usecase
 
-import com.demoss.idp.data.repository.TestModelRepository
+import com.demoss.idp.domain.gateway.TestModelRepository
 import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.domain.usecase.base.RxUseCaseCompletable
 import io.reactivex.Completable

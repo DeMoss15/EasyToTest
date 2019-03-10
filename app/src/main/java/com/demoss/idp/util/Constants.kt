@@ -5,6 +5,8 @@ object Constants {
     const val NEW_ENTITY_ID = 0
     const val PAGE_SIZE = 20
     const val EMPTY_TIMER = "0"
+    const val TIME_SEPARATOR = ":"
+    const val SECONDS_IN_MINUTE = 60
 
     const val NEW_TEST: String = "$"
     const val NEW_QUESTION: String = "?"

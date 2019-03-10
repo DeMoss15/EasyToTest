@@ -16,7 +16,7 @@ val useCaseModule = module {
 
     factory { CreateTestUseCase(get()) }
     factory { GetTestUseCase(get()) }
-    factory { GetTestsUserCase(get()) }
+    factory { GetTestsUseCase(get()) }
     factory { UpdateTestUseCase(get()) }
     factory { DeleteTestUseCase(get()) }
     factory { UpdateTestSessionResult(get()) }

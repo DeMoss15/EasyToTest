@@ -1,4 +1,4 @@
-package com.demoss.idp.data.repository
+package com.demoss.idp.domain.gateway
 
 import com.demoss.idp.domain.model.AnswerModel
 import io.reactivex.Completable

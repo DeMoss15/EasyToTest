@@ -1,8 +1,8 @@
 package com.demoss.idp.domain.usecase
 
-import com.demoss.idp.data.repository.AnswerModelRepository
-import com.demoss.idp.data.repository.QuestionModelRepository
-import com.demoss.idp.data.repository.TestModelRepository
+import com.demoss.idp.domain.gateway.AnswerModelRepository
+import com.demoss.idp.domain.gateway.QuestionModelRepository
+import com.demoss.idp.domain.gateway.TestModelRepository
 import com.demoss.idp.domain.model.AnswerModel
 import com.demoss.idp.domain.model.EntityStatus
 import com.demoss.idp.domain.model.QuestionModel

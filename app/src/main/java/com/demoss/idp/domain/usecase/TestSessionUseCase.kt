@@ -5,6 +5,8 @@ import com.demoss.idp.domain.model.QuestionModel
 import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.domain.usecase.model.GetTestUseCase
 import com.demoss.idp.domain.usecase.model.UpdateTestUseCase
+import com.demoss.idp.util.Constants.SECONDS_IN_MINUTE
+import com.demoss.idp.util.Constants.TIME_SEPARATOR
 import com.demoss.idp.util.setDefaultSchedulers
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -120,15 +122,13 @@ class TestSessionUseCase(
         .interval(1, TimeUnit.SECONDS)
         .map { it + 1 }
         .startWith(0)
-        .takeWhile { !isTimeOut(it)/*(timer == 0L || (timer != 0L && it != timer))*/ } // stop taking on false
-        .takeWhile { isRunning }
-        .map { time ->
-            var minutes = (time / 60).toString()
-            var seconds = (time % 60).toString()
-            while (minutes.length < 2) minutes = "0$minutes"
-            while (seconds.length < 2) seconds = "0$seconds"
-            "$minutes : $seconds"
-        }
+        .takeWhile { !isTimeOut(it) && isRunning }
+        .map { formatTime(it) }
+
+    private fun formatTime(timeInSeconds: Long): String = formatNN(timeInSeconds / SECONDS_IN_MINUTE) +
+            TIME_SEPARATOR + formatNN(timeInSeconds % SECONDS_IN_MINUTE)
+
+    private fun formatNN(time: Long) = if (time <= 9) "0$time" else time.toString()
 
     private fun isTimeOut(currentTime: Long): Boolean =
         if (timer == 0L) false

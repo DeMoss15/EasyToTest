@@ -1,6 +1,7 @@
 package com.demoss.idp.data.repository
 
 import com.demoss.idp.data.local.repository.LocalTestModelRepository
+import com.demoss.idp.domain.gateway.TestModelRepository
 import com.demoss.idp.domain.model.TestModel
 import io.reactivex.Completable
 import io.reactivex.Observable

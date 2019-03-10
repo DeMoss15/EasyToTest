@@ -4,7 +4,7 @@ import com.demoss.idp.base.mvp.BasePresenterImpl
 import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.domain.usecase.ParseFileUseCase
 import com.demoss.idp.domain.usecase.ShareTestUseCase
-import com.demoss.idp.domain.usecase.model.GetTestsUserCase
+import com.demoss.idp.domain.usecase.model.GetTestsUseCase
 import com.demoss.idp.util.pagination.Paginator
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
@@ -15,7 +15,7 @@ import io.reactivex.subjects.PublishSubject
 import java.io.InputStream
 
 class TestsPresenter(
-    private val getTestsUserCase: GetTestsUserCase,
+    private val getTestsUseCase: GetTestsUseCase,
     private val parseFileUseCase: ParseFileUseCase,
     private val shareTestUseCase: ShareTestUseCase
 ) :
@@ -28,7 +28,7 @@ class TestsPresenter(
     override fun onCreateView() {
         super.onCreateView()
         paginator = Paginator(
-                getTestsUserCase.buildUseCaseObservable(GetTestsUserCase.Params(pagesPublishSubject)),
+                getTestsUseCase.buildUseCaseObservable(GetTestsUseCase.Params(pagesPublishSubject)),
                 view as Paginator.ViewController<TestModel>
         ) {
             pagesPublishSubject.onNext(it)
