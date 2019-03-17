@@ -1,7 +1,6 @@
-package com.demoss.idp.data.local
+package com.demoss.idp.data.local.room
 
 import androidx.room.Room
-import com.demoss.idp.data.local.room.AppDatabase
 import com.demoss.idp.util.Constants
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module.module
