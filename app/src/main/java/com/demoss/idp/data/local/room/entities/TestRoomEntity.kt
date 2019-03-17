@@ -1,6 +1,9 @@
-package com.demoss.idp.data.local.db.entities
+package com.demoss.idp.data.local.room.entities
 
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "tests")
 data class TestRoomEntity(

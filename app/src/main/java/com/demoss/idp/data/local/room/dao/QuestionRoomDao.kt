@@ -1,7 +1,7 @@
-package com.demoss.idp.data.local.db.dao
+package com.demoss.idp.data.local.room.dao
 
 import androidx.room.*
-import com.demoss.idp.data.local.db.entities.QuestionRoomEntity
+import com.demoss.idp.data.local.room.entities.QuestionRoomEntity
 
 @Dao
 interface QuestionRoomDao {

@@ -1,8 +1,8 @@
-package com.demoss.idp.data.local.repository.room
+package com.demoss.idp.data.local.room.datasource
 
 import com.demoss.idp.data.local.DomainToLocalMapper
-import com.demoss.idp.data.local.db.dao.QuestionRoomDao
 import com.demoss.idp.data.local.repository.LocalQuestionModelRepository
+import com.demoss.idp.data.local.room.dao.QuestionRoomDao
 import com.demoss.idp.domain.model.QuestionModel
 import com.demoss.idp.util.setDefaultSchedulers
 import io.reactivex.Completable

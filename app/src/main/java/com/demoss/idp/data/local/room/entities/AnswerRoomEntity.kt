@@ -1,4 +1,4 @@
-package com.demoss.idp.data.local.db.entities
+package com.demoss.idp.data.local.room.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

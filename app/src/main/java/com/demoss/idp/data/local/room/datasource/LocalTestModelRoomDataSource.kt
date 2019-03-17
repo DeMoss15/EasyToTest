@@ -1,9 +1,9 @@
-package com.demoss.idp.data.local.repository.room
+package com.demoss.idp.data.local.room.datasource
 
 import com.demoss.idp.data.local.DomainToLocalMapper
 import com.demoss.idp.data.local.LocalToDomainMapper
-import com.demoss.idp.data.local.db.AppDatabase
 import com.demoss.idp.data.local.repository.LocalTestModelRepository
+import com.demoss.idp.data.local.room.AppDatabase
 import com.demoss.idp.domain.model.TestModel
 import com.demoss.idp.util.setDefaultSchedulers
 import io.reactivex.Completable

@@ -117,7 +117,7 @@ class TestSessionUseCase(
         if (::compositeDisposable.isInitialized) compositeDisposable.dispose()
     }
 
-    // Private =====================================================================================
+    // Util ========================================================================================
     private fun createTimer(): Observable<String> = PublishSubject
         .interval(1, TimeUnit.SECONDS)
         .map { it + 1 }

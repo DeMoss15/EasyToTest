@@ -1,8 +1,8 @@
 package com.demoss.idp.data.local
 
-import com.demoss.idp.data.local.db.entities.AnswerRoomEntity
-import com.demoss.idp.data.local.db.entities.QuestionRoomEntity
-import com.demoss.idp.data.local.db.entities.TestRoomEntity
+import com.demoss.idp.data.local.room.entities.AnswerRoomEntity
+import com.demoss.idp.data.local.room.entities.QuestionRoomEntity
+import com.demoss.idp.data.local.room.entities.TestRoomEntity
 import com.demoss.idp.domain.model.*
 
 object LocalToDomainMapper {

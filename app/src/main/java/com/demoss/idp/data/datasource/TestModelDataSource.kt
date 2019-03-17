@@ -1,4 +1,4 @@
-package com.demoss.idp.data.repository
+package com.demoss.idp.data.datasource
 
 import com.demoss.idp.data.local.repository.LocalTestModelRepository
 import com.demoss.idp.domain.gateway.TestModelRepository
