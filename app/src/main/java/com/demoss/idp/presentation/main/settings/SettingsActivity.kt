@@ -3,7 +3,6 @@ package com.demoss.idp.presentation.main.settings
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Html
 import android.view.View
@@ -12,6 +11,8 @@ import android.widget.ArrayAdapter
 import androidx.annotation.StyleRes
 import com.demoss.idp.R
 import com.demoss.idp.base.BaseActivity
+import com.demoss.idp.presentation.LocaleManager
+import com.demoss.idp.presentation.SharedPrefManager
 import com.demoss.idp.util.Constants
 import de.cketti.mailto.EmailIntentBuilder
 import kotlinx.android.synthetic.main.activity_settings.*
@@ -38,9 +39,10 @@ class SettingsActivity : BaseActivity<SettingsContract.Presenter>() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        getSharedPrefs()?.apply {
+        SharedPrefManager.getInt(this, Constants.THEME_KEY, R.style.AppTheme).let { currentTheme ->
             presenter.currentApplicationTheme =
-                themes.filterValues { it == getInt(Constants.THEME_KEY, R.style.AppTheme) }.keys.first()
+                themes.filterValues { it == currentTheme }
+                    .keys.first()
         }
         super.onCreate(savedInstanceState)
         spinnerThemes.apply {
@@ -59,10 +61,9 @@ class SettingsActivity : BaseActivity<SettingsContract.Presenter>() {
             }
         }
         btnSendFeedback.setOnClickListener {
-            EmailIntentBuilder.from(this)
-                .to(getString(R.string.application_author_email))
-                .subject(getString(R.string.feedback_title, getString(R.string.app_name)))
-                .start()
+            LocaleManager.setNewLocale(applicationContext, "ru")
+            recreate()
+            //sendEmail()
         }
         fab.setOnClickListener {
             presenter.themeAction = SettingsContract.ThemeChangeAction.SAVE_SELECTED
@@ -70,7 +71,6 @@ class SettingsActivity : BaseActivity<SettingsContract.Presenter>() {
             finish()
         }
         tvAboutApplication.text = Html.fromHtml(getString(R.string.about_application))
-//        tvAboutApplication.movementMethod = ScrollingMovementMethod()
     }
 
     override fun onStop() {
@@ -79,23 +79,22 @@ class SettingsActivity : BaseActivity<SettingsContract.Presenter>() {
         super.onStop()
     }
 
+    private fun sendEmail() {
+        EmailIntentBuilder.from(this)
+            .to(getString(R.string.application_author_email))
+            .subject(getString(R.string.feedback_title, getString(R.string.app_name)))
+            .start()
+    }
+
     private fun applyThemeForTheActivity(key: String) {
-        getSharedPrefs()?.apply {
-            val currentTheme = getInt(Constants.THEME_KEY, R.style.AppTheme)
-            if (currentTheme != themes[key]) {
-                themes[key]?.let { putThemeInSharedPrefs(it) }
-                presenter.themeAction = SettingsContract.ThemeChangeAction.APPLY_SELECTED
-                recreate()
-            }
+        val currentTheme = SharedPrefManager.getInt(this, Constants.THEME_KEY, R.style.AppTheme)
+        if (currentTheme != themes[key]) {
+            themes[key]?.let { putThemeInSharedPrefs(it) }
+            presenter.themeAction = SettingsContract.ThemeChangeAction.APPLY_SELECTED
+            recreate()
         }
     }
 
-    private fun putThemeInSharedPrefs(@StyleRes style: Int) {
-        getSharedPrefs()?.apply {
-            edit().clear().putInt(Constants.THEME_KEY, style).apply()
-        }
-    }
-
-    private fun getSharedPrefs(): SharedPreferences? =
-        getSharedPreferences(Constants.SP_NAME, Context.MODE_PRIVATE)
+    private fun putThemeInSharedPrefs(@StyleRes style: Int) =
+        SharedPrefManager.putInt(this, Constants.THEME_KEY, style)
 }

@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.demoss.idp.R
 import com.demoss.idp.base.mvp.BasePresenter
 import com.demoss.idp.base.mvp.BaseView
+import com.demoss.idp.presentation.LocaleManager
 import com.demoss.idp.util.Constants
 
 abstract class BaseActivity<Presenter : BasePresenter> : AppCompatActivity(), BaseView {
@@ -48,5 +49,9 @@ abstract class BaseActivity<Presenter : BasePresenter> : AppCompatActivity(), Ba
     final override fun hideKeyboard() {
         (getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager)
             .hideSoftInputFromWindow((currentFocus ?: View(this)).windowToken, 0)
+    }
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(LocaleManager.setLocale(newBase))
     }
 }

@@ -30,4 +30,5 @@ object Constants {
 
     const val SP_NAME: String = "demoss.shared_prefs"
     const val THEME_KEY: String = "demoss.idp.sp.theme"
+    const val LANGUAGE: String = "demoss.idp.sp.language"
 }

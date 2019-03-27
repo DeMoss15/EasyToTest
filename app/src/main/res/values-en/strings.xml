@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Diploma</string>
+    <string name="application_author_email">mossur15@gmail.com</string>
+
+    <string name="theme_red">Red</string>
+    <string name="theme_green">Green</string>
+    <string name="theme_yellow">Yellow</string>
+    <string name="theme_default">Default</string>
+    <string name="theme_deep_orange">Deep Orange</string>
+    <string name="theme_blue">Blue</string>
+
+    <string name="rv_error_message">Oops, something went wrong!</string>
+    <string name="rv_empty_data">No %s available</string>
+
+    <string name="back">back</string>
+    <string name="drop">drop</string>
+    <string name="done">done</string>
+    <string name="test_name">Test name</string>
+    <string name="question_name">Question name</string>
+    <string name="answer_name">Answer name</string>
+
+    <string name="answer_hint">Input answer here</string>
+    <string name="answer_correctness_hint">is this answer right?</string>
+
+    <string name="timer">Timer</string>
+    <string name="timer_input_hint">Time in minutes</string>
+    <string name="shuffle">Shuffle</string>
+    <string name="number_of_questions">Number of questions:</string>
+    <string name="next">next</string>
+    <string name="stop">stop</string>
+    <string name="start_test">start test</string>
+    <string name="results">Results</string>
+    <string name="time_spent">Time spent</string>
+    <string name="right_shown">Right/shown</string>
+    <string name="back_to_tests">Back to tests</string>
+    <string name="password">Password</string>
+    <string name="exam_mode">enable exam mode</string>
+    <string name="password_verification_hint">This test under the password. You should enter it to edit</string>
+    <string name="verify">Verify</string>
+    <string name="adding_test_dialog_title">Choose way to add test</string>
+    <string name="input_type_file">file</string>
+    <string name="input_type_editing">input</string>
+    <string name="warning_incorrect_password">Incorrect password</string>
+    <string name="application_theme">Application Theme</string>
+    <string name="send_feedback">Send Feedback</string>
+    <string name="feedback_title">Feedback for %s</string>
+    <string name="about_application">
+        &lt;h1>Formatting:&lt;/h1>
+        &lt;p>test.txt&lt;/p>
+        &lt;p>$Test name&lt;/p>
+        &lt;p>+empty line&lt;/p>
+        &lt;p>?Question&lt;/p>
+        &lt;p>*Right answer&lt;/p>
+        &lt;p>Wrong answer&lt;/p>
+        &lt;br/>&lt;p>Each entity should be fitted in one line.&lt;/p>
+        &lt;h1>Exam mode:&lt;/h1>
+        &lt;p>When exam mode is on all session settings and password should be specified in editor.
+        Student can pass exam only once. Next entrances will show only the result of the exam.
+        You may import the same test only once and delete exam you can only from editor.
+        So student can\'t import exam twice, edit it and even delete while he don\'t know the password.&lt;/p>
+        &lt;h3>© DeMoss15&lt;/h3>
+    </string>
+</resources>

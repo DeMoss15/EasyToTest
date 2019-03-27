@@ -1,0 +1,19 @@
+<resources>
+    <plurals name="test_plural">
+        <item quantity="one">test</item>
+        <item quantity="many">tests</item>
+        <item quantity="other">tests</item>
+    </plurals>
+
+    <plurals name="question_plural">
+        <item quantity="one">question</item>
+        <item quantity="many">questions</item>
+        <item quantity="other">questions</item>
+    </plurals>
+
+    <plurals name="answer_plural">
+        <item quantity="one">answer</item>
+        <item quantity="many">answers</item>
+        <item quantity="other">answers</item>
+    </plurals>
+</resources>
