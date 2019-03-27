@@ -45,24 +45,19 @@
     <string name="send_feedback">Send Feedback</string>
     <string name="feedback_title">Feedback for %s</string>
     <string name="about_application">
-        Formatting:
-        \n
-        \ntest.txt
-        \n$Test name
-        \n+empty line
-        \n?Question
-        \n*Right answer
-        \nWrong answer
-        \n
-        \nEach entity should be fitted in one line.
-        \n
-        \nExam mode:
-        \n
-        \nWhen exam mode is on all session settings and password should be specified in editor.
-        \nStudent can pass exam only once. Next entrances will show only the result of the exam.
-        \nYou may import the same test only once and delete exam you can only from editor.
-        \nSo student can\'t import exam twice, edit it and even delete while he don\'t know the password.
-        \n
-        \n© DeMoss15
+        &lt;h1>Formatting:&lt;/h1>
+        &lt;p>test.txt&lt;/p>
+        &lt;p>$Test name&lt;/p>
+        &lt;p>+empty line&lt;/p>
+        &lt;p>?Question&lt;/p>
+        &lt;p>*Right answer&lt;/p>
+        &lt;p>Wrong answer&lt;/p>
+        &lt;br/>&lt;p>Each entity should be fitted in one line.&lt;/p>
+        &lt;h1>Exam mode:&lt;/h1>
+        &lt;p>When exam mode is on all session settings and password should be specified in editor.
+        Student can pass exam only once. Next entrances will show only the result of the exam.
+        You may import the same test only once and delete exam you can only from editor.
+        So student can\'t import exam twice, edit it and even delete while he don\'t know the password.&lt;/p>
+        &lt;h3>© DeMoss15&lt;/h3>
     </string>
 </resources>
