@@ -60,4 +60,5 @@
         So student can\'t import exam twice, edit it and even delete while he don\'t know the password.&lt;/p>
         &lt;h3>© DeMoss15&lt;/h3>
     </string>
+    <string name="language">Language</string>
 </resources>

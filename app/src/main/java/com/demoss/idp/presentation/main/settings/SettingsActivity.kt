@@ -14,9 +14,11 @@ import com.demoss.idp.base.BaseActivity
 import com.demoss.idp.presentation.LocaleManager
 import com.demoss.idp.presentation.SharedPrefManager
 import com.demoss.idp.util.Constants
+import com.demoss.idp.util.Constants.SUPPORTED_LANGUAGES
 import de.cketti.mailto.EmailIntentBuilder
 import kotlinx.android.synthetic.main.activity_settings.*
 import org.koin.android.ext.android.inject
+import java.util.*
 
 class SettingsActivity : BaseActivity<SettingsContract.Presenter>() {
 
@@ -29,20 +31,26 @@ class SettingsActivity : BaseActivity<SettingsContract.Presenter>() {
 
     private val themes by lazy {
         linkedMapOf(
-            getString(R.string.theme_default) to R.style.AppTheme,
-            getString(R.string.theme_red) to R.style.AppTheme_Red,
-            getString(R.string.theme_green) to R.style.AppTheme_Green,
-            getString(R.string.theme_deep_orange) to R.style.AppTheme_DeepOrange,
-            getString(R.string.theme_yellow) to R.style.AppTheme_Yellow,
-            getString(R.string.theme_blue) to R.style.AppTheme_Blue
+                getString(R.string.theme_default) to R.style.AppTheme,
+                getString(R.string.theme_red) to R.style.AppTheme_Red,
+                getString(R.string.theme_green) to R.style.AppTheme_Green,
+                getString(R.string.theme_deep_orange) to R.style.AppTheme_DeepOrange,
+                getString(R.string.theme_yellow) to R.style.AppTheme_Yellow,
+                getString(R.string.theme_blue) to R.style.AppTheme_Blue
         )
+    }
+
+    private val locales: List<Locale> by lazy {
+        Locale.getAvailableLocales()
+                .filter { SUPPORTED_LANGUAGES.contains(it.language) }
+                .distinctBy { it.displayLanguage }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         SharedPrefManager.getInt(this, Constants.THEME_KEY, R.style.AppTheme).let { currentTheme ->
             presenter.currentApplicationTheme =
-                themes.filterValues { it == currentTheme }
-                    .keys.first()
+                    themes.filterValues { it == currentTheme }
+                            .keys.first()
         }
         super.onCreate(savedInstanceState)
         spinnerThemes.apply {
@@ -60,10 +68,25 @@ class SettingsActivity : BaseActivity<SettingsContract.Presenter>() {
                 }
             }
         }
+        spinnerLanguages.apply {
+            context?.let {
+                adapter = ArrayAdapter(it, android.R.layout.simple_spinner_dropdown_item, locales.map { locale -> locale.displayLanguage })
+            }
+            setSelection(locales.indexOf(Locale.getDefault()))
+            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    // nothing
+                }
+
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    applyLanguageForActivity(locales[position].language)
+                    /*LocaleManager.setNewLocale(context, locales[position].language)
+                    recreate()*/
+                }
+            }
+        }
         btnSendFeedback.setOnClickListener {
-            LocaleManager.setNewLocale(applicationContext, "ru")
-            recreate()
-            //sendEmail()
+            sendEmail()
         }
         fab.setOnClickListener {
             presenter.themeAction = SettingsContract.ThemeChangeAction.SAVE_SELECTED
@@ -81,9 +104,9 @@ class SettingsActivity : BaseActivity<SettingsContract.Presenter>() {
 
     private fun sendEmail() {
         EmailIntentBuilder.from(this)
-            .to(getString(R.string.application_author_email))
-            .subject(getString(R.string.feedback_title, getString(R.string.app_name)))
-            .start()
+                .to(getString(R.string.application_author_email))
+                .subject(getString(R.string.feedback_title, getString(R.string.app_name)))
+                .start()
     }
 
     private fun applyThemeForTheActivity(key: String) {
@@ -96,5 +119,13 @@ class SettingsActivity : BaseActivity<SettingsContract.Presenter>() {
     }
 
     private fun putThemeInSharedPrefs(@StyleRes style: Int) =
-        SharedPrefManager.putInt(this, Constants.THEME_KEY, style)
+            SharedPrefManager.putInt(this, Constants.THEME_KEY, style)
+
+    private fun applyLanguageForActivity(language: String) {
+        val currentTheme = SharedPrefManager.getString(this, Constants.LANGUAGE, language)
+        if (currentTheme != language) {
+            LocaleManager.setNewLocale(this, language)
+            recreate()
+        }
+    }
 }

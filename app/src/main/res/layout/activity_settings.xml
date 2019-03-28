@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,7 +13,7 @@
         <Spinner
             android:id="@+id/spinnerThemes"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginStart="@dimen/base_8dp"
             android:dropDownWidth="match_parent"
             android:spinnerMode="dropdown"
@@ -39,7 +40,8 @@
             android:text="@string/send_feedback"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvApplicationThemeHint" />
+            app:layout_constraintTop_toBottomOf="@+id/tvLanguageTitle"
+            tools:layout_editor_absoluteY="192dp" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="0dp"
@@ -59,6 +61,27 @@
                 android:textAppearance="@style/CommonText" />
 
         </androidx.core.widget.NestedScrollView>
+
+        <TextView
+            android:id="@+id/tvLanguageTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/base_16dp"
+            android:text="@string/language"
+            android:textAppearance="@style/TitleText"
+            app:layout_constraintEnd_toEndOf="@+id/tvApplicationThemeHint"
+            app:layout_constraintStart_toStartOf="@+id/tvApplicationThemeHint"
+            app:layout_constraintTop_toBottomOf="@+id/tvApplicationThemeHint" />
+
+        <Spinner
+            android:id="@+id/spinnerLanguages"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/base_8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvLanguageTitle"
+            app:layout_constraintEnd_toEndOf="@+id/spinnerThemes"
+            app:layout_constraintStart_toEndOf="@+id/tvLanguageTitle"
+            app:layout_constraintTop_toTopOf="@+id/tvLanguageTitle" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

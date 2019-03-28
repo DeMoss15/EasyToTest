@@ -18,11 +18,11 @@ abstract class BaseActivity<Presenter : BasePresenter> : AppCompatActivity(), Ba
     abstract val layoutResourceId: Int
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setTheme(
             getSharedPreferences(Constants.SP_NAME, Context.MODE_PRIVATE)
                 .getInt(Constants.THEME_KEY, R.style.AppTheme)
         )
-        super.onCreate(savedInstanceState)
         setContentView(layoutResourceId)
         presenter.attachView(this)
     }
