@@ -58,7 +58,7 @@ class SettingsActivity : BaseActivity<SettingsContract.Presenter>() {
         spinnerThemes.setup(themes.keys.toMutableList(), presenter.currentApplicationTheme) {
             applyThemeForTheActivity(themes.keys.toMutableList()[it])
         }
-        spinnerLanguages.setup(locales.map { it.displayLanguage }, Locale.getDefault().displayLanguage) {
+        spinnerLanguages.setup(locales.map { it.displayName }, Locale.getDefault().displayName) {
             applyLanguageForActivity(locales[it].language)
         }
         btnSendFeedback.setOnClickListener {

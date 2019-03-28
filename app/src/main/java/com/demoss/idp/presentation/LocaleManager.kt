@@ -14,17 +14,11 @@ object LocaleManager {
         persistLanguage(context, language)
     }
 
-    private fun persistLanguage(context: Context?, language: String) {
+    private fun persistLanguage(context: Context?, language: String): Unit =
         SharedPrefManager.putString(context, Constants.LANGUAGE, language)
-    }
 
-    private fun getLanguage(context: Context?): String {
-        val persistedLanguage = SharedPrefManager.getString(context, Constants.LANGUAGE)
-        return when {
-            context == null || persistedLanguage == null -> Locale.getDefault().language
-            else -> persistedLanguage
-        }
-    }
+    private fun getLanguage(context: Context?): String =
+        SharedPrefManager.getString(context, Constants.LANGUAGE, Locale.getDefault().language)
 
     @SuppressLint("ObsoleteSdkInt")
     private fun updateResources(context: Context?, language: String): Context? {

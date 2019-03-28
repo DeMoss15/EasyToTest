@@ -38,7 +38,7 @@ fun <T> RecyclerView.setupSwipeToDelete(adapter: BaseRecyclerViewAdapter<T, *>, 
     })
 }
 
-fun FragmentManager.transaction(allowingStateLoss: Boolean = false, actions: FragmentTransaction.()->Unit) {
+fun FragmentManager.transaction(allowingStateLoss: Boolean = false, actions: FragmentTransaction.() -> Unit) {
     with(this.beginTransaction().apply {
         actions()
     }) {
