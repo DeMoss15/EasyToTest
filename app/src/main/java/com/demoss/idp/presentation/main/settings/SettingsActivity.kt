@@ -3,20 +3,24 @@ package com.demoss.idp.presentation.main.settings
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.text.Html
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.annotation.StyleRes
 import com.demoss.idp.R
 import com.demoss.idp.base.BaseActivity
 import com.demoss.idp.presentation.LocaleManager
 import com.demoss.idp.presentation.SharedPrefManager
 import com.demoss.idp.util.Constants
+import com.demoss.idp.util.Constants.SUPPORTED_LANGUAGES
 import de.cketti.mailto.EmailIntentBuilder
 import kotlinx.android.synthetic.main.activity_settings.*
 import org.koin.android.ext.android.inject
+import java.util.*
 
 class SettingsActivity : BaseActivity<SettingsContract.Presenter>() {
 
@@ -38,6 +42,12 @@ class SettingsActivity : BaseActivity<SettingsContract.Presenter>() {
         )
     }
 
+    private val locales: List<Locale> by lazy {
+        Locale.getAvailableLocales()
+            .filter { SUPPORTED_LANGUAGES.contains(it.language) }
+            .distinctBy { it.displayLanguage }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         SharedPrefManager.getInt(this, Constants.THEME_KEY, R.style.AppTheme).let { currentTheme ->
             presenter.currentApplicationTheme =
@@ -45,38 +55,52 @@ class SettingsActivity : BaseActivity<SettingsContract.Presenter>() {
                     .keys.first()
         }
         super.onCreate(savedInstanceState)
-        spinnerThemes.apply {
-            context?.let {
-                adapter = ArrayAdapter(it, android.R.layout.simple_spinner_dropdown_item, themes.keys.toMutableList())
-            }
-            setSelection(themes.keys.indexOf(presenter.currentApplicationTheme))
-            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    // nothing
-                }
-
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    applyThemeForTheActivity(themes.keys.elementAt(position))
-                }
-            }
+        spinnerThemes.setup(themes.keys.toMutableList(), presenter.currentApplicationTheme) {
+            applyThemeForTheActivity(themes.keys.toMutableList()[it])
+        }
+        spinnerLanguages.setup(locales.map { it.displayLanguage }, Locale.getDefault().displayLanguage) {
+            applyLanguageForActivity(locales[it].language)
         }
         btnSendFeedback.setOnClickListener {
-            LocaleManager.setNewLocale(applicationContext, "ru")
-            recreate()
-            //sendEmail()
+            sendEmail()
         }
         fab.setOnClickListener {
             presenter.themeAction = SettingsContract.ThemeChangeAction.SAVE_SELECTED
             setResult(Activity.RESULT_OK)
             finish()
         }
-        tvAboutApplication.text = Html.fromHtml(getString(R.string.about_application))
+        tvAboutApplication.text = if (Build.VERSION.SDK_INT >= 24) {
+            Html.fromHtml(getString(R.string.about_application), Html.TO_HTML_PARAGRAPH_LINES_CONSECUTIVE)
+        } else {
+            Html.fromHtml(getString(R.string.about_application))
+        }
     }
 
     override fun onStop() {
         if (presenter.themeAction == SettingsContract.ThemeChangeAction.REVERT)
             themes[presenter.currentApplicationTheme]?.let { putThemeInSharedPrefs(it) }
         super.onStop()
+    }
+
+    private fun <T> Spinner.setup(list: List<T>, selection: T, onSelected: (Int) -> Unit) {
+        apply {
+            context?.let {
+                adapter = ArrayAdapter(
+                    it,
+                    android.R.layout.simple_spinner_dropdown_item, list
+                )
+            }
+        }
+        setSelection(list.indexOf(selection))
+        onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // nothing
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                onSelected(position)
+            }
+        }
     }
 
     private fun sendEmail() {
@@ -97,4 +121,11 @@ class SettingsActivity : BaseActivity<SettingsContract.Presenter>() {
 
     private fun putThemeInSharedPrefs(@StyleRes style: Int) =
         SharedPrefManager.putInt(this, Constants.THEME_KEY, style)
+
+    private fun applyLanguageForActivity(language: String) {
+        if (Locale.getDefault().language != language) {
+            LocaleManager.setNewLocale(this, language)
+            recreate()
+        }
+    }
 }
