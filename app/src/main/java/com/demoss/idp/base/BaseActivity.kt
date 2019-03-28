@@ -10,6 +10,7 @@ import com.demoss.idp.R
 import com.demoss.idp.base.mvp.BasePresenter
 import com.demoss.idp.base.mvp.BaseView
 import com.demoss.idp.presentation.LocaleManager
+import com.demoss.idp.presentation.SharedPrefManager
 import com.demoss.idp.util.Constants
 
 abstract class BaseActivity<Presenter : BasePresenter> : AppCompatActivity(), BaseView {
@@ -19,10 +20,7 @@ abstract class BaseActivity<Presenter : BasePresenter> : AppCompatActivity(), Ba
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(
-            getSharedPreferences(Constants.SP_NAME, Context.MODE_PRIVATE)
-                .getInt(Constants.THEME_KEY, R.style.AppTheme)
-        )
+        setTheme(SharedPrefManager.getInt(this, Constants.THEME_KEY, R.style.AppTheme))
         setContentView(layoutResourceId)
         presenter.attachView(this)
     }

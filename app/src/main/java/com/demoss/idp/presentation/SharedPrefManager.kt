@@ -15,7 +15,7 @@ object SharedPrefManager {
     }
 
     fun getString(context: Context?, key: String, default: String? = null): String? =
-        getPrefs(context)?.getString(key, default)
+        getPrefs(context)?.getString(key, default) ?: default
 
     fun putInt(context: Context?, key: String, value: Int) {
         getPrefs(context)?.edit {
@@ -24,8 +24,8 @@ object SharedPrefManager {
         }
     }
 
-    fun getInt(context: Context?, key: String, default: Int): Int? =
-        getPrefs(context)?.getInt(key, default)
+    fun getInt(context: Context?, key: String, default: Int): Int =
+        getPrefs(context)?.getInt(key, default) ?: default
 
     private fun getPrefs(context:  Context?): SharedPreferences? = context?.getSharedPreferences(Constants.SP_NAME, Context.MODE_PRIVATE)
 }
