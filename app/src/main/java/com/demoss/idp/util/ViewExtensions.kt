@@ -1,6 +1,8 @@
 package com.demoss.idp.util
 
 import android.widget.SeekBar
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.demoss.idp.base.BaseRecyclerViewAdapter
@@ -34,4 +36,16 @@ fun <T> RecyclerView.setupSwipeToDelete(adapter: BaseRecyclerViewAdapter<T, *>, 
             differ.submitList(differ.currentList.toMutableList().apply { removeAt(itemPosition) })
         }
     })
+}
+
+fun FragmentManager.transaction(allowingStateLoss: Boolean = false, actions: FragmentTransaction.()->Unit) {
+    with(this.beginTransaction().apply {
+        actions()
+    }) {
+        if (allowingStateLoss) {
+            this.commitAllowingStateLoss()
+        } else {
+            commit()
+        }
+    }
 }
