@@ -67,8 +67,5 @@ class SelectableAnswersRecyclerViewAdapter :
         }
     }
 
-    class DiffUtilAnswerModelItemCallback : BaseDiffUtilItemCallback<AnswerModel>() {
-        override fun areContentsTheSame(oldItem: AnswerModel, newItem: AnswerModel): Boolean =
-                oldItem == newItem
-    }
+    class DiffUtilAnswerModelItemCallback : BaseDiffUtilItemCallback<AnswerModel>()
 }

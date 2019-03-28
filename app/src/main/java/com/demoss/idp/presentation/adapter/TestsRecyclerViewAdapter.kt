@@ -31,8 +31,5 @@ class TestsRecyclerViewAdapter(
         SHARE
     }
 
-    class DiffUtilTestModelItemCallback : BaseDiffUtilItemCallback<TestModel>() {
-        override fun areContentsTheSame(oldItem: TestModel, newItem: TestModel): Boolean =
-            oldItem == newItem
-    }
+    class DiffUtilTestModelItemCallback : BaseDiffUtilItemCallback<TestModel>()
 }

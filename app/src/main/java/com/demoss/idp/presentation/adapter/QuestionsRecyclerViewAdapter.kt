@@ -23,8 +23,5 @@ class QuestionsRecyclerViewAdapter(
         }
     }
 
-    class DiffUtilsQuestionModelItemCallback : BaseDiffUtilItemCallback<QuestionModel>() {
-        override fun areContentsTheSame(oldItem: QuestionModel, newItem: QuestionModel): Boolean =
-                oldItem == newItem
-    }
+    class DiffUtilsQuestionModelItemCallback : BaseDiffUtilItemCallback<QuestionModel>()
 }

@@ -32,7 +32,8 @@ abstract class BaseRecyclerViewAdapter<T, VH : BaseRecyclerViewAdapter.BaseViewH
 
     // Abstract classes ================================================================================================
     abstract class BaseDiffUtilItemCallback<T> : DiffUtil.ItemCallback<T>() {
-        override fun areItemsTheSame(oldItem: T, newItem: T): Boolean = oldItem == newItem
+        override fun areItemsTheSame(oldItem: T, newItem: T): Boolean = oldItem.hashCode() == newItem.hashCode()
+        override fun areContentsTheSame(oldItem: T, newItem: T): Boolean = oldItem?.equals(newItem) ?: oldItem == null && newItem == null
     }
 
     abstract class BaseViewHolder<T>(val view: View) : RecyclerView.ViewHolder(view) {
