@@ -59,4 +59,5 @@
         &lt;h3>© DeMoss15&lt;/h3>
     </string>
     <string name="language">Язык</string>
+    <string name="empty_field_error">Заполните все поля</string>
 </resources>

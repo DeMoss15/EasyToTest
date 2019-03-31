@@ -44,11 +44,12 @@ class EditAnswerFragment : BaseFragment<EditAnswerContract.Presenter>(), EditAns
         cbIsRight.isChecked = answer.isRightAnswer
     }
 
+    override fun showEmptyDataError() = showToast(getString(R.string.empty_field_error))
+
+    override fun navigateBack() = mainCallback.back(TAG)
+
     // MainFragment ================================================================================
-    override fun onFabPressed() {
-        presenter.saveAnswer(etAnswer.text.toString(), cbIsRight.isChecked)
-        mainCallback.back(TAG)
-    }
+    override fun onFabPressed() = presenter.saveAnswer(etAnswer.text.toString(), cbIsRight.isChecked)
 
     override fun onMenuItemPressed(itemId: Int) {
         // no menu
@@ -58,7 +59,7 @@ class EditAnswerFragment : BaseFragment<EditAnswerContract.Presenter>(), EditAns
         fab.setImageResource(R.drawable.ic_done)
         bottomAppBar.apply {
             fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
-            replaceMenu(R.menu.bottomappbar_menu_tests)
+            replaceMenu(R.menu.bottomappbar_menu_empty)
         }
     }
 }
