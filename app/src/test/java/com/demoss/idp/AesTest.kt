@@ -3,6 +3,8 @@ package com.demoss.idp
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 import java.nio.ByteBuffer
+import java.security.SecureRandom
+import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.spec.GCMParameterSpec
 import javax.crypto.spec.IvParameterSpec
@@ -19,19 +21,29 @@ class AesTest {
     fun encyptDecrypt() {
         val plainText = "Hello World!"
 
-        val enc = encrypt(plainText)
-        print("\n decrypted: ${decrypt(enc).encodeToString()}\n")
+        val enc = plainText.encrypt()
+        print("\n encrypted: $enc")
+        print("\n decrypted: ${enc.decrypt()}\n")
 
-        assertEquals(0,0)
+        assertEquals(0, 0)
     }
 
-    fun encrypt(text: String): ByteArray {
-        val sKey = SecretKeySpec(ByteArray(16), "AES")
-        val iv = IvParameterSpec(ByteArray(12))
+    fun String.encrypt(): String = encrypt(this.toByteArray()).run {
+        Base64.getEncoder().encodeToString(this)
+    }
+
+    fun String.decrypt(): String = Base64.getDecoder().decode(this).run {
+        String(decrypt(this))
+    }
+
+    fun encrypt(data: ByteArray): ByteArray {
+        val random = SecureRandom()
+        val sKey = SecretKeySpec(ByteArray(16).apply { random.nextBytes(this) }, "AES")
+        val iv = IvParameterSpec(ByteArray(12).apply { random.nextBytes(this) })
         val cipher = Cipher.getInstance("AES/GCM/NoPadding")
         val params = GCMParameterSpec(128, iv.iv)
         cipher.init(Cipher.ENCRYPT_MODE, sKey, params)
-        val encrypted = cipher.doFinal(text.toByteArray())
+        val encrypted = cipher.doFinal(data)
 
         val buffer = ByteBuffer.allocate(iv.iv.size + sKey.encoded.size + encrypted.size).apply {
             put(iv.iv)
@@ -41,8 +53,8 @@ class AesTest {
         return buffer.array()
     }
 
-    fun decrypt(textWithIv: ByteArray): ByteArray {
-        val buffer = ByteBuffer.wrap(textWithIv)
+    fun decrypt(data: ByteArray): ByteArray {
+        val buffer = ByteBuffer.wrap(data)
         val iv = ByteArray(12)
         buffer.get(iv)
         val encodedKey = ByteArray(16)
@@ -57,7 +69,5 @@ class AesTest {
 
         return cipher.doFinal(encrypted)
     }
-
-    fun ByteArray.encodeToString(): String = String(this)
 }
 
