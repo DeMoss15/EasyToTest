@@ -15,5 +15,7 @@ interface EditAnswerContract {
 
     interface View : BaseView, MainFragment {
         fun showAnswer(answer: AnswerModel)
+        fun showEmptyDataError()
+        fun navigateBack()
     }
 }

@@ -19,5 +19,6 @@ interface EditQuestionContract {
     interface View : BaseView, MainFragment {
         fun showQuestion(question: QuestionModel)
         fun navigateBack()
+        fun showEmptyDataError()
     }
 }

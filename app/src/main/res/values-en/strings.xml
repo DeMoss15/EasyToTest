@@ -62,4 +62,5 @@
         &lt;h3>© DeMoss15&lt;/h3>
     </string>
     <string name="language">Language</string>
+    <string name="empty_field_error">Please, fill all fields</string>
 </resources>

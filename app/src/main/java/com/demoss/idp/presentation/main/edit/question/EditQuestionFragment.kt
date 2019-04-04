@@ -68,6 +68,10 @@ class EditQuestionFragment : BaseFragment<EditQuestionContract.Presenter>(), Edi
         mainCallback.back(TAG)
     }
 
+    override fun showEmptyDataError() {
+        showToast(getString(R.string.empty_field_error))
+    }
+
     // MainFragment ====================================================================================================
     override fun onFabPressed() {
         mainCallback.nextFragment(TAG, Constants.NEW_ENTITY_ID)

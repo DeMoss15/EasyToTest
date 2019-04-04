@@ -7,8 +7,8 @@ import com.demoss.idp.domain.usecase.EditTestUseCase
 import com.demoss.idp.util.Constants.NEW_ENTITY_ID
 import io.reactivex.observers.DisposableSingleObserver
 
-class EditQuestionPresenter(private val editTestUseCase: EditTestUseCase)
-    : BasePresenterImpl<EditQuestionContract.View>(), EditQuestionContract.Presenter {
+class EditQuestionPresenter(private val editTestUseCase: EditTestUseCase) :
+    BasePresenterImpl<EditQuestionContract.View>(), EditQuestionContract.Presenter {
 
     override var questionId: Int = NEW_ENTITY_ID
 
@@ -17,7 +17,9 @@ class EditQuestionPresenter(private val editTestUseCase: EditTestUseCase)
         editTestUseCase.getQuestion(getSingleObserver(), questionId)
     }
 
-    override fun saveQuestion(question: String) = navigationAction { editTestUseCase.saveQuestion(question) }
+    override fun saveQuestion(question: String) =
+        if (question.isEmpty()) view?.showEmptyDataError() ?: Unit
+        else navigationAction { editTestUseCase.saveQuestion(question) }
 
     override fun deleteQuestion() = navigationAction { editTestUseCase.deleteQuestion() }
 
@@ -30,15 +32,16 @@ class EditQuestionPresenter(private val editTestUseCase: EditTestUseCase)
         view?.navigateBack()
     }
 
-    private fun getSingleObserver(): DisposableSingleObserver<QuestionModel> = object : DisposableSingleObserver<QuestionModel>() {
-        override fun onSuccess(t: QuestionModel) {
-            view?.showQuestion(t)
-            questionId = t.id
-        }
+    private fun getSingleObserver(): DisposableSingleObserver<QuestionModel> =
+        object : DisposableSingleObserver<QuestionModel>() {
+            override fun onSuccess(t: QuestionModel) {
+                view?.showQuestion(t)
+                questionId = t.id
+            }
 
-        override fun onError(e: Throwable) {
-            e.printStackTrace()
-            view?.showToast(e.localizedMessage)
+            override fun onError(e: Throwable) {
+                e.printStackTrace()
+                view?.showToast(e.localizedMessage)
+            }
         }
-    }
 }
