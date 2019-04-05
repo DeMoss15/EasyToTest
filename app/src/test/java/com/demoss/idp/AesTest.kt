@@ -10,11 +10,6 @@ import javax.crypto.spec.GCMParameterSpec
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
 class AesTest {
 
     @Test
@@ -23,9 +18,10 @@ class AesTest {
 
         val enc = plainText.encrypt()
         print("\n encrypted: $enc")
-        print("\n decrypted: ${enc.decrypt()}\n")
+        val dec = enc.decrypt()
+        print("\n decrypted: $dec\n")
 
-        assertEquals(0, 0)
+        assertEquals(plainText, dec)
     }
 
     fun String.encrypt(): String = encrypt(this.toByteArray()).run {
