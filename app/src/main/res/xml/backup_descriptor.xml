@@ -2,5 +2,5 @@
 <full-backup-content>
     <!-- Exclude specific shared preferences that contain GCM registration Id -->
     <include domain="sharedpref" path="demoss.shared_prefs.xml"/>
-    <include domain="database" path="diploma_room_db.db"/>
+    <include domain="database" path="edqa_room_db.db"/>
 </full-backup-content>

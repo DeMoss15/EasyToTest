@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.demoss.idp.presentation.main.tests.TestsFragment">
+    tools:context="com.demoss.edqa.presentation.main.tests.TestsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvTests"
