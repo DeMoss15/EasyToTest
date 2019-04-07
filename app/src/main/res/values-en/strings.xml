@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Diploma</string>
+    <string name="app_name">EdQA</string>
     <string name="application_author_email">mossur15@gmail.com</string>
 
     <string name="theme_red">Red</string>
