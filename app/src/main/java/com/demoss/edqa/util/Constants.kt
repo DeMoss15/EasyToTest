@@ -32,5 +32,5 @@ object Constants {
     const val THEME_KEY: String = "demoss.edqa.sp.theme"
     const val LANGUAGE: String = "demoss.edqa.sp.language"
 
-    val SUPPORTED_LANGUAGES: List<String> = listOf("en", "ru")
+    val SUPPORTED_LANGUAGES: List<String> = listOf("en", "uk", "ru")
 }

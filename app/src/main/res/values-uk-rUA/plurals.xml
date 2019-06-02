@@ -1,0 +1,19 @@
+<resources>
+    <plurals name="test_plural">
+        <item quantity="one">%d тест</item>
+        <item quantity="many">тестів</item>
+        <item quantity="few">тестів</item>
+    </plurals>
+
+    <plurals name="question_plural">
+        <item quantity="one">%d питання</item>
+        <item quantity="many">питань</item>
+        <item quantity="few">питань</item>
+    </plurals>
+
+    <plurals name="answer_plural">
+        <item quantity="one">%d відповідь</item>
+        <item quantity="many">відпоідей</item>
+        <item quantity="few">відпоідей</item>
+    </plurals>
+</resources>

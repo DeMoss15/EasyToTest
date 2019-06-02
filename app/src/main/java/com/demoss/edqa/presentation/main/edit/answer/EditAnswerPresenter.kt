@@ -19,8 +19,10 @@ class EditAnswerPresenter(private val editTestUseCase: EditTestUseCase) : BasePr
     override fun saveAnswer(answer: String, isRight: Boolean): Unit =
         if (answer.isEmpty()) view?.showEmptyDataError() ?: Unit
         else editTestUseCase.saveAnswer(answer, isRight)
+            .also { view?.navigateBack() }
 
     override fun deleteAnswer(answer: AnswerModel) = editTestUseCase.deleteAnswer(answer)
+        .also { view?.navigateBack() }
 
     private fun getDisposableObserver(): DisposableSingleObserver<AnswerModel> =
         object : DisposableSingleObserver<AnswerModel>() {

@@ -1,0 +1,65 @@
+<resources>
+    <string name="app_name">EdQA</string>
+    <string name="application_author_email">mossur15@gmail.com</string>
+
+    <string name="theme_red">Червоний</string>
+    <string name="theme_green">Зелений</string>
+    <string name="theme_yellow">Жовтий</string>
+    <string name="theme_default">Стандартний</string>
+    <string name="theme_deep_orange">Помаранчовий</string>
+    <string name="theme_blue">Блакитний</string>
+
+    <string name="rv_error_message">Здається щось пішло не так!</string>
+    <string name="rv_empty_data">Немає доступних %s</string>
+
+    <string name="back">назад</string>
+    <string name="drop">видалити</string>
+    <string name="done">закінчити</string>
+    <string name="test_name">Назва тесту</string>
+    <string name="question_name">Питання</string>
+    <string name="answer_name">Відповідь</string>
+
+    <string name="answer_hint">Введіть відповідь</string>
+    <string name="answer_correctness_hint">це правильна відповідь?</string>
+
+    <string name="timer">Таймер</string>
+    <string name="timer_input_hint">Час у хвилинах</string>
+    <string name="shuffle">Перемішати</string>
+    <string name="number_of_questions">Кількість питань:</string>
+    <string name="next">далі</string>
+    <string name="stop">стоп</string>
+    <string name="start_test">почати тест</string>
+    <string name="results">Результати</string>
+    <string name="time_spent">Витрачено часу</string>
+    <string name="right_shown">Правильних/відображених</string>
+    <string name="back_to_tests">Назад до тестів</string>
+    <string name="password">Пароль</string>
+    <string name="exam_mode">режим іспиту</string>
+    <string name="password_verification_hint">Цей тест під паролем. Введіть пароль щоб редагувати тест</string>
+    <string name="verify">Підтвердити</string>
+    <string name="adding_test_dialog_title">Як ви хочете додати тест?</string>
+    <string name="input_type_file">файлом</string>
+    <string name="input_type_editing">створити вручну</string>
+    <string name="warning_incorrect_password">Неправильний пароль</string>
+    <string name="application_theme">Тема додатку</string>
+    <string name="send_feedback">Відправити відгук</string>
+    <string name="feedback_title">Відгук до %s</string>
+    <string name="about_application">
+        &lt;h1>Приклад форматування:&lt;/h1>
+        &lt;p>test.txt&lt;/p>
+        &lt;p>$Назва тесту&lt;/p>
+        &lt;p>+Пустий рядок&lt;/p>
+        &lt;p>?Питаня&lt;/p>
+        &lt;p>*Правильна відповідь&lt;/p>
+        &lt;p>Не правильна відповідь&lt;/p>
+        &lt;br/>&lt;p>Коджа сутність повинна бути записана у окремий рядок.&lt;/p>
+        &lt;h1>Режим іспиту:&lt;/h1>
+        &lt;p>У режимі іспиту всі налаштування сеансу і пароль повинні бути вказані у редакторі.
+        Студент може скласти іспит тільки один раз. Наступні запуски покажуть тільки результат іспиту.
+        Ви можете імпортувати один і той самий тест лише один раз. Видалити іспит можливо лише з редактора.
+        Тому студент не може імпортувати екзамен двічі, редагувати його та навіть видаляти, поки він не знає пароль.&lt;/p>
+        &lt;h3>© DeMoss15&lt;/h3>
+    </string>
+    <string name="language">Мова</string>
+    <string name="empty_field_error">Please, fill all fields</string>
+</resources>
