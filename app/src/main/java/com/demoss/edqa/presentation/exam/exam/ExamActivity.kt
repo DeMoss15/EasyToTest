@@ -19,6 +19,7 @@ class ExamActivity : BaseActivity<ExamContract.Presenter>(), ExamContract.View, 
     companion object {
         fun getIntent(context: Context, testId: Int, isResultsFrame: Boolean): Intent =
             Intent(context, ExamActivity::class.java)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP)
                 .putExtra(ExtraConstants.EXTRA_TEST_ID, testId)
                 .putExtra(ExtraConstants.EXTRA_RESULTS, isResultsFrame)
     }

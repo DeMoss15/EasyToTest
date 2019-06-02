@@ -29,6 +29,7 @@ class SettingsActivity : BaseActivity<SettingsContract.Presenter>() {
 
     companion object {
         fun newIntent(context: Context): Intent = Intent(context, SettingsActivity::class.java)
+            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP)
     }
 
     private val themes by lazy {
